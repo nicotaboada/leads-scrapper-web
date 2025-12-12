@@ -1,0 +1,194 @@
+# Tasks: Sidebar Navigation Menu (Desktop/Web)
+
+## Relevant Files
+
+- `components/layouts/app-header.tsx` - Header principal de la app (con toggle button del sidebar)
+- `components/layouts/sidebar/sidebar.tsx` - Componente principal del sidebar (Web/Desktop)
+- `components/layouts/sidebar/sidebar-header.tsx` - Header del sidebar (Logo)
+- `components/layouts/sidebar/sidebar-nav.tsx` - Lista de navegación
+- `components/layouts/sidebar/sidebar-nav-item.tsx` - Item individual de navegación
+- `components/layouts/sidebar/sidebar-nav-accordion.tsx` - Sub-menú acordeón para items con children
+- `lib/stores/sidebar-store.ts` - Zustand store para manejar estado expandido/colapsado del sidebar
+- `lib/config/sidebar-nav.ts` - Configuración centralizada de rutas del sidebar
+- `types/sidebar.ts` - TypeScript interfaces para NavItem y estado del sidebar
+- `app/dashboard/page.tsx` - Página de dashboard (modificar si es necesario)
+- `app/students/page.tsx` - Página de estudiantes (crear placeholder)
+- `app/teachers/page.tsx` - Página de profesores (crear placeholder)
+- `app/classes/page.tsx` - Página de clases (crear placeholder)
+- `app/finanzas/facturacion/page.tsx` - Página de facturación (crear placeholder)
+- `app/finanzas/invoices/page.tsx` - Página de invoices/facturas (crear placeholder)
+- `app/settings/page.tsx` - Página de configuración (crear placeholder)
+- `app/layout.tsx` - Layout principal (agregar sidebar)
+
+### Notes
+
+- Todas las rutas del sidebar requieren páginas placeholder para testing
+- Los componentes del sidebar deben ser Client Components ('use client')
+- Usar Zustand para state management (no Context API)
+- Usar Shadcn UI Tooltip component para tooltips
+- Usar Lucide React para todos los íconos
+- Seguir convenciones del proyecto: tabs, single quotes, kebab-case para archivos
+
+## Instructions for Completing Tasks
+
+**IMPORTANT:** As you complete each task, you must check it off in this markdown file by changing `- [ ]` to `- [x]`. This helps track progress and ensures you don't skip any steps.
+
+Example:
+- `- [ ] 1.1 Read file` → `- [x] 1.1 Read file` (after completing)
+
+Update the file after completing each sub-task, not just after completing an entire parent task.
+
+## Tasks
+
+- [x] 0.0 Create feature branch
+	- [x] 0.1 Create and checkout a new branch `feature/sidebar-navigation`
+- [x] 1.0 Install dependencies and Shadcn components
+	- [x] 1.1 Verify if `lucide-react` is installed, if not add to package.json
+	- [x] 1.2 Verify if `zustand` is installed, if not add to package.json
+	- [x] 1.3 Verify if `next-themes` is installed (should already be installed)
+	- [x] 1.4 Install Shadcn UI Tooltip component (`npx shadcn@latest add tooltip`)
+	- [x] 1.5 Run `pnpm install` to install new dependencies
+	- [x] 1.6 Verify all dependencies installed correctly
+- [x] 2.0 Create TypeScript types and configuration
+	- [x] 2.1 Create file `types/sidebar.ts`
+	- [x] 2.2 Define `NavItem` interface with fields: id, label, href (optional), icon, children (optional), roles (optional), permissions (optional)
+	- [x] 2.3 Define `SidebarState` interface for Zustand store: isExpanded, toggle, collapse, expand
+	- [x] 2.4 Export `LucideIcon` type from lucide-react
+	- [x] 2.5 Add JSDoc comments to all interfaces
+- [x] 3.0 Create Zustand store for sidebar state management
+	- [x] 3.1 Create file `lib/stores/sidebar-store.ts`
+	- [x] 3.2 Import necessary types from `types/sidebar.ts`
+	- [x] 3.3 Import `create` from zustand
+	- [x] 3.4 Create store with initial state: `isExpanded: true`
+	- [x] 3.5 Implement `toggle` action to toggle between expanded/collapsed
+	- [x] 3.6 Implement `expand` action to set isExpanded to true
+	- [x] 3.7 Implement `collapse` action to set isExpanded to false
+	- [x] 3.8 Export `useSidebarStore` hook
+	- [x] 3.9 Add JSDoc comments explaining store usage
+- [x] 4.0 Create AppHeader component with toggle button
+	- [x] 4.1 Create file `components/layouts/app-header.tsx`
+	- [x] 4.2 Add 'use client' directive at the top
+	- [x] 4.3 Import `useSidebarStore` from `lib/stores/sidebar-store`
+	- [x] 4.4 Import necessary icons from lucide-react (Menu, PanelLeft, or similar)
+	- [x] 4.5 Create AppHeader component
+	- [x] 4.6 Add toggle button that calls `toggle()` from store
+	- [x] 4.7 Style with Tailwind CSS (fixed top, full width, proper z-index)
+	- [x] 4.8 Add proper padding and spacing for button
+	- [x] 4.9 Ensure button is accessible (aria-label, keyboard navigation)
+	- [x] 4.10 Add background and border styling
+	- [x] 4.11 Support dark mode with next-themes
+	- [x] 4.12 Add JSDoc comments
+- [x] 5.0 Create SidebarHeader component with logo
+	- [x] 5.1 Create file `components/layouts/sidebar/sidebar-header.tsx`
+	- [x] 5.2 Add 'use client' directive at the top
+	- [x] 5.3 Import `useSidebarStore` from `lib/stores/sidebar-store`
+	- [x] 5.4 Import Link from next/link
+	- [x] 5.5 Create SidebarHeader component
+	- [x] 5.6 Render logo/text that links to /dashboard
+	- [x] 5.7 Show full logo + text when sidebar is expanded ("La Pyme" with icon)
+	- [x] 5.8 Show minimal version (just icon) when sidebar is collapsed
+	- [x] 5.9 Style with Tailwind CSS (proper padding, spacing, alignment)
+	- [x] 5.10 Add smooth transitions for logo changes
+	- [x] 5.11 Ensure link is accessible
+	- [x] 5.12 Add JSDoc comments
+- [x] 6.0 Create Navigation Item component
+	- [x] 6.1 Create file `components/layouts/sidebar/sidebar-nav-item.tsx`
+	- [x] 6.2 Add 'use client' directive
+	- [x] 6.3 Import necessary types (NavItem) and hooks
+	- [x] 6.4 Import `usePathname` from next/navigation
+	- [x] 6.5 Import `useSidebarStore` to check if expanded
+	- [x] 6.6 Import Shadcn Tooltip components
+	- [x] 6.7 Create SidebarNavItem component that receives NavItem props
+	- [x] 6.8 Determine if item is active based on current pathname
+	- [x] 6.9 Render Link with icon (always visible)
+	- [x] 6.10 Render label only when sidebar is expanded
+	- [x] 6.11 Wrap in Tooltip when sidebar is collapsed
+	- [x] 6.12 Apply active styles (green background) when route matches
+	- [x] 6.13 Add hover effects and transitions
+	- [x] 6.14 Ensure accessibility (aria-current for active items)
+	- [x] 6.15 Add JSDoc comments
+- [x] 7.0 Create Accordion component for sub-menus
+	- [x] 7.1 Create file `components/layouts/sidebar/sidebar-nav-accordion.tsx`
+	- [x] 7.2 Add 'use client' directive
+	- [x] 7.3 Import necessary types, hooks, and icons (ChevronDown)
+	- [x] 7.4 Import `useSidebarStore` and `usePathname`
+	- [x] 7.5 Create local state for accordion open/closed
+	- [x] 7.6 Create SidebarNavAccordion component that receives NavItem with children
+	- [x] 7.7 Render parent item with chevron indicator
+	- [x] 7.8 Toggle accordion on click
+	- [x] 7.9 Render children items when expanded with indentation
+	- [x] 7.10 Handle active state for parent if any child is active
+	- [x] 7.11 When sidebar is collapsed, show children in Tooltip/Popover
+	- [x] 7.12 Add smooth expand/collapse animations
+	- [x] 7.13 Ensure accessibility (aria-expanded, aria-controls)
+	- [x] 7.14 Add JSDoc comments
+- [x] 8.0 Create main Navigation List component
+	- [x] 8.1 Create file `components/layouts/sidebar/sidebar-nav.tsx`
+	- [x] 8.2 Add 'use client' directive
+	- [x] 8.3 Create file `lib/config/sidebar-nav.ts` for navigation configuration
+	- [x] 8.4 In config file, import all necessary icons from lucide-react
+	- [x] 8.5 Define navigation array with all routes (Dashboard, Estudiantes, Profesores, Clases, Finanzas with children, Configuración)
+	- [x] 8.6 Export `navigationItems` array
+	- [x] 8.7 In sidebar-nav.tsx, import navigationItems from config
+	- [x] 8.8 Import SidebarNavItem and SidebarNavAccordion components
+	- [x] 8.9 Create SidebarNav component
+	- [x] 8.10 Map through navigationItems
+	- [x] 8.11 Render SidebarNavAccordion if item has children
+	- [x] 8.12 Render SidebarNavItem if item doesn't have children
+	- [x] 8.13 Style with proper spacing and layout
+	- [x] 8.14 Add JSDoc comments
+- [x] 9.0 Create main Sidebar component
+	- [x] 9.1 Create file `components/layouts/sidebar/sidebar.tsx`
+	- [x] 9.2 Add 'use client' directive
+	- [x] 9.3 Import `useSidebarStore`
+	- [x] 9.4 Import SidebarHeader and SidebarNav components
+	- [x] 9.5 Create Sidebar component
+	- [x] 9.6 Get `isExpanded` from store
+	- [x] 9.7 Apply dynamic width based on isExpanded state (~240px expanded, ~64px collapsed)
+	- [x] 9.8 Add smooth width transition animation (~200-300ms)
+	- [x] 9.9 Render SidebarHeader at the top
+	- [x] 9.10 Render SidebarNav in main content area
+	- [x] 9.11 Style with fixed position, full height, dark/light theme support
+	- [x] 9.12 Add proper z-index for layering
+	- [x] 9.13 Ensure component is responsive (hidden on mobile, visible on desktop)
+	- [x] 9.14 Add JSDoc comments
+- [x] 10.0 Integrate Sidebar and AppHeader into app layout
+	- [x] 10.1 Read current `app/layout.tsx`
+	- [x] 10.2 Import AppHeader and Sidebar components
+	- [x] 10.3 Add AppHeader at the top of layout (above everything)
+	- [x] 10.4 Add Sidebar below AppHeader
+	- [x] 10.5 Wrap content with proper flex layout (AppHeader → sidebar + main content)
+	- [x] 10.6 Add margin-top to account for AppHeader height
+	- [x] 10.7 Add margin-left to main content to account for sidebar width
+	- [x] 10.8 Ensure layout adapts to sidebar state changes
+	- [x] 10.9 Test that layout doesn't break existing pages
+- [x] 11.0 Create placeholder pages for all routes
+	- [x] 11.1 Verify `app/dashboard/page.tsx` exists (should already exist)
+	- [x] 11.2 Create `app/students/page.tsx` with placeholder content
+	- [x] 11.3 Create `app/teachers/page.tsx` with placeholder content
+	- [x] 11.4 Create `app/classes/page.tsx` with placeholder content
+	- [x] 11.5 Create `app/finanzas/facturacion/page.tsx` with placeholder content
+	- [x] 11.6 Create `app/finanzas/invoices/page.tsx` with placeholder content
+	- [x] 11.7 Create `app/settings/page.tsx` with placeholder content
+	- [x] 11.8 Add metadata (title, description) to all pages
+	- [x] 11.9 Style placeholder pages consistently with Tailwind CSS
+	- [x] 11.10 Ensure all pages render without errors
+- [ ] 12.0 Test and validate complete sidebar functionality
+	- [ ] 12.1 Test: AppHeader renders on all pages
+	- [ ] 12.2 Test: Toggle button in AppHeader expands/collapses sidebar
+	- [ ] 12.3 Test: Sidebar renders on all pages
+	- [ ] 12.4 Test: Sidebar starts in expanded state
+	- [ ] 12.5 Test: Width transitions are smooth
+	- [ ] 12.6 Test: Navigation to all routes works correctly
+	- [ ] 12.7 Test: Active route indicator shows correct route (green background)
+	- [ ] 12.8 Test: Accordion expands/collapses for Finanzas sub-menu
+	- [ ] 12.9 Test: Sub-routes show active state correctly
+	- [ ] 12.10 Test: Tooltips appear when sidebar is collapsed
+	- [ ] 12.11 Test: Tooltips show correct Spanish labels
+	- [ ] 12.12 Test: Dark mode works correctly
+	- [ ] 12.13 Test: Keyboard navigation works (Tab, Enter, Space)
+	- [ ] 12.14 Test: Sidebar is hidden on mobile (<768px)
+	- [ ] 12.15 Run `pnpm lint` and fix any errors
+	- [ ] 12.16 Run `pnpm prettier:fix` to format all new files
+	- [ ] 12.17 Verify no TypeScript errors with `pnpm tsc --noEmit`
+

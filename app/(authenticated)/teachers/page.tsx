@@ -1,0 +1,36 @@
+import { type Metadata } from 'next'
+
+export const metadata: Metadata = {
+	title: 'Profesores - Next.js Enterprise',
+	description: 'Gestión de profesores',
+}
+
+export default function TeachersPage() {
+	return (
+		<div className="space-y-6">
+			<div>
+				<h1 className="text-3xl font-bold tracking-tight">Profesores</h1>
+				<p className="text-muted-foreground">
+					Gestiona y administra los profesores de la plataforma
+				</p>
+			</div>
+
+			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+				<div className="bg-card text-card-foreground rounded-lg border p-6 shadow-sm">
+					<h3 className="text-lg font-semibold">Total Profesores</h3>
+					<p className="text-muted-foreground mt-2">Placeholder content</p>
+				</div>
+
+				<div className="bg-card text-card-foreground rounded-lg border p-6 shadow-sm">
+					<h3 className="text-lg font-semibold">Profesores Activos</h3>
+					<p className="text-muted-foreground mt-2">Placeholder content</p>
+				</div>
+
+				<div className="bg-card text-card-foreground rounded-lg border p-6 shadow-sm">
+					<h3 className="text-lg font-semibold">Departamentos</h3>
+					<p className="text-muted-foreground mt-2">Placeholder content</p>
+				</div>
+			</div>
+		</div>
+	)
+}
