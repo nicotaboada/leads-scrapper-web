@@ -53,6 +53,20 @@ export interface PlayRunInput {
 }
 
 /**
+ * Input for pausing a run
+ */
+export interface PauseRunInput {
+	runId: string
+}
+
+/**
+ * Input for deleting a run
+ */
+export interface DeleteRunInput {
+	runId: string
+}
+
+/**
  * Filters for querying runs
  */
 export interface RunFiltersInput {
@@ -78,6 +92,14 @@ export interface CreateRunResponse {
 
 export interface PlayRunResponse {
 	playRun: Run
+}
+
+export interface PauseRunResponse {
+	pauseRun: Run
+}
+
+export interface DeleteRunResponse {
+	deleteRun: Run
 }
 
 export interface RunStatusChangedResponse {
