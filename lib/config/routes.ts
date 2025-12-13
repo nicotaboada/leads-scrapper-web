@@ -41,6 +41,10 @@ export const ROUTES = {
 	// Classes module
 	CLASSES: '/classes',
 
+	// Runs module
+	RUNS: '/runs',
+	RUN_DETAIL: (id: string) => `/runs/${id}`,
+
 	// Finance module
 	FINANZAS: '/finanzas',
 	FACTURACION: '/finanzas/facturacion',
@@ -64,6 +68,7 @@ export const PROTECTED_ROUTE_PREFIXES = [
 	ROUTES.STUDENTS,
 	ROUTES.TEACHERS,
 	ROUTES.CLASSES,
+	ROUTES.RUNS,
 	ROUTES.FINANZAS,
 	ROUTES.SETTINGS,
 ] as const

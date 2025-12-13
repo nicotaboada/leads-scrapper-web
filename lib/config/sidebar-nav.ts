@@ -1,4 +1,5 @@
 import {
+	Activity,
 	BookOpen,
 	DollarSign,
 	FileSpreadsheet,
@@ -62,6 +63,12 @@ export const navigationItems: NavItem[] = [
 		label: 'Clases',
 		href: ROUTES.CLASSES,
 		icon: BookOpen,
+	},
+	{
+		id: 'runs',
+		label: 'Runs',
+		href: ROUTES.RUNS,
+		icon: Activity,
 	},
 	{
 		id: 'finanzas',
