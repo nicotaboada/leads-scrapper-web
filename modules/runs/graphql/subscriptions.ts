@@ -12,3 +12,16 @@ export const RUN_STATUS_CHANGED = gql`
 		}
 	}
 `
+
+/**
+ * Subscription to listen for run results updates (status + result count)
+ */
+export const RUN_RESULTS_UPDATED = gql`
+	${RUN_FIELDS_FRAGMENT}
+	subscription RunResultsUpdated($runId: ID!) {
+		runResultsUpdated(runId: $runId) {
+			...RunFields
+		}
+	}
+`
+

@@ -19,7 +19,7 @@ export function useRunsGraphQL(options: UseRunsGraphQLOptions = {}) {
 	>(GET_RUNS, {
 		variables: { filters },
 		pollInterval,
-		fetchPolicy: 'cache-and-network',
+		fetchPolicy: 'cache-first',
 	})
 
 	return {

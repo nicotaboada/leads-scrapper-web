@@ -105,3 +105,7 @@ export interface DeleteRunResponse {
 export interface RunStatusChangedResponse {
 	runStatusChanged: Run
 }
+
+export interface RunResultsUpdatedResponse {
+	runResultsUpdated: Run
+}

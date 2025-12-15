@@ -1,13 +1,8 @@
 import {
 	Activity,
-	BookOpen,
-	DollarSign,
-	FileSpreadsheet,
-	FileText,
 	GraduationCap,
 	LayoutDashboard,
 	Settings,
-	UserCheck,
 } from 'lucide-react'
 import { type NavItem } from 'types/sidebar'
 import { ROUTES } from './routes'
@@ -53,41 +48,10 @@ export const navigationItems: NavItem[] = [
 		icon: GraduationCap,
 	},
 	{
-		id: 'teachers',
-		label: 'Profesores',
-		href: ROUTES.TEACHERS,
-		icon: UserCheck,
-	},
-	{
-		id: 'classes',
-		label: 'Clases',
-		href: ROUTES.CLASSES,
-		icon: BookOpen,
-	},
-	{
 		id: 'runs',
 		label: 'Runs',
 		href: ROUTES.RUNS,
 		icon: Activity,
-	},
-	{
-		id: 'finanzas',
-		label: 'Finanzas',
-		icon: DollarSign,
-		children: [
-			{
-				id: 'facturacion',
-				label: 'Facturación',
-				href: ROUTES.FACTURACION,
-				icon: FileText,
-			},
-			{
-				id: 'invoices',
-				label: 'Facturas',
-				href: ROUTES.INVOICES,
-				icon: FileSpreadsheet,
-			},
-		],
 	},
 	{
 		id: 'settings',

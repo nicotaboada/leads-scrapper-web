@@ -1,4 +1,11 @@
-import { CheckCircle2, Loader2, Pause, XCircle, Clock, Square } from 'lucide-react'
+import {
+	CheckCircle2,
+	Clock,
+	Loader2,
+	Pause,
+	Square,
+	XCircle,
+} from 'lucide-react'
 import { cn } from '@/lib/utils/merge'
 import { RunStatus } from '../types/run'
 
@@ -56,7 +63,13 @@ export function RunStatusBadge({ status, className }: RunStatusBadgeProps) {
 	const config = getStatusConfig(statusStr)
 
 	return (
-		<div className={cn('flex items-center justify-center', config.className, className)}>
+		<div
+			className={cn(
+				'flex items-center justify-center',
+				config.className,
+				className
+			)}
+		>
 			{config.icon}
 		</div>
 	)

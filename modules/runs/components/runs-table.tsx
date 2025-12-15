@@ -3,6 +3,7 @@
 import { MoreHorizontal, Pause, Play, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import {
 	DropdownMenu,
@@ -129,14 +130,17 @@ function RunTableRow({ run: initialRun }: { run: Run }) {
 	return (
 		<TableRow key={run.id}>
 			<TableCell className="font-medium">
-				<div className="flex items-center gap-2">
+				<Link
+					href={`/runs/${run.id}`}
+					className="flex items-center gap-2 hover:underline hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+				>
 					{run.name}
 					{isSubscribed && (
 						<span className="text-xs text-blue-500" title="Live updates active">
 							🔴
 						</span>
 					)}
-				</div>
+				</Link>
 			</TableCell>
 			<TableCell>
 				<RunStatusBadge status={run.status} />

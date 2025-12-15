@@ -38,12 +38,6 @@ export const GET_RUN = gql`
 	query GetRun($id: ID!) {
 		run(id: $id) {
 			...RunFields
-			results {
-				id
-				raw
-				normalized
-				createdAt
-			}
 		}
 	}
 `
@@ -56,3 +50,29 @@ export const TEST_RUNS_MODULE = gql`
 		adminTestRuns
 	}
 `
+
+/**
+ * Query to get paginated run results
+ */
+export const GET_RUN_RESULTS = gql`
+	query GetRunResults($input: GetRunResultsInput!) {
+		getRunResults(input: $input) {
+			results {
+				id
+				runId
+				raw
+				normalized
+				createdAt
+			}
+			pageInfo {
+				currentPage
+				pageSize
+				totalPages
+				totalCount
+				hasNextPage
+				hasPreviousPage
+			}
+		}
+	}
+`
+

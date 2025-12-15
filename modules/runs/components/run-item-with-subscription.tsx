@@ -1,11 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
+import { Button } from '@/components/ui/button'
 import { usePlayRun } from '../hooks/use-play-run'
 import { useRunSubscription } from '../hooks/use-run-subscription'
 import type { Run, RunStatus } from '../types/run'
-import { Button } from '@/components/ui/button'
-import { toast } from 'sonner'
 
 interface RunItemWithSubscriptionProps {
 	run: Run
@@ -34,10 +34,7 @@ export function RunItemWithSubscription({
 			onRunUpdate?.(updatedRun)
 
 			// Stop subscription when run is finished
-			if (
-				updatedRun.status === 'SUCCEEDED' ||
-				updatedRun.status === 'FAILED'
-			) {
+			if (updatedRun.status === 'SUCCEEDED' || updatedRun.status === 'FAILED') {
 				setIsSubscribed(false)
 			}
 		},
@@ -84,11 +81,11 @@ export function RunItemWithSubscription({
 	}
 
 	return (
-		<div className="border rounded-lg p-4 space-y-2">
+		<div className="space-y-2 rounded-lg border p-4">
 			<div className="flex items-center justify-between">
 				<div>
 					<h3 className="font-semibold">{run.name}</h3>
-					<p className="text-sm text-muted-foreground">{run.actorName}</p>
+					<p className="text-muted-foreground text-sm">{run.actorName}</p>
 				</div>
 				<div className="flex items-center gap-2">
 					<span className={`text-sm font-medium ${getStatusColor(run.status)}`}>
@@ -102,7 +99,7 @@ export function RunItemWithSubscription({
 				</div>
 			</div>
 
-			<div className="text-sm text-muted-foreground">
+			<div className="text-muted-foreground text-sm">
 				<p>Results: {run.resultCount}</p>
 				{run.runId && <p className="text-xs">Apify Run: {run.runId}</p>}
 				{isSubscribed && (
@@ -112,4 +109,3 @@ export function RunItemWithSubscription({
 		</div>
 	)
 }
-
