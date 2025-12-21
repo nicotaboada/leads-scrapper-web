@@ -1,9 +1,4 @@
-import {
-	Activity,
-	GraduationCap,
-	LayoutDashboard,
-	Settings,
-} from 'lucide-react'
+import { Activity, LayoutDashboard, Settings, Users } from 'lucide-react'
 import { type NavItem } from 'types/sidebar'
 import { ROUTES } from './routes'
 
@@ -42,16 +37,16 @@ export const navigationItems: NavItem[] = [
 		icon: LayoutDashboard,
 	},
 	{
-		id: 'students',
-		label: 'Estudiantes',
-		href: ROUTES.STUDENTS,
-		icon: GraduationCap,
-	},
-	{
 		id: 'runs',
 		label: 'Runs',
 		href: ROUTES.RUNS,
 		icon: Activity,
+	},
+	{
+		id: 'contacts',
+		label: 'Contactos',
+		href: ROUTES.CONTACTS,
+		icon: Users,
 	},
 	{
 		id: 'settings',

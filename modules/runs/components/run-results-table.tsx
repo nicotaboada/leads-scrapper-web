@@ -2,6 +2,7 @@
 
 import { Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
 	Select,
 	SelectContent,
@@ -17,9 +18,12 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table'
+import type { HeaderCheckboxState } from '../types/bulk-actions'
 import { RunStatus } from '../types/run'
 import type { PageInfo, RunResult } from '../types/run-result'
 import { extractGoogleMapsResult } from '../types/run-result'
+import { BulkActionHeader } from './bulk-action-header'
+import { SelectionDropdown } from './selection-dropdown'
 
 interface RunResultsTableProps {
 	results: RunResult[]
@@ -29,10 +33,20 @@ interface RunResultsTableProps {
 	subscriptionActive?: boolean
 	onPageChange: (page: number) => void
 	onPageSizeChange: (pageSize: number) => void
+	// Bulk selection props
+	selectedCount: number
+	headerCheckboxState: HeaderCheckboxState
+	isSelected: (id: string) => boolean
+	onToggleItem: (id: string) => void
+	onSelectNone: () => void
+	onSelectPage: (pageIds: string[]) => void
+	onSelectAll: () => void
+	onCreateContacts: () => void
+	isCreatingContacts?: boolean
 }
 
 /**
- * Table displaying paginated run results with real-time updates
+ * Table displaying paginated run results with real-time updates and bulk selection
  */
 export function RunResultsTable({
 	results,
@@ -42,7 +56,24 @@ export function RunResultsTable({
 	subscriptionActive = false,
 	onPageChange,
 	onPageSizeChange,
+	selectedCount,
+	headerCheckboxState,
+	isSelected,
+	onToggleItem,
+	onSelectNone,
+	onSelectPage,
+	onSelectAll,
+	onCreateContacts,
+	isCreatingContacts = false,
 }: RunResultsTableProps) {
+	const totalCount = pageInfo?.totalCount ?? 0
+	const pageIds = results.map((r) => r.id)
+	const hasSelection = selectedCount > 0
+
+	const handleSelectPage = () => {
+		onSelectPage(pageIds)
+	}
+
 	// Loading state - show table structure with spinner
 	if (loading && results.length === 0) {
 		return (
@@ -50,6 +81,7 @@ export function RunResultsTable({
 				<Table>
 					<TableHeader>
 						<TableRow>
+							<TableHead className="w-[50px]" />
 							<TableHead>Place Name</TableHead>
 							<TableHead>Website</TableHead>
 							<TableHead>City</TableHead>
@@ -57,7 +89,7 @@ export function RunResultsTable({
 					</TableHeader>
 					<TableBody>
 						<TableRow>
-							<TableCell colSpan={3} className="py-16 text-center">
+							<TableCell colSpan={4} className="py-16 text-center">
 								<Loader2 className="text-muted-foreground mx-auto h-6 w-6 animate-spin" />
 								<p className="text-muted-foreground mt-2 text-sm">
 									Loading results...
@@ -109,11 +141,29 @@ export function RunResultsTable({
 
 	return (
 		<div className="space-y-4">
+			{/* Bulk Action Header */}
+			<BulkActionHeader
+				selectedCount={selectedCount}
+				onCreateContacts={onCreateContacts}
+				disabled={isCreatingContacts || !hasSelection}
+			/>
+
 			{/* Table */}
 			<div className="rounded-lg border">
 				<Table>
 					<TableHeader>
 						<TableRow>
+							<TableHead className="w-[50px]">
+								<SelectionDropdown
+									headerState={headerCheckboxState}
+									pageCount={pageIds.length}
+									totalCount={totalCount}
+									selectedCount={selectedCount}
+									onSelectNone={onSelectNone}
+									onSelectPage={handleSelectPage}
+									onSelectAll={onSelectAll}
+								/>
+							</TableHead>
 							<TableHead>Place Name</TableHead>
 							<TableHead>Website</TableHead>
 							<TableHead>City</TableHead>
@@ -122,8 +172,19 @@ export function RunResultsTable({
 					<TableBody>
 						{results.map((result) => {
 							const googleResult = extractGoogleMapsResult(result)
+							const checked = isSelected(result.id)
 							return (
-								<TableRow key={result.id}>
+								<TableRow
+									key={result.id}
+									data-state={checked ? 'selected' : undefined}
+								>
+									<TableCell>
+										<Checkbox
+											checked={checked}
+											onCheckedChange={() => onToggleItem(result.id)}
+											aria-label={`Select ${googleResult.placeName}`}
+										/>
+									</TableCell>
 									<TableCell className="font-medium">
 										{googleResult.placeName}
 									</TableCell>

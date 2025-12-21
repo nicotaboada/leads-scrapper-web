@@ -77,7 +77,7 @@ interface UseTableFiltersReturn {
  *
  * // Pass to API
  * useBackendPagination({
- *   query: GET_STUDENTS,
+ *   query: GET_CONTACTS,
  *   queryVariables: {
  *     search: searchQuery,
  *     ...queryFilters

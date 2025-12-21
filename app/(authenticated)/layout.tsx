@@ -14,12 +14,10 @@ import { SidebarInset, SidebarProvider } from 'components/ui/sidebar'
  *
  * Protected routes:
  * - /dashboard
- * - /students
- * - /teachers
- * - /finanzas
+ * - /runs
+ * - /contacts
+ * - /tags
  * - /settings
- * - /users
- * - /classes
  */
 export default function AuthenticatedLayout({
 	children,

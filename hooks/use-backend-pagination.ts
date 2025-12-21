@@ -36,7 +36,7 @@ interface UseBackendPaginationReturn<TData, TItem> {
  * Hook for managing backend pagination with GraphQL
  *
  * @param query - GraphQL query document
- * @param dataKey - Key to access paginated data in response (e.g., 'students')
+ * @param dataKey - Key to access paginated data in response (e.g., 'contacts')
  * @param initialPage - Starting page (default: 1)
  * @param pageSize - Items per page (default: 25)
  * @param queryVariables - Additional query variables

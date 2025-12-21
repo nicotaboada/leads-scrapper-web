@@ -48,3 +48,19 @@ export const DELETE_RUN = gql`
 		}
 	}
 `
+
+/**
+ * Mutation to bulk create companies from run results
+ */
+export const BULK_CREATE_COMPANIES_FROM_RUN = gql`
+	mutation BulkCreateCompaniesFromRun($input: BulkCreateCompaniesInput!) {
+		bulkCreateCompaniesFromRun(input: $input) {
+			createdCount
+			errorCount
+			errors {
+				index
+				message
+			}
+		}
+	}
+`

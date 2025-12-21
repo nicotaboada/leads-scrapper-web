@@ -26,7 +26,7 @@ interface DetailHeaderProps {
  * ```tsx
  * <DetailHeader
  *   breadcrumbItems={[
- *     { icon: GraduationCap, label: 'Estudiantes', href: '/students' },
+ *     { icon: Users, label: 'Contactos', href: '/contacts' },
  *     { label: 'Juan Pérez' }
  *   ]}
  *   actions={

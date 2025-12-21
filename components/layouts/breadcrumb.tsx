@@ -17,7 +17,7 @@ interface BreadcrumbProps {
  * ```tsx
  * <Breadcrumb
  *   items={[
- *     { icon: GraduationCap, label: 'Estudiantes', href: '/students' },
+ *     { icon: Users, label: 'Contactos', href: '/contacts' },
  *     { label: 'Juan Pérez' }
  *   ]}
  * />
