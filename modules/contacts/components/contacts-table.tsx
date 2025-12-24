@@ -7,7 +7,7 @@
  * with different avatars and navigation based on contact type.
  */
 
-import { Building2, Mail, Phone, Users } from 'lucide-react'
+import { Building2, MapPin, Users } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 import { TableEmptyState } from 'components/common/table-empty-state'
@@ -28,20 +28,16 @@ import { ContactActionsMenu } from './contact-actions-menu'
 import { DeleteContactDialog } from './delete-contact-dialog'
 import { EditCompanySheet } from './edit-company-sheet'
 import { EditContactSheet } from './edit-contact-sheet'
-import { LeadStatusSelector } from './lead-status-selector'
 import { FollowUpBadge } from './follow-up-badge'
-import { useUpdateLeadStatus } from '../hooks/use-update-lead-status'
+import { LeadStatusBadge } from './lead-status-badge'
 import {
 	type CompanyContact,
 	type Contact,
 	ContactType,
-	getContactEmail,
 	getContactName,
-	getContactPhone,
 	getPersonInitials,
 	isCompanyContact,
 	isPersonContact,
-	type LeadStatus,
 	type PersonContact,
 } from '../types'
 
@@ -72,17 +68,6 @@ export function ContactsTable({
 		null
 	)
 	const [deletingContact, setDeletingContact] = useState<Contact | null>(null)
-	const { updateLeadStatus } = useUpdateLeadStatus()
-
-	async function handleLeadStatusChange(
-		contactId: string,
-		newStatus: LeadStatus
-	) {
-		const success = await updateLeadStatus(contactId, newStatus)
-		if (success) {
-			onRefresh?.()
-		}
-	}
 
 	function handleEdit(contact: Contact) {
 		if (isPersonContact(contact)) {
@@ -140,16 +125,13 @@ export function ContactsTable({
 			],
 		},
 		{
-			items: [{ width: '200px', height: 'h-4' }],
-		},
-		{
 			items: [{ width: '120px', height: 'h-4' }],
 		},
 		{
 			items: [
 				{
-					width: '100px',
-					height: 'h-8',
+					width: '80px',
+					height: 'h-6',
 					className: 'rounded-md',
 				},
 			],
@@ -175,8 +157,7 @@ export function ContactsTable({
 					<TableHeader>
 						<TableRow>
 							<TableHead className="w-[280px] pl-6">Contacto</TableHead>
-							<TableHead className="w-[240px]">Email</TableHead>
-							<TableHead className="w-[150px]">Teléfono</TableHead>
+							<TableHead className="w-[200px]">Ciudad</TableHead>
 							<TableHead className="w-[160px]">Estado</TableHead>
 							<TableHead className="w-[70px] pr-6"></TableHead>
 						</TableRow>
@@ -215,27 +196,13 @@ export function ContactsTable({
 									</TableCell>
 									<TableCell className="max-w-0">
 										<div className="flex items-center gap-2 overflow-hidden text-sm">
-											<Mail className="text-muted-foreground h-4 w-4 shrink-0" />
 											<span className="text-muted-foreground truncate">
-												{getContactEmail(contact) || '-'}
-											</span>
-										</div>
-									</TableCell>
-									<TableCell className="max-w-0">
-										<div className="flex items-center gap-2 overflow-hidden text-sm">
-											<Phone className="text-muted-foreground h-4 w-4 shrink-0" />
-											<span className="text-muted-foreground truncate">
-												{getContactPhone(contact) || '-'}
+												{isCompanyContact(contact) ? contact.city || '-' : '-'}
 											</span>
 										</div>
 									</TableCell>
 									<TableCell>
-										<LeadStatusSelector
-											value={contact.leadStatus}
-											onChange={(status) =>
-												handleLeadStatusChange(contact.id, status)
-											}
-										/>
+										<LeadStatusBadge status={contact.leadStatus} />
 									</TableCell>
 									<TableCell className="pr-6">
 										<ContactActionsMenu

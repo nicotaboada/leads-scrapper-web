@@ -24,6 +24,7 @@ import type { PageInfo, RunResult } from '../types/run-result'
 import { extractGoogleMapsResult } from '../types/run-result'
 import { BulkActionHeader } from './bulk-action-header'
 import { SelectionDropdown } from './selection-dropdown'
+import { SocialIconsCell } from './social-icons-cell'
 
 interface RunResultsTableProps {
 	results: RunResult[]
@@ -83,8 +84,8 @@ export function RunResultsTable({
 						<TableRow>
 							<TableHead className="w-[50px]" />
 							<TableHead>Place Name</TableHead>
-							<TableHead>Website</TableHead>
 							<TableHead>City</TableHead>
+							<TableHead className="w-[140px]" />
 						</TableRow>
 					</TableHeader>
 					<TableBody>
@@ -165,8 +166,8 @@ export function RunResultsTable({
 								/>
 							</TableHead>
 							<TableHead>Place Name</TableHead>
-							<TableHead>Website</TableHead>
 							<TableHead>City</TableHead>
+							<TableHead className="w-[140px]" />
 						</TableRow>
 					</TableHeader>
 					<TableBody>
@@ -189,23 +190,17 @@ export function RunResultsTable({
 										{googleResult.placeName}
 									</TableCell>
 									<TableCell>
-										{googleResult.website ? (
-											<a
-												href={googleResult.website}
-												target="_blank"
-												rel="noopener noreferrer"
-												className="text-blue-600 hover:text-blue-800 hover:underline dark:text-blue-400 dark:hover:text-blue-300"
-											>
-												{googleResult.website}
-											</a>
-										) : (
+										{googleResult.city || (
 											<span className="text-muted-foreground text-sm">—</span>
 										)}
 									</TableCell>
 									<TableCell>
-										{googleResult.city || (
-											<span className="text-muted-foreground text-sm">—</span>
-										)}
+										<SocialIconsCell
+											website={googleResult.website}
+											instagram={googleResult.instagram}
+											facebook={googleResult.facebook}
+											linkedin={googleResult.linkedin}
+										/>
 									</TableCell>
 								</TableRow>
 							)

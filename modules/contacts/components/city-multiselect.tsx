@@ -1,17 +1,21 @@
 'use client'
 
-import { Check, ChevronDown, ChevronUp } from 'lucide-react'
+/**
+ * City Multiselect Component
+ *
+ * A multiselect component for cities with search functionality.
+ * Similar to TagMultiselect but for cities.
+ */
+
+import { Check, ChevronDown, ChevronUp, Search } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Skeleton } from 'components/ui/skeleton'
 import { cn } from 'lib/utils/merge'
-import { TagChip } from './tag-chip'
-import { useAllTags } from '../hooks/use-all-tags'
-import { TAG_COLOR_CONFIG, type TagColor } from '../types'
+import { useAvailableCities } from '../hooks/use-available-cities'
 
-interface TagMultiselectProps {
-	selectedTagIds: string[]
-	onChange: (tagIds: string[]) => void
-	onSave?: (tagIds: string[]) => Promise<void>
+interface CityMultiselectProps {
+	selectedCities: string[]
+	onChange: (cities: string[]) => void
 	placeholder?: string
 	disabled?: boolean
 	className?: string
@@ -21,28 +25,37 @@ interface TagMultiselectProps {
 	 * @default true
 	 */
 	autoOpen?: boolean
+	/**
+	 * Callback to notify parent when dropdown open state changes
+	 */
+	onOpenChange?: (isOpen: boolean) => void
 }
 
 /**
- * Unified multiselect component for tags
- * Shows chips + input in a single container with dropdown options
+ * Unified multiselect component for cities
+ * Shows selected cities + input in a single container with dropdown options
  */
-export function TagMultiselect({
-	selectedTagIds,
+export function CityMultiselect({
+	selectedCities,
 	onChange,
-	onSave,
-	placeholder = 'Agregar tags...',
+	placeholder = 'Seleccionar ciudades...',
 	disabled = false,
 	className,
 	autoOpen = true,
-}: TagMultiselectProps) {
-	const [isOpen, setIsOpen] = useState(false)
+	onOpenChange,
+}: CityMultiselectProps) {
+	const [isOpen, setIsOpenState] = useState(false)
+
+	// Wrapper to notify parent of open state changes
+	const setIsOpen = (open: boolean) => {
+		setIsOpenState(open)
+		onOpenChange?.(open)
+	}
 	const [searchQuery, setSearchQuery] = useState('')
-	const [isSaving, setIsSaving] = useState(false)
 	const containerRef = useRef<HTMLDivElement>(null)
 	const inputRef = useRef<HTMLInputElement>(null)
 
-	const { tags, loading } = useAllTags()
+	const { cities, loading } = useAvailableCities()
 
 	// Close dropdown when clicking outside
 	useEffect(() => {
@@ -58,66 +71,38 @@ export function TagMultiselect({
 		return () => document.removeEventListener('mousedown', handleClickOutside)
 	}, [])
 
-	// Filter tags by search query
-	const filteredTags = useMemo(() => {
-		if (!searchQuery.trim()) return tags
+	// Filter cities by search query
+	const filteredCities = useMemo(() => {
+		if (!searchQuery.trim()) return cities
 		const query = searchQuery.toLowerCase()
-		return tags.filter((tag) => tag.name.toLowerCase().includes(query))
-	}, [tags, searchQuery])
+		return cities.filter((city) => city.toLowerCase().includes(query))
+	}, [cities, searchQuery])
 
-	// Get selected tag objects
-	const selectedTags = useMemo(() => {
-		return tags.filter((tag) => selectedTagIds.includes(tag.id))
-	}, [tags, selectedTagIds])
-
-	// Handle tag toggle
-	const handleToggleTag = useCallback(
-		async (tagId: string) => {
-			const isSelected = selectedTagIds.includes(tagId)
-			const newSelectedIds = isSelected
-				? selectedTagIds.filter((id) => id !== tagId)
-				: [...selectedTagIds, tagId]
-
-			onChange(newSelectedIds)
+	// Handle city toggle
+	const handleToggleCity = useCallback(
+		(city: string) => {
+			const isSelected = selectedCities.includes(city)
+			const newSelectedCities = isSelected
+				? selectedCities.filter((c) => c !== city)
+				: [...selectedCities, city]
+			onChange(newSelectedCities)
 			setSearchQuery('')
-
-			if (onSave) {
-				setIsSaving(true)
-				try {
-					await onSave(newSelectedIds)
-				} catch (error) {
-					console.error('Error saving tags:', error)
-				} finally {
-					setIsSaving(false)
-				}
-			}
 		},
-		[selectedTagIds, onChange, onSave]
+		[selectedCities, onChange]
 	)
 
-	// Handle remove tag from chip
-	const handleRemoveTag = useCallback(
-		async (tagId: string) => {
-			const newSelectedIds = selectedTagIds.filter((id) => id !== tagId)
-			onChange(newSelectedIds)
-
-			if (onSave) {
-				setIsSaving(true)
-				try {
-					await onSave(newSelectedIds)
-				} catch (error) {
-					console.error('Error saving tags:', error)
-				} finally {
-					setIsSaving(false)
-				}
-			}
+	// Handle remove city
+	const handleRemoveCity = useCallback(
+		(city: string) => {
+			const newSelectedCities = selectedCities.filter((c) => c !== city)
+			onChange(newSelectedCities)
 		},
-		[selectedTagIds, onChange, onSave]
+		[selectedCities, onChange]
 	)
 
 	// Handle container click - focus input and optionally open dropdown
 	const handleContainerClick = () => {
-		if (!disabled && !isSaving) {
+		if (!disabled) {
 			if (autoOpen) {
 				setIsOpen(true)
 			}
@@ -127,7 +112,7 @@ export function TagMultiselect({
 
 	// Handle input focus - optionally open dropdown
 	const handleInputFocus = () => {
-		if (!disabled && !isSaving && autoOpen) {
+		if (!disabled && autoOpen) {
 			setIsOpen(true)
 		}
 	}
@@ -138,16 +123,14 @@ export function TagMultiselect({
 			setIsOpen(false)
 			inputRef.current?.blur()
 		}
-		if (e.key === 'Backspace' && !searchQuery && selectedTags.length > 0) {
-			// Remove last selected tag on backspace with empty input
-			const lastTag = selectedTags[selectedTags.length - 1]
-			if (lastTag) {
-				handleRemoveTag(lastTag.id)
+		if (e.key === 'Backspace' && !searchQuery && selectedCities.length > 0) {
+			// Remove last selected city on backspace with empty input
+			const lastCity = selectedCities[selectedCities.length - 1]
+			if (lastCity) {
+				handleRemoveCity(lastCity)
 			}
 		}
 	}
-
-	const isDisabled = disabled || isSaving
 
 	return (
 		<div ref={containerRef} className={cn('relative w-full', className)}>
@@ -157,17 +140,28 @@ export function TagMultiselect({
 				className={cn(
 					'border-input bg-background ring-offset-background flex min-h-10 w-full cursor-text flex-wrap items-center gap-1 rounded-md border px-3 py-2 text-sm',
 					'focus-within:ring-ring focus-within:ring-2 focus-within:ring-offset-2',
-					isDisabled && 'cursor-not-allowed opacity-50'
+					disabled && 'cursor-not-allowed opacity-50'
 				)}
 			>
-				{/* Selected Tags as Chips */}
-				{selectedTags.map((tag) => (
-					<TagChip
-						key={tag.id}
-						tag={tag}
-						onRemove={handleRemoveTag}
-						disabled={isDisabled}
-					/>
+				{/* Selected Cities as Chips */}
+				{selectedCities.map((city) => (
+					<span
+						key={city}
+						className="bg-secondary text-secondary-foreground inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-medium"
+					>
+						{city}
+						<button
+							type="button"
+							onClick={(e) => {
+								e.stopPropagation()
+								handleRemoveCity(city)
+							}}
+							disabled={disabled}
+							className="hover:text-foreground ml-1 rounded-full text-current opacity-70 hover:opacity-100"
+						>
+							×
+						</button>
+					</span>
 				))}
 
 				{/* Inline Input */}
@@ -178,8 +172,8 @@ export function TagMultiselect({
 					onChange={(e) => setSearchQuery(e.target.value)}
 					onFocus={handleInputFocus}
 					onKeyDown={handleKeyDown}
-					placeholder={selectedTags.length === 0 ? placeholder : ''}
-					disabled={isDisabled}
+					placeholder={selectedCities.length === 0 ? placeholder : ''}
+					disabled={disabled}
 					className={cn(
 						'placeholder:text-muted-foreground flex-1 bg-transparent outline-none',
 						'min-w-[80px]'
@@ -189,20 +183,20 @@ export function TagMultiselect({
 				{/* Toggle Icon */}
 				<div
 					role="button"
-					tabIndex={isDisabled ? -1 : 0}
+					tabIndex={disabled ? -1 : 0}
 					onClick={(e) => {
 						e.stopPropagation()
-						if (!isDisabled) setIsOpen(!isOpen)
+						if (!disabled) setIsOpen(!isOpen)
 					}}
 					onKeyDown={(e) => {
-						if ((e.key === 'Enter' || e.key === ' ') && !isDisabled) {
+						if ((e.key === 'Enter' || e.key === ' ') && !disabled) {
 							e.preventDefault()
 							setIsOpen(!isOpen)
 						}
 					}}
 					className={cn(
 						'text-muted-foreground hover:text-foreground ml-auto shrink-0 cursor-pointer',
-						isDisabled && 'pointer-events-none'
+						disabled && 'pointer-events-none'
 					)}
 				>
 					{isOpen ? (
@@ -215,44 +209,40 @@ export function TagMultiselect({
 
 			{/* Dropdown Options */}
 			{isOpen && (
-				<div className="bg-popover absolute z-50 mt-1 w-full rounded-md border shadow-md">
-					<div className="max-h-[180px] overflow-y-auto py-1">
+				<div className="bg-popover absolute z-[100] mt-1 min-w-[250px] w-full rounded-md border shadow-md">
+					<div className="max-h-[300px] overflow-y-auto py-1">
 						{loading ? (
 							<div className="space-y-2 p-2">
 								{Array.from({ length: 4 }).map((_, i) => (
 									<Skeleton key={i} className="h-8 w-full" />
 								))}
 							</div>
-						) : filteredTags.length === 0 ? (
+						) : filteredCities.length === 0 ? (
 							<div className="text-muted-foreground py-4 text-center text-sm">
 								{searchQuery
-									? 'No se encontraron tags'
-									: 'No hay tags disponibles'}
+									? 'No se encontraron ciudades'
+									: 'No hay ciudades disponibles'}
 							</div>
 						) : (
-							filteredTags.map((tag) => {
-								const isSelected = selectedTagIds.includes(tag.id)
-								const colorConfig = tag.color
-									? TAG_COLOR_CONFIG[tag.color as TagColor]
-									: null
-
+							filteredCities.map((city) => {
+								const isSelected = selectedCities.includes(city)
 								return (
 									<div
-										key={tag.id}
+										key={city}
 										role="option"
 										tabIndex={0}
 										aria-selected={isSelected}
-										onClick={() => !isDisabled && handleToggleTag(tag.id)}
+										onClick={() => !disabled && handleToggleCity(city)}
 										onKeyDown={(e) => {
-											if ((e.key === 'Enter' || e.key === ' ') && !isDisabled) {
+											if ((e.key === 'Enter' || e.key === ' ') && !disabled) {
 												e.preventDefault()
-												handleToggleTag(tag.id)
+												handleToggleCity(city)
 											}
 										}}
 										className={cn(
 											'hover:bg-accent flex w-full cursor-pointer items-center gap-3 px-3 py-2 text-sm',
 											isSelected && 'bg-accent/50',
-											isDisabled && 'pointer-events-none opacity-50'
+											disabled && 'pointer-events-none opacity-50'
 										)}
 									>
 										<div
@@ -265,13 +255,7 @@ export function TagMultiselect({
 										>
 											{isSelected && <Check className="h-3 w-3" />}
 										</div>
-										<span className="flex-1 text-left">{tag.name}</span>
-										{colorConfig && (
-											<span
-												className="h-4 w-4 shrink-0 rounded"
-												style={{ backgroundColor: colorConfig.hex }}
-											/>
-										)}
+										<span className="flex-1 text-left">{city}</span>
 									</div>
 								)
 							})
@@ -282,3 +266,4 @@ export function TagMultiselect({
 		</div>
 	)
 }
+

@@ -32,14 +32,12 @@ import {
 } from 'components/ui/sheet'
 import { TagMultiselect } from 'modules/tags/components/tag-multiselect'
 import { useUpdatePersonContact } from '../hooks/use-update-person-contact'
-import { ContactChannel, LeadStatus, type PersonContact } from '../types'
+import type { PersonContact } from '../types'
 import {
 	type EditPersonContactFormInput,
 	editPersonContactSchema,
 } from '../types/edit-contact'
 import { CompanySearchSelect } from './company-search-select'
-import { ContactChannelsFormField } from './contact-channels-form-field'
-import { LeadStatusFormField } from './lead-status-form-field'
 
 interface EditContactSheetProps {
 	open: boolean
@@ -67,8 +65,6 @@ export function EditContactSheet({
 			jobTitle: '',
 			companyId: null,
 			companyName: '',
-			leadStatus: LeadStatus.NEW,
-			contactedChannels: [],
 			tagIds: [],
 		},
 		mode: 'onBlur',
@@ -87,8 +83,6 @@ export function EditContactSheet({
 				jobTitle: contact.jobTitle ?? '',
 				companyId: contact.company?.id ?? null,
 				companyName: contact.company?.companyName ?? '',
-				leadStatus: contact.leadStatus,
-				contactedChannels: contact.contactedChannels ?? [],
 				tagIds: contact.tags?.map((tag) => tag.id) ?? [],
 			})
 		}
@@ -104,8 +98,6 @@ export function EditContactSheet({
 				linkedinUrl: data.linkedinUrl || undefined,
 				jobTitle: data.jobTitle || undefined,
 				companyId: data.companyId,
-				leadStatus: data.leadStatus,
-				contactedChannels: data.contactedChannels,
 				tagIds: data.tagIds,
 			})
 
@@ -289,51 +281,6 @@ export function EditContactSheet({
 									</FormItem>
 								)}
 							/>
-
-							<Separator />
-
-							{/* Lead Section */}
-							<div className="space-y-4">
-								<h4 className="text-sm font-semibold">Lead</h4>
-
-								{/* Lead Status */}
-								<FormField
-									control={form.control}
-									name="leadStatus"
-									render={({ field }) => (
-										<FormItem>
-											<div className="flex items-center justify-between">
-												<FormLabel>Estado</FormLabel>
-												<LeadStatusFormField
-													value={field.value}
-													onChange={field.onChange}
-													disabled={loading}
-												/>
-											</div>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
-
-								{/* Contacted Channels */}
-								<FormField
-									control={form.control}
-									name="contactedChannels"
-									render={({ field }) => (
-										<FormItem>
-											<div className="flex items-center justify-between">
-												<FormLabel>Canales</FormLabel>
-												<ContactChannelsFormField
-													value={field.value}
-													onChange={field.onChange}
-													disabled={loading}
-												/>
-											</div>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
-							</div>
 
 							<Separator />
 

@@ -9,7 +9,7 @@
  */
 
 import { useQuery } from '@apollo/client/react'
-import { Users } from 'lucide-react'
+import { User } from 'lucide-react'
 import { useParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { DetailHeader } from 'components/layouts/detail-header'
@@ -67,6 +67,11 @@ export default function PersonDetailPage() {
 		refetch()
 	}
 
+	// Handle lead changes
+	function handleLeadChanged() {
+		refetch()
+	}
+
 	// Handle errors
 	if (error) {
 		return (
@@ -74,11 +79,11 @@ export default function PersonDetailPage() {
 				<DetailHeader
 					breadcrumbItems={[
 						{
-							icon: Users,
 							label: 'Contactos',
 							href: ROUTES.CONTACTS,
 						},
 						{
+							icon: User,
 							label: 'Error',
 						},
 					]}
@@ -103,11 +108,11 @@ export default function PersonDetailPage() {
 				<DetailHeader
 					breadcrumbItems={[
 						{
-							icon: Users,
 							label: 'Contactos',
 							href: ROUTES.CONTACTS,
 						},
 						{
+							icon: User,
 							label: 'No encontrado',
 						},
 					]}
@@ -133,11 +138,11 @@ export default function PersonDetailPage() {
 			<DetailHeader
 				breadcrumbItems={[
 					{
-						icon: Users,
 						label: 'Contactos',
 						href: ROUTES.CONTACTS,
 					},
 					{
+						icon: User,
 						label: loading ? 'Cargando...' : contactName,
 					},
 				]}
@@ -155,6 +160,7 @@ export default function PersonDetailPage() {
 							onEdit={() => setIsEditOpen(true)}
 							onDelete={() => setIsDeleteOpen(true)}
 							onFollowUpChanged={handleFollowUpChanged}
+							onLeadChanged={handleLeadChanged}
 						/>
 					)
 				)}

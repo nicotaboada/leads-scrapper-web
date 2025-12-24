@@ -58,22 +58,24 @@ export function ActivitiesTab({ contactId, contactName }: ActivitiesTabProps) {
 	return (
 		<Card className="p-6">
 			<div className="space-y-4">
-				{/* Top Bar */}
-				<div className="flex items-center justify-between gap-4">
-					<div className="relative max-w-sm flex-1">
-						<Search className="text-muted-foreground absolute left-3 top-1/2 size-4 -translate-y-1/2" />
-						<Input
-							placeholder="Search for activities"
-							value={searchQuery}
-							onChange={(e) => setSearchQuery(e.target.value)}
-							className="pl-9"
-						/>
+				{/* Top Bar - Only show when there are activities */}
+				{hasActivities && (
+					<div className="flex items-center justify-between gap-4">
+						<div className="relative max-w-sm flex-1">
+							<Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
+							<Input
+								placeholder="Search for activities"
+								value={searchQuery}
+								onChange={(e) => setSearchQuery(e.target.value)}
+								className="pl-9"
+							/>
+						</div>
+						<Button onClick={() => setIsAddSheetOpen(true)}>
+							<Plus className="mr-2 size-4" />
+							Add Activity
+						</Button>
 					</div>
-					<Button onClick={() => setIsAddSheetOpen(true)}>
-						<Plus className="mr-2 size-4" />
-						Add Activity
-					</Button>
-				</div>
+				)}
 
 				{/* Content */}
 				{loading ? (
@@ -121,4 +123,3 @@ function ActivitiesTabSkeleton() {
 		</div>
 	)
 }
-

@@ -47,7 +47,7 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
 									'focus-visible:ring-ring rounded-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none'
 								)}
 							>
-								{isFirst && Icon && <Icon className="h-4 w-4" />}
+								{Icon && <Icon className="h-4 w-4" />}
 								<span>{item.label}</span>
 							</Link>
 						) : (
@@ -59,7 +59,7 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
 										: 'text-muted-foreground'
 								)}
 							>
-								{isFirst && Icon && <Icon className="h-4 w-4" />}
+								{Icon && <Icon className="h-4 w-4" />}
 								<span>{item.label}</span>
 							</span>
 						)}

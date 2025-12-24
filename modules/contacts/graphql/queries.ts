@@ -42,6 +42,7 @@ export const GET_CONTACTS = gql`
 					companyName
 					companyEmails
 					whatsapp
+					city
 					linkedinUrl
 					leadStatus
 					contactedChannels
@@ -169,6 +170,16 @@ export const GET_COMPANY_EMPLOYEES = gql`
 				hasPreviousPage
 			}
 		}
+	}
+`
+
+/**
+ * GraphQL query to get available cities
+ * Returns unique non-null cities from contacts sorted alphabetically
+ */
+export const GET_AVAILABLE_CITIES = gql`
+	query GetAvailableCities {
+		availableCities
 	}
 `
 

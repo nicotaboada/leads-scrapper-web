@@ -7,6 +7,7 @@ import { ContactChannel, LeadStatus } from './contact'
 
 /**
  * Form input for editing a person contact
+ * Note: Lead status and channels are edited via LeadEditModal, not this form
  */
 export interface EditPersonContactFormInput {
 	firstName: string
@@ -17,8 +18,6 @@ export interface EditPersonContactFormInput {
 	jobTitle?: string
 	companyId?: string | null
 	companyName?: string // Display only
-	leadStatus: LeadStatus
-	contactedChannels: ContactChannel[]
 	tagIds: string[]
 }
 
@@ -30,10 +29,9 @@ export interface EditCompanyFormInput {
 	companyEmails: string[]
 	whatsapp?: string
 	linkedinUrl?: string
-	leadStatus: LeadStatus
-	contactedChannels: ContactChannel[]
 	tagIds: string[]
 }
+
 
 /**
  * Input for updatePersonContact mutation
@@ -105,6 +103,7 @@ export interface DeleteContactResponse {
 
 /**
  * Zod validation schema for edit person contact form
+ * Note: Lead status and channels are edited via LeadEditModal, not this form
  */
 export const editPersonContactSchema = z.object({
 	firstName: z.string().min(1, 'El nombre es requerido'),
@@ -123,8 +122,6 @@ export const editPersonContactSchema = z.object({
 	jobTitle: z.string().optional(),
 	companyId: z.string().nullable().optional(),
 	companyName: z.string().optional(),
-	leadStatus: z.nativeEnum(LeadStatus),
-	contactedChannels: z.array(z.nativeEnum(ContactChannel)),
 	tagIds: z.array(z.string()),
 })
 
@@ -133,15 +130,13 @@ export const editPersonContactSchema = z.object({
  */
 export const editCompanySchema = z.object({
 	companyName: z.string().min(1, 'El nombre de la empresa es requerido'),
-	companyEmails: z.array(z.string().email('Email no válido')).default([]),
+	companyEmails: z.array(z.string().email('Email no válido')),
 	whatsapp: z.string().optional(),
 	linkedinUrl: z
 		.string()
 		.url('La URL no es válida')
 		.optional()
 		.or(z.literal('')),
-	leadStatus: z.nativeEnum(LeadStatus),
-	contactedChannels: z.array(z.nativeEnum(ContactChannel)),
 	tagIds: z.array(z.string()),
 })
 

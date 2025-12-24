@@ -78,7 +78,7 @@ export function RecentActivitiesCard({
 	return (
 		<Card className="p-6">
 			{/* Header */}
-			<div className="mb-4 flex items-center gap-2">
+			<div className="flex items-center gap-2">
 				<h3 className="text-base font-semibold">Recent communications</h3>
 				<HelpCircle className="text-muted-foreground size-4" />
 			</div>

@@ -46,7 +46,7 @@ export function LeadStatusFormField({
 	}
 
 	return (
-		<Popover open={open} onOpenChange={setOpen}>
+		<Popover open={open} onOpenChange={setOpen} modal>
 			<PopoverTrigger asChild>
 				<Button
 					variant="outline"
@@ -65,13 +65,20 @@ export function LeadStatusFormField({
 					<ChevronDown className="h-4 w-4 opacity-50" />
 				</Button>
 			</PopoverTrigger>
-			<PopoverContent className="w-48 p-1" align="end">
+			<PopoverContent
+				className="w-48 p-1"
+				align="end"
+				onPointerDownOutside={(e) => e.preventDefault()}
+			>
 				<div className="flex flex-col gap-0.5">
 					{LEAD_STATUS_OPTIONS.map((option) => (
 						<button
 							key={option.value}
 							type="button"
-							onClick={() => handleSelect(option.value)}
+							onClick={(e) => {
+								e.stopPropagation()
+								handleSelect(option.value)
+							}}
 							className={cn(
 								'flex w-full cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-left text-sm transition-colors',
 								'hover:bg-accent hover:text-accent-foreground',

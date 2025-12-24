@@ -7,13 +7,24 @@
  * Shows emails, WhatsApp, and LinkedIn information.
  */
 
-import { Globe, Linkedin, Mail, MapPin, MessageCircle } from 'lucide-react'
+import {
+	Globe,
+	Linkedin,
+	Mail,
+	MapPin,
+	MessageCircle,
+	Pencil,
+	Tag,
+} from 'lucide-react'
 import Link from 'next/link'
+import { Button } from 'components/ui/button'
+import { TagChip } from 'modules/tags/components/tag-chip'
 import type { CompanyContact } from '../types'
 import { buildWhatsAppUrl } from '../utils/phone'
 
 interface AboutCompanySectionProps {
 	contact: CompanyContact
+	onEdit?: () => void
 }
 
 interface ContactFieldProps {
@@ -41,7 +52,7 @@ function ContactField({
 						href={href}
 						target={isExternal ? '_blank' : undefined}
 						rel={isExternal ? 'noopener noreferrer' : undefined}
-						className="text-sm break-all text-blue-600 hover:underline"
+						className="text-foreground text-sm break-all hover:underline"
 					>
 						{value}
 					</Link>
@@ -53,7 +64,10 @@ function ContactField({
 	)
 }
 
-export function AboutCompanySection({ contact }: AboutCompanySectionProps) {
+export function AboutCompanySection({
+	contact,
+	onEdit,
+}: AboutCompanySectionProps) {
 	const hasAnyInfo =
 		contact.companyEmails.length > 0 ||
 		contact.whatsapp ||
@@ -64,7 +78,19 @@ export function AboutCompanySection({ contact }: AboutCompanySectionProps) {
 	if (!hasAnyInfo) {
 		return (
 			<div className="py-4">
-				<h3 className="mb-3 text-sm font-semibold">About this company</h3>
+				<div className="mb-3 flex items-center justify-between gap-2">
+					<h3 className="text-sm font-semibold">About this company</h3>
+					{onEdit && (
+						<Button
+							variant="ghost"
+							size="sm"
+							className="h-7 w-7 p-0"
+							onClick={onEdit}
+						>
+							<Pencil className="size-3.5" />
+						</Button>
+					)}
+				</div>
 				<p className="text-muted-foreground text-sm">
 					No hay información de la empresa disponible.
 				</p>
@@ -74,7 +100,19 @@ export function AboutCompanySection({ contact }: AboutCompanySectionProps) {
 
 	return (
 		<div className="py-4">
-			<h3 className="mb-2 text-sm font-semibold">About this company</h3>
+			<div className="mb-2 flex items-center justify-between gap-2">
+				<h3 className="text-sm font-semibold">About this company</h3>
+				{onEdit && (
+					<Button
+						variant="ghost"
+						size="sm"
+						className="h-7 w-7 p-0"
+						onClick={onEdit}
+					>
+						<Pencil className="size-3.5" />
+					</Button>
+				)}
+			</div>
 			<div className="divide-border divide-y">
 				{/* Show all company emails */}
 				{contact.companyEmails.map((email, index) => (
@@ -117,6 +155,32 @@ export function AboutCompanySection({ contact }: AboutCompanySectionProps) {
 							.join(', ')}
 					/>
 				)}
+				{/* Tags Field */}
+				<div className="flex items-start gap-3 py-2">
+					<div className="text-muted-foreground mt-0.5 shrink-0">
+						<Tag className="size-4" />
+					</div>
+					<div className="min-w-0 flex-1">
+						<p className="text-muted-foreground text-xs">Tags</p>
+						<div className="mt-1 flex flex-wrap gap-1.5">
+							{!contact.tags || contact.tags.length === 0 ? (
+								<span className="text-muted-foreground text-sm">-</span>
+							) : (
+								contact.tags.map((tag) => (
+									<TagChip
+										key={tag.id}
+										tag={{
+											id: tag.id,
+											name: tag.name,
+											color: tag.color ?? undefined,
+										}}
+										size="sm"
+									/>
+								))
+							)}
+						</div>
+					</div>
+				</div>
 				{contact.linkedinUrl && (
 					<ContactField
 						icon={<Linkedin className="size-4" />}

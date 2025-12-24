@@ -5,6 +5,9 @@ export interface GoogleMapsResult {
 	placeName: string
 	website?: string | null
 	city?: string | null
+	instagram?: string | null
+	facebook?: string | null
+	linkedin?: string | null
 	// Raw data contains all fields from Apify
 	raw: Record<string, any>
 }
@@ -48,6 +51,16 @@ export interface GetRunResultsResponse {
 }
 
 /**
+ * Helper to get first item from array or null
+ */
+function getFirstOrNull(arr: unknown): string | null {
+	if (Array.isArray(arr) && arr.length > 0 && typeof arr[0] === 'string') {
+		return arr[0]
+	}
+	return null
+}
+
+/**
  * Helper to extract Google Maps data from raw result
  */
 export function extractGoogleMapsResult(result: RunResult): GoogleMapsResult {
@@ -56,6 +69,9 @@ export function extractGoogleMapsResult(result: RunResult): GoogleMapsResult {
 		placeName: raw.title || raw.name || raw.placeName || 'Unknown',
 		website: raw.website || raw.url || null,
 		city: raw.city || raw.addressCity || raw.location?.city || null,
+		instagram: raw.instagram || getFirstOrNull(raw.instagrams),
+		facebook: raw.facebook || getFirstOrNull(raw.facebooks),
+		linkedin: raw.linkedin || getFirstOrNull(raw.linkedIns),
 		raw,
 	}
 }

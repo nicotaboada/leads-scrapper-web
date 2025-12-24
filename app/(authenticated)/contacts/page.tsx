@@ -7,8 +7,10 @@ import { Button } from 'components/ui/button'
 import { Input } from 'components/ui/input'
 import { useBackendPagination } from 'hooks/use-backend-pagination'
 import { useDebounce } from 'hooks/use-debounce'
+import { CityFilter } from 'modules/contacts/components/city-filter'
 import { ContactsTable } from 'modules/contacts/components/contacts-table'
 import { CreateContactSheet } from 'modules/contacts/components/create-contact-sheet'
+import { FollowUpFilter } from 'modules/contacts/components/follow-up-filter'
 import { LeadStatusFilter } from 'modules/contacts/components/lead-status-filter'
 import { TagsFilter } from 'modules/contacts/components/tags-filter'
 import { GET_CONTACTS } from 'modules/contacts/graphql/queries'
@@ -17,6 +19,7 @@ import type {
 	LeadStatus,
 	PaginatedContactsResponse,
 } from 'modules/contacts/types'
+import { type FollowUpFilterValue } from 'modules/contacts/types'
 
 export default function ContactsPage() {
 	const [searchQuery, setSearchQuery] = useState('')
@@ -25,6 +28,8 @@ export default function ContactsPage() {
 		null
 	)
 	const [tagIdsFilter, setTagIdsFilter] = useState<string[]>([])
+	const [cityFilter, setCityFilter] = useState<string[]>([])
+	const [followUpFilter, setFollowUpFilter] = useState<FollowUpFilterValue | null>(null)
 
 	// Debounce search query to avoid excessive API calls
 	const debouncedSearch = useDebounce(searchQuery, 300)
@@ -47,6 +52,8 @@ export default function ContactsPage() {
 				search: debouncedSearch.trim() || undefined,
 				leadStatus: leadStatusFilter || undefined,
 				tagIds: tagIdsFilter.length > 0 ? tagIdsFilter : undefined,
+				cities: cityFilter.length > 0 ? cityFilter : undefined,
+				followUpFilter: followUpFilter || undefined,
 			},
 		},
 	})
@@ -84,6 +91,8 @@ export default function ContactsPage() {
 					onApply={setLeadStatusFilter}
 				/>
 				<TagsFilter value={tagIdsFilter} onApply={setTagIdsFilter} />
+				<CityFilter value={cityFilter} onApply={setCityFilter} />
+				<FollowUpFilter value={followUpFilter} onApply={setFollowUpFilter} />
 			</div>
 
 			<ContactsTable

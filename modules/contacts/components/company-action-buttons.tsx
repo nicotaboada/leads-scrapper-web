@@ -4,10 +4,10 @@
  * Company Action Buttons Component
  *
  * A row of action buttons for quick company interactions:
- * WhatsApp, Email, LinkedIn, and a More menu with Edit/Delete options.
+ * WhatsApp, Email, LinkedIn, and a More menu with Delete option.
  */
 
-import { Linkedin, Mail, MessageCircle, MoreHorizontal, Pencil, Trash2 } from 'lucide-react'
+import { Linkedin, Mail, MessageCircle, MoreHorizontal, Trash2 } from 'lucide-react'
 import { Button } from 'components/ui/button'
 import {
 	DropdownMenu,
@@ -25,13 +25,11 @@ import { buildWhatsAppUrl, isValidPhoneForWhatsApp } from '../utils/phone'
 
 interface CompanyActionButtonsProps {
 	contact: CompanyContact
-	onEdit: () => void
 	onDelete: () => void
 }
 
 export function CompanyActionButtons({
 	contact,
-	onEdit,
 	onDelete,
 }: CompanyActionButtonsProps) {
 	const hasWhatsApp = isValidPhoneForWhatsApp(contact.whatsapp)
@@ -123,10 +121,6 @@ export function CompanyActionButtons({
 					<TooltipContent>Más opciones</TooltipContent>
 				</Tooltip>
 				<DropdownMenuContent align="end">
-					<DropdownMenuItem onClick={onEdit}>
-						<Pencil className="size-4" />
-						Editar empresa
-					</DropdownMenuItem>
 					<DropdownMenuItem variant="destructive" onClick={onDelete}>
 						<Trash2 className="size-4" />
 						Eliminar empresa

@@ -9,10 +9,11 @@
  */
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
+import { HelpCircle } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import { ChipInput } from '@/components/ui/chip-input'
 import {
 	Form,
@@ -39,6 +40,11 @@ import {
 	SheetHeader,
 	SheetTitle,
 } from '@/components/ui/sheet'
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { useCreateRun } from '../hooks/use-create-run'
 import {
 	ACTOR_TYPE_LABELS,
@@ -87,6 +93,7 @@ export function CreateRunSheet({
 			searchTerms: [],
 			location: '',
 			numberOfPlaces: undefined,
+			scrapeContacts: false,
 		},
 		mode: 'onBlur',
 		reValidateMode: 'onChange',
@@ -109,6 +116,7 @@ export function CreateRunSheet({
 					searchTerms: data.searchTerms,
 					location: data.location,
 					...(data.numberOfPlaces && { numberOfPlaces: data.numberOfPlaces }),
+					scrapeContacts: data.scrapeContacts ?? false,
 				},
 			}
 
@@ -311,6 +319,50 @@ export function CreateRunSheet({
 													Leave empty to use system default
 												</FormDescription>
 												<FormMessage />
+											</FormItem>
+										)}
+									/>
+
+									{/* Company Contacts Enrichment Checkbox */}
+									<FormField
+										control={form.control}
+										name="scrapeContacts"
+										render={({ field }) => (
+											<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+												<FormControl>
+													<Checkbox
+														checked={field.value}
+														onCheckedChange={field.onChange}
+														disabled={isSubmitting}
+													/>
+												</FormControl>
+												<div className="space-y-1 leading-none">
+													<FormLabel className="flex items-center gap-1.5">
+														Company Contacts Enrichment
+														<Tooltip>
+															<TooltipTrigger asChild>
+																<HelpCircle className="h-4 w-4 cursor-help text-muted-foreground" />
+															</TooltipTrigger>
+															<TooltipContent
+																side="right"
+																className="max-w-xs"
+															>
+																<p>
+																	Enrich Google Maps places with contact details
+																	extracted from business websites, including
+																	business emails and social media profiles
+																	(Meta, LinkedIn, X, etc).
+																</p>
+																<p className="mt-2 font-semibold">
+																	Pricing: $2.00 per 1,000 places ($0.002/place)
+																</p>
+															</TooltipContent>
+														</Tooltip>
+													</FormLabel>
+													<FormDescription>
+														Extract emails and social profiles from websites
+													</FormDescription>
+												</div>
 											</FormItem>
 										)}
 									/>

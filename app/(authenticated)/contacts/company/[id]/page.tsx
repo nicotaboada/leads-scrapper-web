@@ -132,11 +132,11 @@ export default function CompanyDetailPage() {
 			<DetailHeader
 				breadcrumbItems={[
 					{
-						icon: Building2,
 						label: 'Contactos',
 						href: ROUTES.CONTACTS,
 					},
 					{
+						icon: Building2,
 						label: loading ? 'Cargando...' : companyName,
 					},
 				]}

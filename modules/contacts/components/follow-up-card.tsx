@@ -7,7 +7,7 @@
  * Shows status badge, date, relative time, and actions.
  */
 
-import { AlertCircle, CalendarDays, Check, Clock, Pencil } from 'lucide-react'
+import { AlertCircle, Check, Clock, Pencil } from 'lucide-react'
 import { useState } from 'react'
 
 import { cn } from '@/lib/utils/merge'
@@ -16,12 +16,7 @@ import { Button } from 'components/ui/button'
 import { Card } from 'components/ui/card'
 import { FollowUpModal } from './follow-up-modal'
 import { useCompleteFollowUp } from '../hooks/use-complete-follow-up'
-import {
-	type FollowUp,
-	formatFollowUpDate,
-	getFollowUpRelativeTime,
-	isFollowUpOverdue,
-} from '../types'
+import { type FollowUp, formatFollowUpDate, isFollowUpOverdue } from '../types'
 
 interface FollowUpCardProps {
 	contactId: string
@@ -49,52 +44,80 @@ export function FollowUpCard({
 
 	return (
 		<Card className="p-6">
-			{/* Header with pencil */}
-			<div className="mb-4 flex items-center justify-between">
-				<div className="flex items-center gap-2">
-					<CalendarDays className="text-muted-foreground size-5" />
-					<h3 className="text-base font-semibold">Follow-up</h3>
-				</div>
-				{followUp && (
-					<Button
-						variant="ghost"
-						size="sm"
-						className="h-8 w-8 p-0"
-						onClick={() => setIsModalOpen(true)}
-					>
-						<Pencil className="size-4" />
-					</Button>
-				)}
-			</div>
-
 			{/* Content */}
 			{!followUp ? (
 				// No follow-up state
-				<div className="space-y-3">
+				<>
+					{/* Header row with button */}
+					<div className="flex items-center justify-between gap-2">
+						<h3 className="text-base font-semibold">Follow-up</h3>
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={() => setIsModalOpen(true)}
+						>
+							Agregar follow-up
+						</Button>
+					</div>
+					{/* Empty state message */}
 					<p className="text-muted-foreground text-sm">
-						Sin follow-up pendiente
+						Sin follow-ups pendientes
 					</p>
-					<Button
-						variant="outline"
-						size="sm"
-						onClick={() => setIsModalOpen(true)}
-					>
-						<CalendarDays className="mr-2 size-4" />
-						Agregar follow-up
-					</Button>
-				</div>
+				</>
 			) : (
 				// Has follow-up state
-				<div className="space-y-4">
-					{/* Date row */}
-					<div className="flex items-center gap-2">
-						<span className="text-lg font-semibold">
-							{formatFollowUpDate(followUp.dueDate)}
-						</span>
-						<span className="text-muted-foreground text-sm">
-							({getFollowUpRelativeTime(followUp.dueDate)})
-						</span>
+				<>
+					{/* Header row: Title + Badge + Actions */}
+					<div className="flex items-center justify-between gap-2">
+						<div className="flex items-center gap-2">
+							<h3 className="text-base font-semibold">Follow-up</h3>
+							<Badge
+								variant={isOverdue ? 'destructive' : 'secondary'}
+								className={cn(
+									'gap-1 px-1.5 py-0.5 text-[11px] font-medium',
+									!isOverdue && 'bg-green-100 text-green-700 hover:bg-green-100'
+								)}
+							>
+								{isOverdue ? (
+									<>
+										<AlertCircle className="size-3" />
+										Vencido
+									</>
+								) : (
+									<>
+										<Clock className="size-3" />
+										Pendiente
+									</>
+								)}
+							</Badge>
+						</div>
+						<div className="flex items-center gap-1">
+							<Button
+								variant="ghost"
+								size="sm"
+								className="size-8 p-0"
+								onClick={handleComplete}
+								disabled={completeLoading}
+								title="Marcar como hecho"
+							>
+								<Check className="size-4" />
+							</Button>
+							<Button
+								variant="ghost"
+								size="sm"
+								className="size-8 p-0"
+								onClick={() => setIsModalOpen(true)}
+								title="Editar follow-up"
+							>
+								<Pencil className="size-4" />
+							</Button>
+						</div>
 					</div>
+
+					{/* Date row */}
+					<p className="text-sm font-medium">
+						{formatFollowUpDate(followUp.dueDate)}
+					</p>
 
 					{/* Note */}
 					{followUp.note && (
@@ -102,39 +125,7 @@ export function FollowUpCard({
 							<span className="font-medium">Nota:</span> {followUp.note}
 						</p>
 					)}
-
-					{/* Status badge and action */}
-					<div className="flex items-center gap-3">
-						<Badge
-							variant={isOverdue ? 'destructive' : 'secondary'}
-							className={cn(
-								'gap-1.5 rounded-[0.5rem] px-3 py-1.5 text-sm',
-								!isOverdue && 'bg-green-100 text-green-700 hover:bg-green-100'
-							)}
-						>
-							{isOverdue ? (
-								<>
-									<AlertCircle className="size-4" />
-									Vencido
-								</>
-							) : (
-								<>
-									<Clock className="size-4" />
-									Pendiente
-								</>
-							)}
-						</Badge>
-						<button
-							type="button"
-							onClick={handleComplete}
-							disabled={completeLoading}
-							className="text-muted-foreground hover:text-foreground flex items-center gap-1.5 text-sm transition-colors disabled:opacity-50"
-						>
-							<Check className="size-4" />
-							{completeLoading ? 'Guardando...' : 'Marcar como hecho'}
-						</button>
-					</div>
-				</div>
+				</>
 			)}
 
 			{/* Modal */}

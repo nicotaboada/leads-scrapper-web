@@ -27,6 +27,11 @@ export interface GoogleMapsConfig {
 	 * Optional number of places to scrape
 	 */
 	numberOfPlaces?: number
+	/**
+	 * Enable Company Contacts Enrichment add-on
+	 * Extracts emails and social profiles from business websites
+	 */
+	scrapeContacts?: boolean
 }
 
 /**
@@ -57,6 +62,7 @@ export interface CreateRunFormInput {
 	searchTerms: string[]
 	location: string
 	numberOfPlaces?: number
+	scrapeContacts?: boolean
 }
 
 /**
@@ -78,6 +84,7 @@ export const createRunSchema = z.object({
 			z.undefined(),
 		])
 		.optional(),
+	scrapeContacts: z.boolean().optional().default(false),
 })
 
 /**
@@ -105,6 +112,7 @@ export function transformFormToInput(
 			searchTerms: formData.searchTerms,
 			location: formData.location,
 			numberOfPlaces: formData.numberOfPlaces,
+			scrapeContacts: formData.scrapeContacts,
 		},
 	}
 }

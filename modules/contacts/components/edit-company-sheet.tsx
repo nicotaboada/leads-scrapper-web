@@ -32,10 +32,8 @@ import {
 	SheetTitle,
 } from 'components/ui/sheet'
 import { TagMultiselect } from 'modules/tags/components/tag-multiselect'
-import { ContactChannelsFormField } from './contact-channels-form-field'
-import { LeadStatusFormField } from './lead-status-form-field'
 import { useUpdateCompany } from '../hooks/use-update-company'
-import { type CompanyContact, LeadStatus } from '../types'
+import type { CompanyContact } from '../types'
 import {
 	type EditCompanyFormInput,
 	editCompanySchema,
@@ -63,8 +61,6 @@ export function EditCompanySheet({
 			companyEmails: [],
 			whatsapp: '',
 			linkedinUrl: '',
-			leadStatus: LeadStatus.NEW,
-			contactedChannels: [],
 			tagIds: [],
 		},
 		mode: 'onBlur',
@@ -79,8 +75,6 @@ export function EditCompanySheet({
 				companyEmails: company.companyEmails ?? [],
 				whatsapp: company.whatsapp ?? '',
 				linkedinUrl: company.linkedinUrl ?? '',
-				leadStatus: company.leadStatus,
-				contactedChannels: company.contactedChannels ?? [],
 				tagIds: company.tags?.map((tag) => tag.id) ?? [],
 			})
 		}
@@ -93,8 +87,6 @@ export function EditCompanySheet({
 				companyEmails: data.companyEmails,
 				whatsapp: data.whatsapp || undefined,
 				linkedinUrl: data.linkedinUrl || undefined,
-				leadStatus: data.leadStatus,
-				contactedChannels: data.contactedChannels,
 				tagIds: data.tagIds,
 			})
 
@@ -212,51 +204,6 @@ export function EditCompanySheet({
 									</FormItem>
 								)}
 							/>
-
-							<Separator />
-
-							{/* Lead Section */}
-							<div className="space-y-4">
-								<h4 className="text-sm font-semibold">Lead</h4>
-
-								{/* Lead Status */}
-								<FormField
-									control={form.control}
-									name="leadStatus"
-									render={({ field }) => (
-										<FormItem>
-											<div className="flex items-center justify-between">
-												<FormLabel>Estado</FormLabel>
-												<LeadStatusFormField
-													value={field.value}
-													onChange={field.onChange}
-													disabled={loading}
-												/>
-											</div>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
-
-								{/* Contacted Channels */}
-								<FormField
-									control={form.control}
-									name="contactedChannels"
-									render={({ field }) => (
-										<FormItem>
-											<div className="flex items-center justify-between">
-												<FormLabel>Canales</FormLabel>
-												<ContactChannelsFormField
-													value={field.value}
-													onChange={field.onChange}
-													disabled={loading}
-												/>
-											</div>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
-							</div>
 
 							<Separator />
 

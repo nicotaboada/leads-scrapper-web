@@ -4,16 +4,19 @@
  * About Contact Section Component
  *
  * Displays contact information fields in a structured "About this contact" section.
- * Shows email, phone, LinkedIn, job title, and company information.
+ * Shows email, phone, LinkedIn, job title, company information, and tags.
  */
 
-import { Briefcase, Building2, Linkedin, Mail, Phone } from 'lucide-react'
+import { Briefcase, Building2, Linkedin, Mail, Pencil, Phone, Tag } from 'lucide-react'
 import Link from 'next/link'
+import { Button } from 'components/ui/button'
 import { ROUTES } from 'lib/config/routes'
+import { TagChip } from 'modules/tags/components/tag-chip'
 import type { PersonContact } from '../types'
 
 interface AboutContactSectionProps {
 	contact: PersonContact
+	onEdit?: () => void
 }
 
 interface ContactFieldProps {
@@ -55,7 +58,10 @@ function ContactField({
 	return content
 }
 
-export function AboutContactSection({ contact }: AboutContactSectionProps) {
+export function AboutContactSection({
+	contact,
+	onEdit,
+}: AboutContactSectionProps) {
 	const hasAnyInfo =
 		contact.email ||
 		contact.celular ||
@@ -66,7 +72,19 @@ export function AboutContactSection({ contact }: AboutContactSectionProps) {
 	if (!hasAnyInfo) {
 		return (
 			<div className="py-4">
-				<h3 className="mb-3 text-sm font-semibold">About this contact</h3>
+				<div className="mb-3 flex items-center justify-between gap-2">
+					<h3 className="text-sm font-semibold">About this contact</h3>
+					{onEdit && (
+						<Button
+							variant="ghost"
+							size="sm"
+							className="h-7 w-7 p-0"
+							onClick={onEdit}
+						>
+							<Pencil className="size-3.5" />
+						</Button>
+					)}
+				</div>
 				<p className="text-muted-foreground text-sm">
 					No hay información de contacto disponible.
 				</p>
@@ -76,7 +94,19 @@ export function AboutContactSection({ contact }: AboutContactSectionProps) {
 
 	return (
 		<div className="py-4">
-			<h3 className="mb-2 text-sm font-semibold">About this contact</h3>
+			<div className="mb-2 flex items-center justify-between gap-2">
+				<h3 className="text-sm font-semibold">About this contact</h3>
+				{onEdit && (
+					<Button
+						variant="ghost"
+						size="sm"
+						className="h-7 w-7 p-0"
+						onClick={onEdit}
+					>
+						<Pencil className="size-3.5" />
+					</Button>
+				)}
+			</div>
 			<div className="divide-border divide-y">
 				{contact.email && (
 					<ContactField
@@ -118,6 +148,32 @@ export function AboutContactSection({ contact }: AboutContactSectionProps) {
 						href={ROUTES.CONTACT_COMPANY_DETAIL(contact.company.id)}
 					/>
 				)}
+				{/* Tags Field */}
+				<div className="flex items-start gap-3 py-2">
+					<div className="text-muted-foreground mt-0.5 shrink-0">
+						<Tag className="size-4" />
+					</div>
+					<div className="min-w-0 flex-1">
+						<p className="text-muted-foreground text-xs">Tags</p>
+						<div className="mt-1 flex flex-wrap gap-1.5">
+							{!contact.tags || contact.tags.length === 0 ? (
+								<span className="text-muted-foreground text-sm">-</span>
+							) : (
+								contact.tags.map((tag) => (
+									<TagChip
+										key={tag.id}
+										tag={{
+											id: tag.id,
+											name: tag.name,
+											color: tag.color ?? undefined,
+										}}
+										size="sm"
+									/>
+								))
+							)}
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	)

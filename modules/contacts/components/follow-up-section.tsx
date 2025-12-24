@@ -16,11 +16,7 @@ import { Button } from 'components/ui/button'
 import { cn } from '@/lib/utils/merge'
 import { useCompleteFollowUp } from '../hooks/use-complete-follow-up'
 import { FollowUpModal } from './follow-up-modal'
-import {
-	type FollowUp,
-	isFollowUpOverdue,
-	getFollowUpRelativeTime,
-} from '../types'
+import { type FollowUp, isFollowUpOverdue } from '../types'
 
 dayjs.locale('es')
 
@@ -80,67 +76,64 @@ export function FollowUpSection({
 			) : (
 				// Has follow-up state
 				<>
-					{/* Header row with pencil */}
-					<div className="flex items-center justify-between gap-2 mb-3">
-						<h3 className="text-sm font-semibold">Follow-up</h3>
-						<Button
-							variant="ghost"
-							size="sm"
-							className="h-7 w-7 p-0"
-							onClick={() => setIsModalOpen(true)}
-						>
-							<Pencil className="size-3.5" />
-						</Button>
+					{/* Header row: Title + Badge + Actions */}
+					<div className="mb-2 flex items-center justify-between gap-2">
+						<div className="flex items-center gap-2">
+							<h3 className="text-sm font-semibold">Follow-up</h3>
+							<Badge
+								variant={isOverdue ? 'destructive' : 'secondary'}
+								className={cn(
+									'gap-1 px-1.5 py-0.5 text-[11px] font-medium',
+									!isOverdue && 'bg-green-100 text-green-700 hover:bg-green-100'
+								)}
+							>
+								{isOverdue ? (
+									<>
+										<AlertCircle className="size-3" />
+										Vencido
+									</>
+								) : (
+									<>
+										<Clock className="size-3" />
+										Pendiente
+									</>
+								)}
+							</Badge>
+						</div>
+						<div className="flex items-center gap-0.5">
+							<Button
+								variant="ghost"
+								size="sm"
+								className="size-7 p-0"
+								onClick={handleComplete}
+								disabled={completeLoading}
+								title="Marcar como hecho"
+							>
+								<Check className="size-3.5" />
+							</Button>
+							<Button
+								variant="ghost"
+								size="sm"
+								className="size-7 p-0"
+								onClick={() => setIsModalOpen(true)}
+								title="Editar follow-up"
+							>
+								<Pencil className="size-3.5" />
+							</Button>
+						</div>
 					</div>
 
 					{/* Date row */}
-					<div className="flex items-center gap-2 mb-3">
-						<span className="text-sm font-medium">
-							{formatDate(followUp.dueDate)}
-						</span>
-						<span className="text-sm text-muted-foreground">
-							({getFollowUpRelativeTime(followUp.dueDate)})
-						</span>
-					</div>
+					<p className="text-sm font-medium">
+						{formatDate(followUp.dueDate)}
+					</p>
 
 					{/* Note row */}
 					{followUp.note && (
-						<p className="text-sm text-muted-foreground mb-3">
+						<p className="text-muted-foreground mt-1 text-sm">
 							<span className="font-medium">Nota:</span> {followUp.note}
 						</p>
 					)}
-
-					{/* Status badge and action */}
-					<div className="flex items-center gap-3">
-						<Badge
-							variant={isOverdue ? 'destructive' : 'secondary'}
-							className={cn(
-								'gap-1.5 px-2.5 py-1 text-xs',
-								!isOverdue && 'bg-green-100 text-green-700 hover:bg-green-100'
-							)}
-						>
-							{isOverdue ? (
-								<>
-									<AlertCircle className="size-3.5" />
-									Vencido
-								</>
-							) : (
-								<>
-									<Clock className="size-3.5" />
-									Pendiente
-								</>
-							)}
-						</Badge>
-						<button
-							type="button"
-							onClick={handleComplete}
-							disabled={completeLoading}
-							className="text-muted-foreground hover:text-foreground flex items-center gap-1 text-xs transition-colors disabled:opacity-50"
-						>
-							<Check className="size-3.5" />
-							{completeLoading ? 'Guardando...' : 'Marcar como hecho'}
-						</button>
-					</div>
 				</>
 			)}
 

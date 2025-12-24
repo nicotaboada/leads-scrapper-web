@@ -16,18 +16,31 @@ interface TagChipProps {
 	tag: TagChipTag
 	onRemove?: (tagId: string) => void
 	disabled?: boolean
+	size?: 'sm' | 'default'
 }
+
+const SIZE_CLASSES = {
+	sm: {
+		container: 'gap-1 rounded px-1.5 py-0.5 text-xs',
+		dot: 'h-2 w-2',
+	},
+	default: {
+		container: 'gap-1.5 rounded-md px-2 py-1 text-sm',
+		dot: 'h-2.5 w-2.5',
+	},
+} as const
 
 /**
  * Individual tag chip with color and optional remove button
  */
-export function TagChip({ tag, onRemove, disabled }: TagChipProps) {
+export function TagChip({ tag, onRemove, disabled, size = 'default' }: TagChipProps) {
 	const colorConfig = tag.color ? TAG_COLOR_CONFIG[tag.color as TagColor] : null
 	const isRemovable = onRemove && !disabled
+	const sizeClasses = SIZE_CLASSES[size]
 
 	return (
 		<span
-			className="bg-secondary inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-sm"
+			className={`bg-secondary inline-flex items-center ${sizeClasses.container}`}
 			style={
 				colorConfig
 					? { backgroundColor: `${colorConfig.hex}20`, color: colorConfig.hex }
@@ -36,7 +49,7 @@ export function TagChip({ tag, onRemove, disabled }: TagChipProps) {
 		>
 			{colorConfig && (
 				<span
-					className="h-2.5 w-2.5 shrink-0 rounded-sm"
+					className={`${sizeClasses.dot} shrink-0 rounded-sm`}
 					style={{ backgroundColor: colorConfig.hex }}
 				/>
 			)}

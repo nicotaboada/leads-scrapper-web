@@ -59,3 +59,7 @@ export {
 	getFollowUpRelativeTime,
 	formatFollowUpDate,
 } from './follow-up'
+
+export type { FollowUpFilterConfig } from './follow-up-filter'
+
+export { FollowUpFilterValue, FOLLOW_UP_FILTER_CONFIG } from './follow-up-filter'

@@ -15,9 +15,8 @@ import { Separator } from 'components/ui/separator'
 import { Skeleton } from 'components/ui/skeleton'
 import { AboutContactSection } from './about-contact-section'
 import { ContactActionButtons } from './contact-action-buttons'
-import { LeadSectionReadonly } from './lead-section-readonly'
-import { TagsSectionReadonly } from './tags-section-readonly'
 import { FollowUpSection } from './follow-up-section'
+import { LeadSection } from './lead-section'
 import { getPersonInitials, type PersonContact } from '../types'
 
 interface ContactSidebarProps {
@@ -25,6 +24,7 @@ interface ContactSidebarProps {
 	onEdit: () => void
 	onDelete: () => void
 	onFollowUpChanged?: () => void
+	onLeadChanged?: () => void
 }
 
 export function ContactSidebar({
@@ -32,6 +32,7 @@ export function ContactSidebar({
 	onEdit,
 	onDelete,
 	onFollowUpChanged,
+	onLeadChanged,
 }: ContactSidebarProps) {
 	const fullName = `${contact.firstName} ${contact.lastName}`
 
@@ -69,13 +70,13 @@ export function ContactSidebar({
 
 				<Separator className="my-4" />
 
-				{/* About Section */}
-				<AboutContactSection contact={contact} />
+				{/* About Section (includes Tags) */}
+				<AboutContactSection contact={contact} onEdit={onEdit} />
 
 				<Separator className="my-4" />
 
-				{/* Lead Section (Read-only) */}
-				<LeadSectionReadonly contact={contact} />
+				{/* Lead Section */}
+				<LeadSection contact={contact} onLeadChanged={onLeadChanged} />
 
 				<Separator className="my-4" />
 
@@ -85,11 +86,6 @@ export function ContactSidebar({
 					followUp={contact.followUp}
 					onFollowUpChanged={onFollowUpChanged}
 				/>
-
-				<Separator className="my-4" />
-
-				{/* Tags Section (Read-only) */}
-				<TagsSectionReadonly tags={contact.tags} />
 			</div>
 		</aside>
 	)
