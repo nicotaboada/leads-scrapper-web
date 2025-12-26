@@ -76,3 +76,33 @@ export const GET_RUN_RESULTS = gql`
 	}
 `
 
+/**
+ * Query to get paginated leads from a run
+ */
+export const GET_RUN_LEADS = gql`
+	query GetRunLeads($input: GetRunLeadsInput!) {
+		getRunLeads(input: $input) {
+			leads {
+				id
+				runResultId
+				title
+				firstName
+				lastName
+				fullName
+				headline
+				linkedinProfile
+				email
+				mobileNumber
+			}
+			pageInfo {
+				currentPage
+				pageSize
+				totalPages
+				totalCount
+				hasNextPage
+				hasPreviousPage
+			}
+		}
+	}
+`
+

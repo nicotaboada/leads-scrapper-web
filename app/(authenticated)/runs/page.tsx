@@ -2,6 +2,7 @@
 
 import { Activity, PlusIcon } from 'lucide-react'
 import { useState } from 'react'
+import { SearchFiltersRow } from '@/components/common/search-filters-row'
 import { TableEmptyState } from '@/components/common/table-empty-state'
 import { SectionHeader } from '@/components/layouts/section-header'
 import { Button } from '@/components/ui/button'
@@ -10,7 +11,6 @@ import { CreateRunSheet } from '@/modules/runs/components/create-run-sheet'
 import { RunsTable } from '@/modules/runs/components/runs-table'
 import { useRunsGraphQL } from '@/modules/runs/hooks/use-runs-graphql'
 import type { CreateRunFormInput } from '@/modules/runs/types/create-run'
-import { SearchFiltersRow } from '@/components/common/search-filters-row'
 
 /**
  * Runs page component

@@ -94,13 +94,16 @@ export function CreateRunSheet({
 			location: '',
 			numberOfPlaces: undefined,
 			scrapeContacts: false,
+			scrapeLeads: false,
+			maxLeadsPerPlace: undefined,
 		},
 		mode: 'onBlur',
 		reValidateMode: 'onChange',
 	})
 
-	// Watch actor type to show/hide configuration sections
+	// Watch actor type and scrapeLeads to show/hide configuration sections
 	const selectedActorType = form.watch('actorType')
+	const scrapeLeadsEnabled = form.watch('scrapeLeads')
 
 	/**
 	 * Handles form submission
@@ -109,6 +112,7 @@ export function CreateRunSheet({
 	async function handleSubmit(data: CreateRunFormInput) {
 		try {
 			// Transform form data to GraphQL input
+			// Map form field names to Apify API parameter names
 			const input: CreateRunInput = {
 				name: data.runName,
 				actorType: 'GOOGLE_MAPS', // Map frontend type to backend enum
@@ -117,6 +121,17 @@ export function CreateRunSheet({
 					location: data.location,
 					...(data.numberOfPlaces && { numberOfPlaces: data.numberOfPlaces }),
 					scrapeContacts: data.scrapeContacts ?? false,
+					// Apify uses 'scrapeReviewsPersonalData' for leads enrichment
+					scrapeReviewsPersonalData: data.scrapeLeads ?? false,
+					// When leads enrichment is enabled, add required parameters
+					...(data.scrapeLeads && {
+						// Hardcoded departments we want to scrape
+						leadsEnrichmentDepartments: ['operations', 'marketing', 'sales'],
+						// Maximum leads per place (Apify parameter name)
+						...(data.maxLeadsPerPlace && {
+							maximumLeadsEnrichmentRecords: data.maxLeadsPerPlace,
+						}),
+					}),
 				},
 			}
 
@@ -323,51 +338,143 @@ export function CreateRunSheet({
 										)}
 									/>
 
-									{/* Company Contacts Enrichment Checkbox */}
+								{/* Company Contacts Enrichment Checkbox */}
+								<FormField
+									control={form.control}
+									name="scrapeContacts"
+									render={({ field }) => (
+										<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+											<FormControl>
+												<Checkbox
+													checked={field.value}
+													onCheckedChange={field.onChange}
+													disabled={isSubmitting}
+												/>
+											</FormControl>
+											<div className="space-y-1 leading-none">
+												<FormLabel className="flex items-center gap-1.5">
+													Company Contacts Enrichment
+													<Tooltip>
+														<TooltipTrigger asChild>
+															<HelpCircle className="h-4 w-4 cursor-help text-muted-foreground" />
+														</TooltipTrigger>
+														<TooltipContent
+															side="right"
+															className="max-w-xs"
+														>
+															<p>
+																Enrich Google Maps places with contact details
+																extracted from business websites, including
+																business emails and social media profiles
+																(Meta, LinkedIn, X, etc).
+															</p>
+															<p className="mt-2 font-semibold">
+																Pricing: $2.00 per 1,000 places ($0.002/place)
+															</p>
+														</TooltipContent>
+													</Tooltip>
+												</FormLabel>
+												<FormDescription>
+													Extract emails and social profiles from websites
+												</FormDescription>
+											</div>
+										</FormItem>
+									)}
+								/>
+
+								{/* Leads Enrichment Checkbox */}
+								<FormField
+									control={form.control}
+									name="scrapeLeads"
+									render={({ field }) => (
+										<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+											<FormControl>
+												<Checkbox
+													checked={field.value}
+													onCheckedChange={field.onChange}
+													disabled={isSubmitting}
+												/>
+											</FormControl>
+											<div className="space-y-1 leading-none">
+												<FormLabel className="flex items-center gap-1.5">
+													Leads Enrichment (People)
+													<Tooltip>
+														<TooltipTrigger asChild>
+															<HelpCircle className="h-4 w-4 cursor-help text-muted-foreground" />
+														</TooltipTrigger>
+														<TooltipContent
+															side="right"
+															className="max-w-xs"
+														>
+															<p>
+																Extract employee/contact information from
+																LinkedIn profiles found on business websites.
+																Includes name, job title, email, and phone.
+															</p>
+															<p className="mt-2 font-semibold">
+																Pricing: $8.00 per 1,000 profiles
+																($0.008/profile)
+															</p>
+														</TooltipContent>
+													</Tooltip>
+												</FormLabel>
+												<FormDescription>
+													Extract person leads with LinkedIn, email and phone
+												</FormDescription>
+											</div>
+										</FormItem>
+									)}
+								/>
+
+								{/* Max Leads Per Place - Only shown when scrapeLeads is enabled */}
+								{scrapeLeadsEnabled && (
 									<FormField
 										control={form.control}
-										name="scrapeContacts"
+										name="maxLeadsPerPlace"
 										render={({ field }) => (
-											<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+											<FormItem className="ml-7">
+												<FormLabel className="flex items-center gap-1.5">
+													Maximum leads per place
+													<Tooltip>
+														<TooltipTrigger asChild>
+															<HelpCircle className="h-4 w-4 cursor-help text-muted-foreground" />
+														</TooltipTrigger>
+														<TooltipContent side="right" className="max-w-xs">
+															<p>
+																Limit how many person leads to extract from each
+																business. Higher values increase costs.
+															</p>
+														</TooltipContent>
+													</Tooltip>
+												</FormLabel>
 												<FormControl>
-													<Checkbox
-														checked={field.value}
-														onCheckedChange={field.onChange}
+													<Input
+														type="number"
+														placeholder="e.g., 4"
+														{...field}
+														value={field.value || ''}
+														onChange={(e) => {
+															const value = e.target.value
+															field.onChange(
+																value === '' ? undefined : Number(value)
+															)
+														}}
 														disabled={isSubmitting}
+														min={1}
+														max={100}
+														className="w-32"
 													/>
 												</FormControl>
-												<div className="space-y-1 leading-none">
-													<FormLabel className="flex items-center gap-1.5">
-														Company Contacts Enrichment
-														<Tooltip>
-															<TooltipTrigger asChild>
-																<HelpCircle className="h-4 w-4 cursor-help text-muted-foreground" />
-															</TooltipTrigger>
-															<TooltipContent
-																side="right"
-																className="max-w-xs"
-															>
-																<p>
-																	Enrich Google Maps places with contact details
-																	extracted from business websites, including
-																	business emails and social media profiles
-																	(Meta, LinkedIn, X, etc).
-																</p>
-																<p className="mt-2 font-semibold">
-																	Pricing: $2.00 per 1,000 places ($0.002/place)
-																</p>
-															</TooltipContent>
-														</Tooltip>
-													</FormLabel>
-													<FormDescription>
-														Extract emails and social profiles from websites
-													</FormDescription>
-												</div>
+												<FormDescription>
+													Leave empty to use system default
+												</FormDescription>
+												<FormMessage />
 											</FormItem>
 										)}
 									/>
-								</div>
-							)}
+								)}
+							</div>
+						)}
 						</div>
 
 						<SheetFooter className="mt-4 shrink-0 flex-row gap-2 border-t pt-4">

@@ -64,3 +64,22 @@ export const BULK_CREATE_COMPANIES_FROM_RUN = gql`
 		}
 	}
 `
+
+/**
+ * Mutation to bulk create person contacts from leads
+ */
+export const BULK_CREATE_PERSON_CONTACTS_FROM_LEADS = gql`
+	mutation BulkCreatePersonContactsFromLeads(
+		$input: BulkCreatePersonContactsInput!
+	) {
+		bulkCreatePersonContactsFromLeads(input: $input) {
+			createdCount
+			createdWithoutCompanyCount
+			errorCount
+			errors {
+				index
+				message
+			}
+		}
+	}
+`

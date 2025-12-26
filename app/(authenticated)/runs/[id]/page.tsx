@@ -1,10 +1,15 @@
 'use client'
 
-import { useParams, useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import { useCallback, useState } from 'react'
 import { toast } from 'sonner'
 import { BulkCreateModal } from '@/modules/runs/components/bulk-create-modal'
+import { LeadsEnrichmentTab } from '@/modules/runs/components/leads-enrichment-tab'
 import { RunDetailHeader } from '@/modules/runs/components/run-detail-header'
+import {
+	type RunDetailTab,
+	RunDetailTabs,
+} from '@/modules/runs/components/run-detail-tabs'
 import { RunResultsTable } from '@/modules/runs/components/run-results-table'
 import { RunStatusSection } from '@/modules/runs/components/run-status-section'
 import { useBulkCreateCompanies } from '@/modules/runs/hooks/use-bulk-create-companies'
@@ -19,7 +24,26 @@ import { RunStatus } from '@/modules/runs/types/run'
 export default function RunDetailPage() {
 	const params = useParams()
 	const router = useRouter()
+	const searchParams = useSearchParams()
 	const runId = params.id as string
+
+	// Tab state from URL
+	const tabParam = searchParams.get('tab')
+	const activeTab: RunDetailTab = tabParam === 'leads' ? 'leads' : 'overview'
+
+	// Handle tab change with URL update
+	const handleTabChange = useCallback(
+		(tab: RunDetailTab) => {
+			const url = new URL(window.location.href)
+			if (tab === 'overview') {
+				url.searchParams.delete('tab')
+			} else {
+				url.searchParams.set('tab', tab)
+			}
+			router.push(url.pathname + url.search)
+		},
+		[router]
+	)
 
 	// Pagination state
 	const [page, setPage] = useState(1)
@@ -65,7 +89,7 @@ export default function RunDetailPage() {
 	// Bulk create mutation
 	const { bulkCreate, loading: isCreating } = useBulkCreateCompanies()
 
-	const pageIds = results.map((r) => r.id)
+	const pageIds = results.map((r: { id: string }) => r.id)
 	const selectedCount = getSelectedCount()
 	const headerCheckboxState = getHeaderCheckboxState(pageIds)
 
@@ -157,29 +181,41 @@ export default function RunDetailPage() {
 				loading={runLoading}
 			/>
 
-			{/* Results Table */}
-			<div>
-				<h2 className="mb-4 text-xl font-semibold">Results</h2>
-				<RunResultsTable
-					results={results}
-					pageInfo={pageInfo}
-					loading={resultsLoading}
-					runStatus={displayRun?.status || RunStatus.PAUSED}
-					subscriptionActive={subscriptionActive}
-					onPageChange={setPage}
-					onPageSizeChange={handlePageSizeChange}
-					// Bulk selection props
-					selectedCount={selectedCount}
-					headerCheckboxState={headerCheckboxState}
-					isSelected={isSelected}
-					onToggleItem={toggleItem}
-					onSelectNone={selectNone}
-					onSelectPage={selectPage}
-					onSelectAll={selectAll}
-					onCreateContacts={handleCreateContactsClick}
-					isCreatingContacts={isCreating}
+			{/* Tab Navigation */}
+			<RunDetailTabs activeTab={activeTab} onTabChange={handleTabChange} />
+
+			{/* Tab Content */}
+			{activeTab === 'overview' ? (
+				<div>
+					<h2 className="mb-4 text-xl font-semibold">Results</h2>
+					<RunResultsTable
+						results={results}
+						pageInfo={pageInfo}
+						loading={resultsLoading}
+						runStatus={displayRun?.status || RunStatus.PAUSED}
+						subscriptionActive={subscriptionActive}
+						onPageChange={setPage}
+						onPageSizeChange={handlePageSizeChange}
+						// Bulk selection props
+						selectedCount={selectedCount}
+						headerCheckboxState={headerCheckboxState}
+						isSelected={isSelected}
+						onToggleItem={toggleItem}
+						onSelectNone={selectNone}
+						onSelectPage={selectPage}
+						onSelectAll={selectAll}
+						onCreateContacts={handleCreateContactsClick}
+						isCreatingContacts={isCreating}
+					/>
+				</div>
+			) : (
+				<LeadsEnrichmentTab
+					runId={runId}
+					scrapeLeadsEnabled={
+						displayRun?.input?.scrapeReviewsPersonalData ?? false
+					}
 				/>
-			</div>
+			)}
 
 			{/* Bulk Create Modal */}
 			<BulkCreateModal

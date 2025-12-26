@@ -43,6 +43,7 @@ export const ROUTES = {
 	// Settings and configuration
 	SETTINGS: '/settings',
 	SETTINGS_TAGS: '/settings/tags',
+	SETTINGS_BILLING: '/settings/billing',
 } as const
 
 /**

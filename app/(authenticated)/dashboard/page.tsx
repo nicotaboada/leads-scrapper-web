@@ -2,6 +2,8 @@ import { type Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { SectionHeader } from 'components/layouts/section-header'
 import { getUser } from 'lib/supabase/auth'
+import { FollowUpCard } from 'modules/dashboard/components/follow-up-card'
+import { LeadsStatusCard } from 'modules/dashboard/components/leads-status-card'
 
 export const metadata: Metadata = {
 	title: 'Dashboard - Next.js Enterprise',
@@ -13,9 +15,7 @@ export const metadata: Metadata = {
  * This is a protected route that requires authentication.
  * If the user is not authenticated, they will be redirected to the login page.
  *
- * Currently shows placeholder content that will be expanded in future PRDs.
- *
- * @returns The dashboard page with placeholder content
+ * @returns The dashboard page with cards and summary widgets
  */
 export default async function DashboardPage() {
 	const user = await getUser()
@@ -28,54 +28,21 @@ export default async function DashboardPage() {
 		<div>
 			<SectionHeader
 				title="Dashboard"
-				subtitle={`Welcome back, ${user.email}`}
+				subtitle={`Bienvenido, ${user.email}`}
 			/>
 
-			<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-				<div className="rounded-lg border-2 border-dashed border-gray-300 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-					<div className="flex h-32 items-center justify-center">
-						<div className="text-center">
-							<p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-								🚧 Protected Route
-							</p>
-							<p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-								This page requires authentication
-							</p>
-						</div>
-					</div>
-				</div>
+		<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+			{/* Leads status summary card - spans 2 columns */}
+			<LeadsStatusCard />
 
-				<div className="rounded-lg border-2 border-dashed border-gray-300 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-					<div className="flex h-32 items-center justify-center">
-						<div className="text-center">
-							<p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-								✅ Auth Status
-							</p>
-							<p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-								You are authenticated
-							</p>
-						</div>
-					</div>
-				</div>
-
-				<div className="rounded-lg border-2 border-dashed border-gray-300 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-					<div className="flex h-32 items-center justify-center">
-						<div className="text-center">
-							<p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-								📊 Dashboard Content
-							</p>
-							<p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-								To be implemented
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
+			{/* Follow-up summary card */}
+			<FollowUpCard />
+		</div>
 
 			<div className="mt-8">
 				<div className="rounded-lg bg-white p-6 shadow dark:bg-gray-800">
 					<h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white">
-						User Information
+						Información del usuario
 					</h2>
 					<dl className="space-y-2">
 						<div>

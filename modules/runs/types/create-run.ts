@@ -32,6 +32,21 @@ export interface GoogleMapsConfig {
 	 * Extracts emails and social profiles from business websites
 	 */
 	scrapeContacts?: boolean
+	/**
+	 * Enable Leads Enrichment add-on (Apify param: scrapeReviewsPersonalData)
+	 * Extracts person leads with LinkedIn, email and phone from business websites
+	 */
+	scrapeReviewsPersonalData?: boolean
+	/**
+	 * Departments to filter leads by (Apify param)
+	 * Only applies when scrapeReviewsPersonalData is enabled
+	 */
+	leadsEnrichmentDepartments?: string[]
+	/**
+	 * Maximum number of leads to extract per place (Apify param)
+	 * Only applies when scrapeReviewsPersonalData is enabled
+	 */
+	maximumLeadsEnrichmentRecords?: number
 }
 
 /**
@@ -63,6 +78,8 @@ export interface CreateRunFormInput {
 	location: string
 	numberOfPlaces?: number
 	scrapeContacts?: boolean
+	scrapeLeads?: boolean
+	maxLeadsPerPlace?: number
 }
 
 /**
@@ -85,6 +102,13 @@ export const createRunSchema = z.object({
 		])
 		.optional(),
 	scrapeContacts: z.boolean().optional().default(false),
+	scrapeLeads: z.boolean().optional().default(false),
+	maxLeadsPerPlace: z
+		.union([
+			z.number().positive('Must be greater than 0').max(100, 'Maximum is 100'),
+			z.undefined(),
+		])
+		.optional(),
 })
 
 /**
@@ -101,6 +125,7 @@ export const ACTOR_TYPE_LABELS: Record<ActorType, string> = {
 
 /**
  * Helper function to transform form input to API input
+ * Maps form field names to Apify API parameter names
  */
 export function transformFormToInput(
 	formData: CreateRunFormInput
@@ -113,6 +138,12 @@ export function transformFormToInput(
 			location: formData.location,
 			numberOfPlaces: formData.numberOfPlaces,
 			scrapeContacts: formData.scrapeContacts,
+			// Map to Apify parameter names
+			scrapeReviewsPersonalData: formData.scrapeLeads,
+			...(formData.scrapeLeads && {
+				leadsEnrichmentDepartments: ['operations', 'marketing', 'sales'],
+				maximumLeadsEnrichmentRecords: formData.maxLeadsPerPlace,
+			}),
 		},
 	}
 }
