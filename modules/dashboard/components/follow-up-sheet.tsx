@@ -18,6 +18,7 @@ import { FollowUpCategory } from '../types/follow-up'
 interface FollowUpSheetProps {
 	open: boolean
 	onOpenChange: (open: boolean) => void
+	initialCategory?: FollowUpCategory
 }
 
 type CategoryOption = {
@@ -70,10 +71,18 @@ function CategoryButton({
 /**
  * Sheet displaying contacts with follow-up by category
  */
-export function FollowUpSheet({ open, onOpenChange }: FollowUpSheetProps) {
-	const [selectedCategory, setSelectedCategory] = useState<FollowUpCategory>(
-		FollowUpCategory.OVERDUE
-	)
+export function FollowUpSheet({
+	open,
+	onOpenChange,
+	initialCategory = FollowUpCategory.OVERDUE,
+}: FollowUpSheetProps) {
+	const [selectedCategory, setSelectedCategory] =
+		useState<FollowUpCategory>(initialCategory)
+
+	// Update selectedCategory when initialCategory changes
+	useEffect(() => {
+		setSelectedCategory(initialCategory)
+	}, [initialCategory])
 
 	const { contacts, loading, hasNextPage, loadMore, refetch } =
 		useContactsWithFollowUp(selectedCategory)
@@ -99,20 +108,20 @@ export function FollowUpSheet({ open, onOpenChange }: FollowUpSheetProps) {
 					<SheetTitle>Contactos con follow-up</SheetTitle>
 				</SheetHeader>
 
-				{/* Category filter */}
-				<div className="flex gap-2 overflow-x-auto px-4 pb-4">
-					{CATEGORY_OPTIONS.map((option) => (
-						<CategoryButton
-							key={option.value}
-							option={option}
-							isSelected={selectedCategory === option.value}
-							onClick={() => setSelectedCategory(option.value)}
-						/>
-					))}
-				</div>
+			{/* Category filter */}
+			<div className="flex gap-2 overflow-x-auto px-6 pb-4">
+				{CATEGORY_OPTIONS.map((option) => (
+					<CategoryButton
+						key={option.value}
+						option={option}
+						isSelected={selectedCategory === option.value}
+						onClick={() => setSelectedCategory(option.value)}
+					/>
+				))}
+			</div>
 
-				{/* Contact list */}
-				<div className="flex-1 overflow-y-auto px-4">
+			{/* Contact list */}
+			<div className="flex-1 overflow-y-auto px-6">
 					<FollowUpContactList
 						contacts={contacts}
 						loading={loading}

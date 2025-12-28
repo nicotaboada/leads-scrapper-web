@@ -4,6 +4,7 @@
 
 // Components
 export { FollowUpCard } from './components/follow-up-card'
+export { FollowUpCards } from './components/follow-up-cards'
 export { LeadsStatusCard } from './components/leads-status-card'
 
 // Hooks

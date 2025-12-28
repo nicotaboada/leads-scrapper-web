@@ -22,8 +22,9 @@ interface UseUpdateLeadStatusReturn {
 }
 
 export function useUpdateLeadStatus(): UseUpdateLeadStatusReturn {
-	const [mutate, { loading, error }] =
-		useMutation<UpdateLeadStatusResponse>(UPDATE_CONTACT_LEAD_STATUS)
+	const [mutate, { loading, error }] = useMutation<UpdateLeadStatusResponse>(
+		UPDATE_CONTACT_LEAD_STATUS
+	)
 
 	async function updateLeadStatus(
 		id: string,
@@ -46,4 +47,3 @@ export function useUpdateLeadStatus(): UseUpdateLeadStatusReturn {
 		error,
 	}
 }
-

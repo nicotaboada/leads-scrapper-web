@@ -2,7 +2,8 @@ import { type Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { SectionHeader } from 'components/layouts/section-header'
 import { getUser } from 'lib/supabase/auth'
-import { FollowUpCard } from 'modules/dashboard/components/follow-up-card'
+import { ActivityCard } from 'modules/activities'
+import { FollowUpCards } from 'modules/dashboard/components/follow-up-cards'
 import { LeadsStatusCard } from 'modules/dashboard/components/leads-status-card'
 
 export const metadata: Metadata = {
@@ -26,43 +27,15 @@ export default async function DashboardPage() {
 
 	return (
 		<div>
-			<SectionHeader
-				title="Dashboard"
-				subtitle={`Bienvenido, ${user.email}`}
-			/>
+			<SectionHeader title="Dashboard" subtitle={`Bienvenido, ${user.email}`} />
 
-		<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-			{/* Leads status summary card - spans 2 columns */}
-			<LeadsStatusCard />
+			<div className="grid gap-6 lg:grid-cols-2">
+				{/* Row 1: Leads status + Activities */}
+				<LeadsStatusCard />
+				<ActivityCard />
 
-			{/* Follow-up summary card */}
-			<FollowUpCard />
-		</div>
-
-			<div className="mt-8">
-				<div className="rounded-lg bg-white p-6 shadow dark:bg-gray-800">
-					<h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white">
-						Información del usuario
-					</h2>
-					<dl className="space-y-2">
-						<div>
-							<dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
-								Email
-							</dt>
-							<dd className="text-sm text-gray-900 dark:text-white">
-								{user.email}
-							</dd>
-						</div>
-						<div>
-							<dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
-								User ID
-							</dt>
-							<dd className="text-sm text-gray-900 dark:text-white">
-								{user.id}
-							</dd>
-						</div>
-					</dl>
-				</div>
+				{/* Row 2: Follow-up cards - spans full width */}
+				<FollowUpCards />
 			</div>
 		</div>
 	)

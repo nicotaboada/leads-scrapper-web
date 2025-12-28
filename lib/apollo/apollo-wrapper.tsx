@@ -1,6 +1,7 @@
 'use client'
 
 import { ApolloLink, HttpLink, split } from '@apollo/client'
+import { setContext } from '@apollo/client/link/context'
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
 import { getMainDefinition } from '@apollo/client/utilities'
 import {
@@ -8,7 +9,8 @@ import {
 	ApolloNextAppProvider,
 	InMemoryCache,
 } from '@apollo/client-integration-nextjs'
-import { createClient } from 'graphql-ws'
+import { createClient as createWsClient } from 'graphql-ws'
+import { createClient } from 'lib/supabase/client'
 
 interface ApolloWrapperProps {
 	children: React.ReactNode
@@ -24,11 +26,45 @@ function makeClient() {
 		},
 	})
 
+	// Auth link to add user headers
+	const authLink = setContext(async (_, prevContext) => {
+		const ctx = prevContext as { headers?: Record<string, string> }
+		const headers = ctx.headers ?? {}
+		try {
+			const supabase = createClient()
+			const {
+				data: { user },
+			} = await supabase.auth.getUser()
+
+			if (user) {
+				return {
+					headers: {
+						...headers,
+						'x-user-id': user.id,
+						'x-user-email': user.email ?? '',
+						'x-user-name':
+							user.user_metadata?.full_name ??
+							user.user_metadata?.name ??
+							user.email ??
+							'Usuario',
+					},
+				}
+			}
+		} catch {
+			// Silently fail if auth is not available
+		}
+
+		return { headers }
+	})
+
+	// Combine auth link with http link
+	const httpLinkWithAuth = authLink.concat(httpLink)
+
 	// WebSocket link for subscriptions
 	const wsLink =
 		typeof window !== 'undefined'
 			? new GraphQLWsLink(
-					createClient({
+					createWsClient({
 						url:
 							process.env.NEXT_PUBLIC_GRAPHQL_WS_ENDPOINT ||
 							'ws://localhost:3000/graphql',
@@ -53,9 +89,9 @@ function makeClient() {
 						)
 					},
 					wsLink as unknown as ApolloLink,
-					httpLink
+					httpLinkWithAuth
 				)
-			: httpLink
+			: httpLinkWithAuth
 
 	return new ApolloClient({
 		cache: new InMemoryCache({
