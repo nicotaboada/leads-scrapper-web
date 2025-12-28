@@ -9,14 +9,15 @@
  */
 
 import { useQuery } from '@apollo/client/react'
-import { Building2 } from 'lucide-react'
+import { Building2, Sparkles } from 'lucide-react'
 import { useParams, useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { DetailHeader } from 'components/layouts/detail-header'
 import { HubSpotTabs } from '@/components/common/hubspot-tabs'
 import { Skeleton } from 'components/ui/skeleton'
 import { ROUTES } from 'lib/config/routes'
 import { ActivitiesTab } from 'modules/contacts/components/activities-tab'
+import { AiMessageGeneratorTab } from 'modules/contacts/components/ai-messages'
 import { CompanyContactsTab } from 'modules/contacts/components/company-contacts-tab'
 import { CompanyOverviewTab } from 'modules/contacts/components/company-overview-tab'
 import { WebsiteSeoTab } from 'modules/contacts/components/website-seo'
@@ -44,6 +45,12 @@ export default function CompanyDetailPage() {
 	// State for edit/delete dialogs
 	const [isEditOpen, setIsEditOpen] = useState(false)
 	const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+	const [activeTab, setActiveTab] = useState('overview')
+
+	// Handle tab navigation from child components
+	const handleNavigateToTab = useCallback((tabValue: string) => {
+		setActiveTab(tabValue)
+	}, [])
 
 	const { data, loading, error, refetch } = useQuery<ContactResponse>(
 		GET_CONTACT,
@@ -180,7 +187,8 @@ export default function CompanyDetailPage() {
 					) : (
 						companyContact && (
 							<HubSpotTabs
-								defaultValue="overview"
+								value={activeTab}
+								onValueChange={setActiveTab}
 								tabs={[
 									{
 										value: 'overview',
@@ -189,6 +197,17 @@ export default function CompanyDetailPage() {
 											<CompanyOverviewTab
 												contact={companyContact}
 												onFollowUpChanged={handleFollowUpChanged}
+												onNavigateToTab={handleNavigateToTab}
+											/>
+										),
+									},
+									{
+										value: 'ai-messages',
+										label: 'Mensajes IA',
+										content: (
+											<AiMessageGeneratorTab
+												contact={companyContact}
+												onNavigateToTab={handleNavigateToTab}
 											/>
 										),
 									},

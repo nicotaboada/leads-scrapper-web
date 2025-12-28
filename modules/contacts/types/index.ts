@@ -63,3 +63,19 @@ export {
 export type { FollowUpFilterConfig } from './follow-up-filter'
 
 export { FollowUpFilterValue, FOLLOW_UP_FILTER_CONFIG } from './follow-up-filter'
+
+export type {
+	ProblemSeverity,
+	ProblemForMessage,
+	GeneratedMessage,
+	GenerateAIMessageInput,
+	GenerateAIMessageResponse,
+} from './ai-message'
+
+export {
+	MessageChannel,
+	MessageTone,
+	ISSUE_TO_PROBLEM,
+	issueToProblem,
+	NO_WEBSITE_PROBLEM,
+} from './ai-message'

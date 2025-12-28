@@ -76,6 +76,12 @@ function parseIssueToDetail(issue: string, index: number): IssueDetail {
 			impact: 'Reduce conversiones',
 			severity: 'warning',
 		},
+		'Not appearing in Google top 10 results': {
+			title: 'Sin posicionamiento en Google',
+			description: 'El negocio no aparece en los primeros 10 resultados de Google',
+			impact: 'Pérdida de clientes potenciales',
+			severity: 'critical',
+		},
 	}
 
 	// Try to find an exact match first

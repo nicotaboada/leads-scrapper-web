@@ -137,6 +137,15 @@ export const GET_CONTACT = gql`
 					createdAt
 					updatedAt
 				}
+				websiteAnalysis {
+					id
+					websiteUrl
+					websiteScore
+					seoScore
+					overallScore
+					primaryIssues
+					analyzedAt
+				}
 			}
 		}
 	}

@@ -8,6 +8,7 @@
 import type { PaginatedResponse } from 'types/pagination'
 import type { TagColor } from 'modules/tags/types'
 import type { FollowUp } from './follow-up'
+import type { WebsiteAnalysis } from './website-analysis'
 
 /**
  * Tag reference for contacts
@@ -86,6 +87,7 @@ export interface CompanyContact {
 	contactedChannels: ContactChannel[]
 	tags?: ContactTag[]
 	followUp?: FollowUp
+	websiteAnalysis?: WebsiteAnalysis
 	createdAt: string
 	updatedAt: string
 }
