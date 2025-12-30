@@ -27,6 +27,14 @@ interface LeadsEnrichmentTabProps {
 	 * Whether leads enrichment was enabled for this run
 	 */
 	scrapeLeadsEnabled: boolean
+	/**
+	 * Shared bulk selection state (optional)
+	 */
+	selectionState?: any
+	/**
+	 * Handler for adding contacts
+	 */
+	onAddContacts?: () => void
 }
 
 /**
@@ -142,7 +150,6 @@ export function LeadsEnrichmentTab({
 
 	return (
 		<div>
-			<h2 className="mb-4 text-xl font-semibold">Leads</h2>
 			<LeadsEnrichmentTable
 				leads={leads}
 				pageInfo={pageInfo}
@@ -173,4 +180,3 @@ export function LeadsEnrichmentTab({
 		</div>
 	)
 }
-

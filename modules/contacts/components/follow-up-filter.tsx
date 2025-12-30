@@ -16,6 +16,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from 'components/ui/select'
+import { cn } from 'lib/utils/merge'
 import { FOLLOW_UP_FILTER_CONFIG, FollowUpFilterValue } from '../types'
 
 interface FollowUpFilterProps {
@@ -47,13 +48,17 @@ interface FollowUpFilterProps {
  * ```
  */
 export function FollowUpFilter({ value, onApply }: FollowUpFilterProps) {
-	const [selectedValue, setSelectedValue] = useState<FollowUpFilterValue | null>(value)
+	const [selectedValue, setSelectedValue] = useState<FollowUpFilterValue | null>(
+		value
+	)
 
-	const options = Object.entries(FOLLOW_UP_FILTER_CONFIG).map(([filterValue, config]) => ({
-		value: filterValue as FollowUpFilterValue,
-		label: config.label,
-		emoji: config.emoji,
-	}))
+	const options = Object.entries(FOLLOW_UP_FILTER_CONFIG).map(
+		([filterValue, config]) => ({
+			value: filterValue as FollowUpFilterValue,
+			label: config.label,
+			color: config.color,
+		})
+	)
 
 	// Sync internal state with prop value
 	useEffect(() => {
@@ -69,10 +74,17 @@ export function FollowUpFilter({ value, onApply }: FollowUpFilterProps) {
 		onApply(null)
 	}
 
-	function getDisplayValue(): string | undefined {
+	function getDisplayValue(): React.ReactNode | undefined {
 		if (!value) return undefined
 		const config = FOLLOW_UP_FILTER_CONFIG[value]
-		return config ? `${config.emoji} ${config.label}` : undefined
+		if (!config) return undefined
+
+		return (
+			<div className="flex items-center gap-2">
+				<span className={cn('h-2 w-2 rounded-full', config.color)} />
+				<span>{config.label}</span>
+			</div>
+		)
 	}
 
 	return (
@@ -95,7 +107,7 @@ export function FollowUpFilter({ value, onApply }: FollowUpFilterProps) {
 						{options.map((option) => (
 							<SelectItem key={option.value} value={option.value}>
 								<div className="flex items-center gap-2">
-									<span>{option.emoji}</span>
+									<span className={cn('h-2.5 w-2.5 rounded-full', option.color)} />
 									<span>{option.label}</span>
 								</div>
 							</SelectItem>

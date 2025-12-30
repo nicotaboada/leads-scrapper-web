@@ -3,6 +3,8 @@
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useState } from 'react'
 import { toast } from 'sonner'
+import { UserPlusIcon } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import { BulkCreateModal } from '@/modules/runs/components/bulk-create-modal'
 import { LeadsEnrichmentTab } from '@/modules/runs/components/leads-enrichment-tab'
 import { RunDetailHeader } from '@/modules/runs/components/run-detail-header'
@@ -92,6 +94,7 @@ export default function RunDetailPage() {
 	const pageIds = results.map((r: { id: string }) => r.id)
 	const selectedCount = getSelectedCount()
 	const headerCheckboxState = getHeaderCheckboxState(pageIds)
+	const hasSelection = selectedCount > 0
 
 	// Reset to page 1 when page size changes
 	const handlePageSizeChange = (newPageSize: number) => {
@@ -181,39 +184,52 @@ export default function RunDetailPage() {
 				loading={runLoading}
 			/>
 
+			{/* Results Header: Title and Create Contacts Button */}
+			<div className="flex items-center justify-between">
+				<h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+					Results
+				</h2>
+				<Button
+					onClick={handleCreateContactsClick}
+					disabled={isCreating || !hasSelection}
+					className="bg-zinc-900 text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-950 dark:hover:bg-zinc-200 transition-all duration-200 shadow-sm"
+				>
+					<UserPlusIcon className="mr-2 size-4" />
+					Create Contacts
+				</Button>
+			</div>
+
 			{/* Tab Navigation */}
 			<RunDetailTabs activeTab={activeTab} onTabChange={handleTabChange} />
 
 			{/* Tab Content */}
 			{activeTab === 'overview' ? (
-				<div>
-					<h2 className="mb-4 text-xl font-semibold">Results</h2>
-					<RunResultsTable
-						results={results}
-						pageInfo={pageInfo}
-						loading={resultsLoading}
-						runStatus={displayRun?.status || RunStatus.PAUSED}
-						subscriptionActive={subscriptionActive}
-						onPageChange={setPage}
-						onPageSizeChange={handlePageSizeChange}
-						// Bulk selection props
-						selectedCount={selectedCount}
-						headerCheckboxState={headerCheckboxState}
-						isSelected={isSelected}
-						onToggleItem={toggleItem}
-						onSelectNone={selectNone}
-						onSelectPage={selectPage}
-						onSelectAll={selectAll}
-						onCreateContacts={handleCreateContactsClick}
-						isCreatingContacts={isCreating}
-					/>
-				</div>
+				<RunResultsTable
+					results={results}
+					pageInfo={pageInfo}
+					loading={resultsLoading}
+					runStatus={displayRun?.status || RunStatus.PAUSED}
+					subscriptionActive={subscriptionActive}
+					onPageChange={setPage}
+					onPageSizeChange={handlePageSizeChange}
+					// Bulk selection props
+					selectedCount={selectedCount}
+					headerCheckboxState={headerCheckboxState}
+					isSelected={isSelected}
+					onToggleItem={toggleItem}
+					onSelectNone={selectNone}
+					onSelectPage={selectPage}
+					onSelectAll={selectAll}
+					onCreateContacts={handleCreateContactsClick}
+					isCreatingContacts={isCreating}
+				/>
 			) : (
 				<LeadsEnrichmentTab
 					runId={runId}
 					scrapeLeadsEnabled={
 						displayRun?.input?.scrapeReviewsPersonalData ?? false
 					}
+					onAddContacts={handleCreateContactsClick}
 				/>
 			)}
 

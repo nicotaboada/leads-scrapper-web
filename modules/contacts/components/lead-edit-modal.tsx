@@ -68,18 +68,18 @@ export function LeadEditModal({
 
 	return (
 		<AlertDialog open={open} onOpenChange={onOpenChange}>
-			<AlertDialogContent className="sm:max-w-md">
-				<AlertDialogHeader>
-					<AlertDialogTitle className="flex items-center gap-2">
-						<Users className="size-5" />
+			<AlertDialogContent className="max-w-[400px] border-none shadow-lg">
+				<AlertDialogHeader className="pb-2">
+					<AlertDialogTitle className="flex items-center gap-2.5 text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+						<Users className="size-6" />
 						Editar Lead
 					</AlertDialogTitle>
 				</AlertDialogHeader>
 
-				<div className="space-y-4 py-4">
+				<div className="space-y-6 py-2">
 					{/* Lead Status */}
-					<div className="space-y-2">
-						<Label>Estado</Label>
+					<div className="space-y-2.5">
+						<Label className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Estado</Label>
 						<div className="flex">
 							<LeadStatusFormField
 								value={leadStatus}
@@ -90,8 +90,8 @@ export function LeadEditModal({
 					</div>
 
 					{/* Contacted Channels */}
-					<div className="space-y-2">
-						<Label>Canales contactados</Label>
+					<div className="space-y-2.5">
+						<Label className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Canales contactados</Label>
 						<ContactChannelsFormField
 							value={contactedChannels}
 							onChange={setContactedChannels}
@@ -100,19 +100,20 @@ export function LeadEditModal({
 					</div>
 				</div>
 
-				<AlertDialogFooter className="flex-col gap-2 sm:flex-row">
-					<div className="flex flex-1 gap-2 sm:justify-end">
-						<AlertDialogCancel disabled={loading} className="flex-1 sm:flex-none">
-							Cancelar
-						</AlertDialogCancel>
-						<Button
-							onClick={handleSubmit}
-							disabled={loading}
-							className="flex-1 sm:flex-none"
-						>
-							{loading ? 'Guardando...' : 'Guardar'}
-						</Button>
-					</div>
+				<AlertDialogFooter className="mt-4 gap-3 sm:flex-row">
+					<AlertDialogCancel
+						disabled={loading}
+						className="flex-1 rounded-xl border-zinc-200 font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-100 sm:flex-none"
+					>
+						Cancelar
+					</AlertDialogCancel>
+					<Button
+						onClick={handleSubmit}
+						disabled={loading}
+						className="flex-1 rounded-xl bg-zinc-900 font-semibold text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200 sm:flex-none"
+					>
+						{loading ? 'Guardando...' : 'Guardar'}
+					</Button>
 				</AlertDialogFooter>
 			</AlertDialogContent>
 		</AlertDialog>

@@ -4,13 +4,17 @@
  * Sheet component showing contacts with follow-up filtered by category
  */
 
+import { Filter } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { ScrollArea } from 'components/ui/scroll-area'
+import { Separator } from 'components/ui/separator'
 import {
 	Sheet,
 	SheetContent,
 	SheetHeader,
 	SheetTitle,
 } from 'components/ui/sheet'
+import { cn } from 'lib/utils/merge'
 import { FollowUpContactList } from './follow-up-contact-list'
 import { useContactsWithFollowUp } from '../hooks/use-contacts-with-follow-up'
 import { FollowUpCategory } from '../types/follow-up'
@@ -24,16 +28,24 @@ interface FollowUpSheetProps {
 type CategoryOption = {
 	value: FollowUpCategory
 	label: string
-	color: string
+	dotColor: string
 }
 
 const CATEGORY_OPTIONS: CategoryOption[] = [
-	{ value: FollowUpCategory.OVERDUE, label: 'Vencidos', color: 'bg-red-500' },
-	{ value: FollowUpCategory.TODAY, label: 'Hoy', color: 'bg-yellow-500' },
+	{
+		value: FollowUpCategory.OVERDUE,
+		label: 'Vencidos',
+		dotColor: 'bg-zinc-950 dark:bg-zinc-100',
+	},
+	{
+		value: FollowUpCategory.TODAY,
+		label: 'Hoy',
+		dotColor: 'bg-zinc-500',
+	},
 	{
 		value: FollowUpCategory.UPCOMING,
 		label: 'Próximos',
-		color: 'bg-green-500',
+		dotColor: 'bg-zinc-300 dark:bg-zinc-600',
 	},
 ]
 
@@ -53,14 +65,18 @@ function CategoryButton({
 		<button
 			type="button"
 			onClick={onClick}
-			className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+			className={cn(
+				'flex items-center gap-2 rounded-full border px-4 py-2 text-[11px] font-semibold transition-all duration-200',
 				isSelected
-					? 'bg-primary text-primary-foreground'
-					: 'bg-muted text-muted-foreground hover:bg-accent'
-			}`}
+					? 'border-zinc-950 bg-zinc-950 text-zinc-100 shadow-sm dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-950'
+					: 'border-zinc-200 bg-zinc-50 text-zinc-500 hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900/50 dark:text-zinc-400'
+			)}
 		>
-			<span
-				className={`h-2 w-2 rounded-full ${option.color}`}
+			<div
+				className={cn(
+					'h-1.5 w-1.5 rounded-full transition-colors',
+					isSelected ? 'bg-current' : option.dotColor
+				)}
 				aria-hidden="true"
 			/>
 			{option.label}
@@ -103,33 +119,50 @@ export function FollowUpSheet({
 
 	return (
 		<Sheet open={open} onOpenChange={onOpenChange}>
-			<SheetContent side="right" className="w-full sm:max-w-md">
-				<SheetHeader>
-					<SheetTitle>Contactos con follow-up</SheetTitle>
+			<SheetContent
+				side="right"
+				className="flex h-full flex-col p-0 sm:max-w-lg"
+			>
+				<SheetHeader className="shrink-0 px-6 py-6">
+					<SheetTitle className="text-xl font-bold">
+						Contactos con follow-up
+					</SheetTitle>
 				</SheetHeader>
 
-			{/* Category filter */}
-			<div className="flex gap-2 overflow-x-auto px-6 pb-4">
-				{CATEGORY_OPTIONS.map((option) => (
-					<CategoryButton
-						key={option.value}
-						option={option}
-						isSelected={selectedCategory === option.value}
-						onClick={() => setSelectedCategory(option.value)}
-					/>
-				))}
-			</div>
+				<div className="shrink-0 px-6 pb-6">
+					<div className="flex flex-col gap-4">
+						<div className="text-muted-foreground flex items-center gap-2 text-xs font-medium">
+							<Filter className="h-3 w-3" />
+							<span>Filtrar por estado</span>
+						</div>
 
-			{/* Contact list */}
-			<div className="flex-1 overflow-y-auto px-6">
-					<FollowUpContactList
-						contacts={contacts}
-						loading={loading}
-						hasNextPage={hasNextPage}
-						category={selectedCategory}
-						onLoadMore={loadMore}
-					/>
+						<div className="flex gap-2">
+							{CATEGORY_OPTIONS.map((option) => (
+								<CategoryButton
+									key={option.value}
+									option={option}
+									isSelected={selectedCategory === option.value}
+									onClick={() => setSelectedCategory(option.value)}
+								/>
+							))}
+						</div>
+					</div>
 				</div>
+
+				<Separator />
+
+				{/* Contact list with ScrollArea */}
+				<ScrollArea className="min-h-0 flex-1">
+					<div className="py-2">
+						<FollowUpContactList
+							contacts={contacts}
+							loading={loading}
+							hasNextPage={hasNextPage}
+							category={selectedCategory}
+							onLoadMore={loadMore}
+						/>
+					</div>
+				</ScrollArea>
 			</SheetContent>
 		</Sheet>
 	)

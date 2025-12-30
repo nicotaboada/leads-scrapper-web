@@ -36,11 +36,13 @@ export function SettingsSidebar() {
 	const pathname = usePathname()
 
 	return (
-		<aside className="flex h-full w-60 flex-col bg-background">
-			<div className="flex h-14 items-center px-4">
-				<h2 className="text-lg font-semibold">Configuración</h2>
+		<aside className="flex h-full w-64 flex-col border-r border-sidebar-border bg-sidebar/50">
+			<div className="flex h-16 items-center border-b border-sidebar-border/50 px-8">
+				<h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
+					Configuración
+				</h2>
 			</div>
-			<nav className="flex-1 space-y-1 p-2">
+			<nav className="flex-1 space-y-1 px-5 pt-6">
 				{settingsNavigationItems.map((item) => {
 					const Icon = item.icon
 					const isActive = item.href ? pathname === item.href : false

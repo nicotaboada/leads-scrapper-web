@@ -1,4 +1,4 @@
-import { CreditCard, Tag } from 'lucide-react'
+import { CreditCard, Key, Tag } from 'lucide-react'
 import { type NavItem } from 'types/sidebar'
 
 /**
@@ -34,6 +34,12 @@ export const settingsNavigationItems: NavItem[] = [
 		label: 'Billings & Usage',
 		href: '/settings/billing',
 		icon: CreditCard,
+	},
+	{
+		id: 'api-keys',
+		label: 'API Keys',
+		href: '/settings/api-keys',
+		icon: Key,
 	},
 ]
 

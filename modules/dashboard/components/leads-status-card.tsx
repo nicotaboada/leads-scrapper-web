@@ -20,23 +20,54 @@ import {
 function StatusRow({
 	status,
 	count,
+	total,
 }: {
 	status: LeadStatus
 	count: number
+	total: number
 }) {
+	const percentage = total > 0 ? (count / total) * 100 : 0
+	const formattedPercentage = percentage.toFixed(0)
+
 	return (
-		<div className="flex items-center justify-between py-1.5">
-			<div className="flex items-center gap-2">
-				<span
-					className="h-2.5 w-2.5 rounded-full"
-					style={{ backgroundColor: LEAD_STATUS_COLORS[status] }}
-					aria-hidden="true"
-				/>
-				<span className="text-sm text-muted-foreground">
-					{LEAD_STATUS_LABELS[status]}
+		<div className="group flex flex-col gap-2 rounded-xl border border-zinc-100/50 bg-zinc-50/30 p-3.5 transition-all hover:border-zinc-200 hover:bg-zinc-50 dark:border-zinc-800/50 dark:bg-zinc-900/20 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/40">
+			<div className="flex items-center justify-between">
+				<div className="flex items-center gap-2">
+					<div
+						className="h-2 w-2 rounded-full shadow-sm"
+						style={{ backgroundColor: LEAD_STATUS_COLORS[status] }}
+						aria-hidden="true"
+					/>
+					<span className="text-[11px] font-semibold text-zinc-600 dark:text-zinc-400">
+						{LEAD_STATUS_LABELS[status]}
+					</span>
+				</div>
+				<span className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
+					{count}
 				</span>
 			</div>
-			<span className="text-sm font-semibold">{count}</span>
+			
+			{/* Progress bar */}
+			<div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-200/50 dark:bg-zinc-800/50">
+				<div 
+					className="h-full rounded-full transition-all duration-1000 ease-out"
+					style={{ 
+						width: `${percentage}%`,
+						backgroundColor: LEAD_STATUS_COLORS[status]
+					}}
+				/>
+			</div>
+			
+			<div className="flex items-center justify-between">
+				<span className="text-[10px] text-muted-foreground/60">
+					Distribución
+				</span>
+				<div className="flex items-center gap-1">
+					<span className="text-[10px] font-semibold text-zinc-500 dark:text-zinc-400">
+						{formattedPercentage}%
+					</span>
+				</div>
+			</div>
 		</div>
 	)
 }
@@ -46,24 +77,19 @@ function StatusRow({
  */
 function LeadsStatusCardSkeleton() {
 	return (
-		<div>
+		<div className="flex h-full flex-col">
 			<h3 className="mb-4 text-base font-semibold">Resumen de Leads</h3>
-			<Card>
+			<Card className="flex-1">
 				<CardContent className="p-6">
-					<div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
-						{/* Donut skeleton */}
-						<div className="flex-shrink-0">
-							<Skeleton className="h-[180px] w-[180px] rounded-full" />
+					<div className="grid h-full grid-cols-1 gap-8 lg:grid-cols-2">
+						<div className="flex items-center justify-center">
+							<Skeleton className="h-[200px] w-[200px] rounded-full" />
 						</div>
-						{/* Stats skeleton */}
-						<div className="flex-1 space-y-3">
-							<Skeleton className="h-10 w-32" />
-							<div className="space-y-2">
-								<Skeleton className="h-8 w-full" />
-								<Skeleton className="h-8 w-full" />
-								<Skeleton className="h-8 w-full" />
-								<Skeleton className="h-8 w-full" />
-							</div>
+						<div className="grid grid-cols-2 gap-3">
+							<Skeleton className="h-24 w-full rounded-xl" />
+							<Skeleton className="h-24 w-full rounded-xl" />
+							<Skeleton className="h-24 w-full rounded-xl" />
+							<Skeleton className="h-24 w-full rounded-xl" />
 						</div>
 					</div>
 				</CardContent>
@@ -77,18 +103,17 @@ function LeadsStatusCardSkeleton() {
  */
 function EmptyState() {
 	return (
-		<div>
+		<div className="flex h-full flex-col">
 			<h3 className="mb-4 text-base font-semibold">Resumen de Leads</h3>
-			<Card>
-				<CardContent className="p-6">
-					<div className="flex flex-col items-center justify-center py-8 text-center">
-						<div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
-							<span className="text-2xl">📊</span>
-						</div>
-						<p className="text-sm text-muted-foreground">
-							No hay leads aún. Crea un run para comenzar a generar leads.
-						</p>
+			<Card className="flex-1">
+				<CardContent className="flex h-full flex-col items-center justify-center p-6 text-center">
+					<div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-zinc-50 dark:bg-zinc-900">
+						<span className="text-3xl">📊</span>
 					</div>
+					<h4 className="text-base font-semibold mb-1">Sin datos de leads</h4>
+					<p className="max-w-[200px] text-sm text-muted-foreground">
+						No hay leads aún. Crea un run para comenzar a generar leads.
+					</p>
 				</CardContent>
 			</Card>
 		</div>
@@ -108,10 +133,10 @@ export function LeadsStatusCard() {
 
 	if (error) {
 		return (
-			<div>
+			<div className="flex h-full flex-col">
 				<h3 className="mb-4 text-base font-semibold">Resumen de Leads</h3>
-				<Card>
-					<CardContent className="p-6">
+				<Card className="flex-1">
+					<CardContent className="flex h-full items-center justify-center p-6">
 						<p className="text-sm text-muted-foreground">
 							Error al cargar los datos
 						</p>
@@ -126,35 +151,34 @@ export function LeadsStatusCard() {
 	}
 
 	return (
-		<div>
+		<div className="flex h-full flex-col">
 			<h3 className="mb-4 text-base font-semibold">Resumen de Leads</h3>
-			<Card>
-				<CardContent className="p-6">
-					<div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
-						{/* Donut chart */}
-						<div className="flex-shrink-0">
+			<Card className="flex-1 overflow-hidden transition-all dark:border-zinc-800">
+				<CardContent className="flex h-full flex-col items-center justify-center p-4 sm:p-6">
+					<div className="flex w-full flex-col items-center gap-6">
+						{/* Donut chart section - centered at the top */}
+						<div className="relative flex shrink-0 items-center justify-center scale-90 sm:scale-100">
 							<LeadsStatusDonut summary={summary} />
 						</div>
-						{/* Stats list */}
-						<div className="flex-1">
-							<div className="mb-4">
-								<p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-									Total Leads
-								</p>
-								<p className="text-3xl font-bold">{summary.total}</p>
-							</div>
-							<div className="space-y-1">
-								<StatusRow status={LeadStatus.NEW} count={summary.new} />
-								<StatusRow
-									status={LeadStatus.CONTACTED}
-									count={summary.contacted}
-								/>
-								<StatusRow
-									status={LeadStatus.IN_CONVERSATIONS}
-									count={summary.inConversations}
-								/>
-								<StatusRow status={LeadStatus.CLOSED} count={summary.closed} />
-							</div>
+
+						{/* Stats grid section - 2 rows of 2 columns, full width */}
+						<div className="grid w-full max-w-2xl grid-cols-2 gap-3">
+							<StatusRow status={LeadStatus.NEW} count={summary.new} total={summary.total} />
+							<StatusRow
+								status={LeadStatus.CONTACTED}
+								count={summary.contacted}
+								total={summary.total}
+							/>
+							<StatusRow
+								status={LeadStatus.IN_CONVERSATIONS}
+								count={summary.inConversations}
+								total={summary.total}
+							/>
+							<StatusRow 
+								status={LeadStatus.CLOSED} 
+								count={summary.closed} 
+								total={summary.total}
+							/>
 						</div>
 					</div>
 				</CardContent>

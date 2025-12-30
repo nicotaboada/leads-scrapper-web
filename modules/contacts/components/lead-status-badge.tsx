@@ -7,27 +7,30 @@
  * Does not allow changing the status (use LeadStatusSelector for that).
  */
 
+import { Badge } from '@/components/ui/badge'
 import { cn } from 'lib/utils/merge'
 import { LeadStatus } from '../types'
 import { LEAD_STATUS_CONFIG } from './lead-status-selector'
 
 interface LeadStatusBadgeProps {
 	status: LeadStatus
+	className?: string
 }
 
-export function LeadStatusBadge({ status }: LeadStatusBadgeProps) {
-	const config = LEAD_STATUS_CONFIG[status] ?? LEAD_STATUS_CONFIG[LeadStatus.NEW]
+export function LeadStatusBadge({ status, className }: LeadStatusBadgeProps) {
+	const config =
+		LEAD_STATUS_CONFIG[status] ?? LEAD_STATUS_CONFIG[LeadStatus.NEW]
 
 	return (
-		<div
+		<Badge
+			variant="outline"
 			className={cn(
-				'inline-flex items-center gap-2 rounded-md px-2 py-1',
-				config.bgColor
+				'h-6 border-zinc-200 px-2 py-0 text-xs font-medium shadow-none transition-all duration-200 dark:border-zinc-800',
+				config.bgColor,
+				className
 			)}
 		>
-			<span className={cn('h-2.5 w-2.5 shrink-0 rounded-full', config.color)} />
-			<span className="text-sm">{config.label}</span>
-		</div>
+			{config.label}
+		</Badge>
 	)
 }
-

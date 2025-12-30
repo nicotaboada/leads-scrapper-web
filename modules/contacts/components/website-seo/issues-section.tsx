@@ -10,6 +10,7 @@
 import { XCircle, AlertCircle, CheckCircle2 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from 'components/ui/card'
 import { Badge } from 'components/ui/badge'
+import { cn } from 'lib/utils/merge'
 import type { WebsiteAnalysis } from '../../types/website-analysis'
 
 interface IssuesSectionProps {
@@ -111,16 +112,32 @@ function IssueCard({ issue }: { issue: IssueDetail }) {
 	const IconComponent = isCritical ? XCircle : AlertCircle
 
 	return (
-		<div className="flex gap-4 rounded-xl border bg-white p-5 shadow-sm transition-shadow hover:shadow-md dark:bg-zinc-900">
-			<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800">
-				<IconComponent className="h-5 w-5 text-zinc-600 dark:text-zinc-400" />
+		<div className="flex gap-4 rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition-all hover:shadow-md dark:border-zinc-800 dark:bg-zinc-950">
+			<div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-zinc-50 dark:bg-zinc-900 shadow-inner">
+				<IconComponent className={cn(
+					"h-6 w-6",
+					isCritical ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500"
+				)} />
 			</div>
-			<div className="flex flex-col gap-2">
-				<h4 className="font-semibold text-zinc-900 dark:text-zinc-100">{issue.title}</h4>
-				<p className="text-sm text-zinc-500 dark:text-zinc-400">{issue.description}</p>
-				<Badge variant="outline" className="w-fit text-xs font-normal">
-					{issue.impact}
-				</Badge>
+			<div className="flex flex-col gap-1.5">
+				<div className="flex items-center gap-2">
+					<h4 className="font-bold text-zinc-900 dark:text-zinc-100 leading-tight">{issue.title}</h4>
+					<Badge 
+						variant={isCritical ? "default" : "secondary"} 
+						className={cn(
+							"text-[9px] font-bold uppercase px-1.5 py-0",
+							isCritical 
+								? "bg-zinc-900 text-zinc-50 dark:bg-zinc-100 dark:text-zinc-900" 
+								: "bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400"
+						)}
+					>
+						{isCritical ? 'Crítico' : 'Alerta'}
+					</Badge>
+				</div>
+				<p className="text-xs font-medium text-zinc-500 dark:text-zinc-400 leading-relaxed">{issue.description}</p>
+				<p className="text-[10px] font-semibold text-zinc-400 dark:text-zinc-600 mt-1 uppercase">
+					Impacto: {issue.impact}
+				</p>
 			</div>
 		</div>
 	)

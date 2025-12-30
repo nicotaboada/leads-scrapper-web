@@ -81,31 +81,33 @@ export function SocialIconsCell({
 	facebook,
 	linkedin,
 }: SocialIconsCellProps) {
+	const enabledClassName = "text-zinc-900 dark:text-zinc-100 hover:text-black dark:hover:text-white"
+	
 	return (
 		<div className="flex items-center gap-1">
 			<SocialIcon
 				url={website}
 				icon={Globe}
 				label="Website"
-				enabledClassName="text-blue-600 dark:text-blue-400"
+				enabledClassName={enabledClassName}
 			/>
 			<SocialIcon
 				url={instagram}
 				icon={Instagram}
 				label="Instagram"
-				enabledClassName="text-pink-600 dark:text-pink-400"
+				enabledClassName={enabledClassName}
 			/>
 			<SocialIcon
 				url={facebook}
 				icon={Facebook}
 				label="Facebook"
-				enabledClassName="text-blue-700 dark:text-blue-500"
+				enabledClassName={enabledClassName}
 			/>
 			<SocialIcon
 				url={linkedin}
 				icon={Linkedin}
 				label="LinkedIn"
-				enabledClassName="text-sky-700 dark:text-sky-500"
+				enabledClassName={enabledClassName}
 			/>
 		</div>
 	)

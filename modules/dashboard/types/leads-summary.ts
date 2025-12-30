@@ -27,10 +27,10 @@ export interface LeadsStatusSummary {
  * Configuración de colores por estado de lead
  */
 export const LEAD_STATUS_COLORS: Record<LeadStatus, string> = {
-	[LeadStatus.NEW]: '#3B82F6', // Blue
-	[LeadStatus.CONTACTED]: '#F59E0B', // Orange
-	[LeadStatus.IN_CONVERSATIONS]: '#8B5CF6', // Purple
-	[LeadStatus.CLOSED]: '#10B981', // Green
+	[LeadStatus.NEW]: '#09090b', // Zinc 950
+	[LeadStatus.CONTACTED]: '#3f3f46', // Zinc 700
+	[LeadStatus.IN_CONVERSATIONS]: '#71717a', // Zinc 500
+	[LeadStatus.CLOSED]: '#d4d4d8', // Zinc 300
 }
 
 /**

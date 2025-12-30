@@ -20,6 +20,15 @@ export interface RunResult {
 }
 
 /**
+ * Author of a run
+ */
+export interface RunAuthor {
+	id: number
+	email: string
+	name?: string | null
+}
+
+/**
  * Run entity
  */
 export interface Run {
@@ -31,6 +40,8 @@ export interface Run {
 	status: RunStatus
 	input?: Record<string, any> | null
 	resultCount: number
+	userId?: number | null
+	user?: RunAuthor | null
 	createdAt: string
 	updatedAt: string
 	results?: RunResult[]

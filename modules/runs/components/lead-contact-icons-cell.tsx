@@ -96,25 +96,27 @@ export function LeadContactIconsCell({
 		? `https://wa.me/${formatPhoneForWhatsApp(phone)}`
 		: null
 
+	const enabledClassName = "text-zinc-900 dark:text-zinc-100 hover:text-black dark:hover:text-white"
+
 	return (
 		<div className="flex items-center gap-1">
 			<ContactIcon
 				url={linkedinUrl}
 				icon={Linkedin}
 				label="LinkedIn"
-				enabledClassName="text-sky-700 dark:text-sky-500"
+				enabledClassName={enabledClassName}
 			/>
 			<ContactIcon
 				url={emailUrl}
 				icon={Mail}
 				label="Email"
-				enabledClassName="text-amber-600 dark:text-amber-400"
+				enabledClassName={enabledClassName}
 			/>
 			<ContactIcon
 				url={whatsappUrl}
 				icon={MessageCircle}
 				label="WhatsApp"
-				enabledClassName="text-green-600 dark:text-green-400"
+				enabledClassName={enabledClassName}
 			/>
 		</div>
 	)

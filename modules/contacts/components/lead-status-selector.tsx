@@ -23,23 +23,23 @@ export const LEAD_STATUS_CONFIG: Record<
 > = {
 	[LeadStatus.NEW]: {
 		label: 'Nuevo',
-		color: 'bg-yellow-500',
-		bgColor: 'bg-yellow-50',
+		color: 'bg-zinc-900 dark:bg-zinc-100',
+		bgColor: 'bg-zinc-900 text-zinc-50 dark:bg-zinc-100 dark:text-zinc-900',
 	},
 	[LeadStatus.CONTACTED]: {
 		label: 'Contactado',
-		color: 'bg-pink-500',
-		bgColor: 'bg-pink-50',
+		color: 'bg-zinc-500 dark:bg-zinc-400',
+		bgColor: 'bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100',
 	},
 	[LeadStatus.IN_CONVERSATIONS]: {
 		label: 'En conversación',
-		color: 'bg-gray-400',
-		bgColor: 'bg-gray-50',
+		color: 'bg-zinc-400 dark:bg-zinc-500',
+		bgColor: 'bg-zinc-50 text-zinc-600 dark:bg-zinc-900/50 dark:text-zinc-400',
 	},
 	[LeadStatus.CLOSED]: {
 		label: 'Cerrado',
-		color: 'bg-green-500',
-		bgColor: 'bg-green-50',
+		color: 'bg-zinc-300 dark:bg-zinc-600',
+		bgColor: 'bg-white text-zinc-400 dark:bg-transparent dark:text-zinc-500',
 	},
 }
 

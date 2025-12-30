@@ -58,13 +58,13 @@ export function SelectionDropdown({
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="start" className="min-w-[160px]">
 				<DropdownMenuItem onClick={onSelectNone}>
-					Select None ({selectedCount})
+					Deseleccionar todo ({selectedCount})
 				</DropdownMenuItem>
 				<DropdownMenuItem onClick={onSelectPage}>
-					Select Page ({pageCount})
+					Seleccionar página ({pageCount})
 				</DropdownMenuItem>
 				<DropdownMenuItem onClick={onSelectAll}>
-					Select All ({totalCount})
+					Seleccionar todos ({totalCount})
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

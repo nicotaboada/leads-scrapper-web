@@ -9,7 +9,6 @@
 
 import { useEffect, useState } from 'react'
 import { FilterBy } from 'components/common/filter-by'
-import { cn } from 'lib/utils/merge'
 import { CityMultiselect } from './city-multiselect'
 
 interface CityFilterProps {
@@ -19,10 +18,8 @@ interface CityFilterProps {
 
 export function CityFilter({ value, onApply }: CityFilterProps) {
 	const [selectedCities, setSelectedCities] = useState<string[]>(value)
-	const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
 	const hasFilters = value.length > 0
-	const hasSelectedCities = selectedCities.length > 0
 
 	// Sync internal state with prop value
 	useEffect(() => {
@@ -54,19 +51,12 @@ export function CityFilter({ value, onApply }: CityFilterProps) {
 			onApply={handleApply}
 			onClear={handleClear}
 		>
-			<div
-				className={cn(
-					'space-y-2 transition-all duration-200',
-					isDropdownOpen && 'min-h-[280px]',
-					hasSelectedCities && !isDropdownOpen && 'min-h-[60px]'
-				)}
-			>
+			<div className="space-y-2">
 				<CityMultiselect
 					selectedCities={selectedCities}
 					onChange={setSelectedCities}
 					placeholder="Seleccionar ciudades..."
 					autoOpen={false}
-					onOpenChange={setIsDropdownOpen}
 				/>
 			</div>
 		</FilterBy>

@@ -7,6 +7,7 @@ import {
 	XCircle,
 } from 'lucide-react'
 import { cn } from '@/lib/utils/merge'
+import { Badge } from '@/components/ui/badge'
 import { RunStatus } from '../types/run'
 
 interface RunStatusBadgeProps {
@@ -15,7 +16,7 @@ interface RunStatusBadgeProps {
 }
 
 /**
- * Badge component that displays the status of a run with appropriate icon
+ * Badge component that displays the status of a run with appropriate icon and text
  */
 export function RunStatusBadge({ status, className }: RunStatusBadgeProps) {
 	const statusStr = typeof status === 'string' ? status : String(status)
@@ -25,37 +26,49 @@ export function RunStatusBadge({ status, className }: RunStatusBadgeProps) {
 			case RunStatus.PAUSED:
 			case 'PAUSED':
 				return {
-					icon: <Square className="h-5 w-5" />,
-					className: 'text-gray-500 dark:text-gray-400',
+					label: 'Pausado',
+					icon: <Pause className="h-3 w-3" />,
+					className:
+						'bg-zinc-50 text-zinc-400 border-zinc-200 dark:bg-zinc-900/50 dark:text-zinc-500 dark:border-zinc-800',
 				}
 			case RunStatus.PENDING:
 			case 'PENDING':
 				return {
-					icon: <Clock className="h-5 w-5" />,
-					className: 'text-yellow-600 dark:text-yellow-400',
+					label: 'Pendiente',
+					icon: <Clock className="h-3 w-3" />,
+					className:
+						'bg-zinc-50 text-zinc-400 border-zinc-200 border-dashed dark:bg-zinc-900/50 dark:text-zinc-500 dark:border-zinc-800',
 				}
 			case RunStatus.RUNNING:
 			case 'RUNNING':
 				return {
-					icon: <Loader2 className="h-5 w-5 animate-spin" />,
-					className: 'text-blue-600 dark:text-blue-400',
+					label: 'Ejecutando',
+					icon: <Loader2 className="h-3 w-3 animate-spin" />,
+					className:
+						'bg-zinc-100 text-zinc-900 border-zinc-300 dark:bg-zinc-800 dark:text-zinc-100 dark:border-zinc-700',
 				}
 			case RunStatus.SUCCEEDED:
 			case 'SUCCEEDED':
 				return {
-					icon: <CheckCircle2 className="h-5 w-5" />,
-					className: 'text-green-600 dark:text-green-400',
+					label: 'Completado',
+					icon: <CheckCircle2 className="h-3 w-3" />,
+					className:
+						'bg-zinc-900 text-zinc-50 border-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 dark:border-zinc-100',
 				}
 			case RunStatus.FAILED:
 			case 'FAILED':
 				return {
-					icon: <XCircle className="h-5 w-5" />,
-					className: 'text-red-600 dark:text-red-400',
+					label: 'Fallido',
+					icon: <XCircle className="h-3 w-3" />,
+					className:
+						'bg-white text-zinc-900 border-zinc-800 dark:bg-transparent dark:text-zinc-100 dark:border-zinc-400',
 				}
 			default:
 				return {
+					label: status,
 					icon: null,
-					className: 'text-gray-500 dark:text-gray-400',
+					className:
+						'bg-zinc-100 text-zinc-600 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-700',
 				}
 		}
 	}
@@ -63,14 +76,18 @@ export function RunStatusBadge({ status, className }: RunStatusBadgeProps) {
 	const config = getStatusConfig(statusStr)
 
 	return (
-		<div
+		<Badge
+			variant="outline"
 			className={cn(
-				'flex items-center justify-center',
+				'px-2 py-0.5 h-6 text-xs font-medium transition-all duration-200',
 				config.className,
 				className
 			)}
 		>
-			{config.icon}
-		</div>
+			<span className="flex items-center gap-1.5">
+				{config.icon}
+				{config.label}
+			</span>
+		</Badge>
 	)
 }

@@ -80,23 +80,23 @@ export function LeadsEnrichmentTable({
 	// Loading state - show table structure with spinner
 	if (loading && leads.length === 0) {
 		return (
-			<div className="rounded-lg border">
+			<div className="rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950 overflow-hidden shadow-sm">
 				<Table>
-					<TableHeader>
-						<TableRow>
+					<TableHeader className="bg-zinc-50/50 dark:bg-zinc-900/50">
+						<TableRow className="hover:bg-transparent border-zinc-200 dark:border-zinc-800">
 							<TableHead className="w-[50px]" />
-							<TableHead>Full Name</TableHead>
-							<TableHead>Position</TableHead>
-							<TableHead>Company</TableHead>
-							<TableHead className="w-[120px]" />
+							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">Full Name</TableHead>
+							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">Position</TableHead>
+							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">Company</TableHead>
+							<TableHead className="w-[120px] font-semibold text-zinc-900 dark:text-zinc-100" />
 						</TableRow>
 					</TableHeader>
 					<TableBody>
 						<TableRow>
 							<TableCell colSpan={5} className="py-16 text-center">
 								<Loader2 className="text-muted-foreground mx-auto h-6 w-6 animate-spin" />
-								<p className="text-muted-foreground mt-2 text-sm">
-									Loading leads...
+								<p className="text-muted-foreground mt-2 text-sm italic">
+									Cargando leads...
 								</p>
 							</TableCell>
 						</TableRow>
@@ -109,12 +109,12 @@ export function LeadsEnrichmentTable({
 	// Empty state for no leads found
 	if (leads.length === 0 && !loading) {
 		return (
-			<div className="rounded-lg border">
+			<div className="rounded-xl border border-dashed border-zinc-200 bg-zinc-50/50 dark:border-zinc-800 dark:bg-zinc-900/50">
 				<div className="flex min-h-[400px] items-center justify-center">
 					<div className="text-center">
-						<h3 className="text-lg font-semibold">No leads found</h3>
+						<h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">No se encontraron leads</h3>
 						<p className="text-muted-foreground mt-2 text-sm">
-							This run did not produce any person leads.
+							Esta ejecución no produjo ningún lead de persona.
 						</p>
 					</div>
 				</div>
@@ -124,36 +124,11 @@ export function LeadsEnrichmentTable({
 
 	return (
 		<div className="space-y-4">
-			{/* Bulk Action Header */}
-			<div className="flex items-center justify-between">
-				<div className="text-sm text-muted-foreground">
-					{hasSelection ? (
-						<span className="font-medium text-foreground">
-							{selectedCount} selected
-						</span>
-					) : (
-						<span>No items selected</span>
-					)}
-				</div>
-
-				{hasSelection && (
-					<Button
-						variant="default"
-						size="sm"
-						onClick={onAddContacts}
-						disabled={isAddingContacts}
-					>
-						<UserPlus className="mr-2 size-4" />
-						Add Contacts
-					</Button>
-				)}
-			</div>
-
 			{/* Table */}
-			<div className="rounded-lg border">
+			<div className="rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950 overflow-hidden shadow-sm">
 				<Table>
-					<TableHeader>
-						<TableRow>
+					<TableHeader className="bg-zinc-50/50 dark:bg-zinc-900/50">
+						<TableRow className="hover:bg-transparent border-zinc-200 dark:border-zinc-800">
 							<TableHead className="w-[50px]">
 								<SelectionDropdown
 									headerState={headerCheckboxState}
@@ -165,10 +140,10 @@ export function LeadsEnrichmentTable({
 									onSelectAll={onSelectAll}
 								/>
 							</TableHead>
-							<TableHead>Full Name</TableHead>
-							<TableHead>Position</TableHead>
-							<TableHead>Company</TableHead>
-							<TableHead className="w-[120px]" />
+							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">Full Name</TableHead>
+							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">Position</TableHead>
+							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">Company</TableHead>
+							<TableHead className="w-[120px] font-semibold text-zinc-900 dark:text-zinc-100" />
 						</TableRow>
 					</TableHeader>
 					<TableBody>
@@ -215,16 +190,16 @@ export function LeadsEnrichmentTable({
 
 			{/* Pagination Controls */}
 			{pageInfo && pageInfo.totalCount > 0 && (
-				<div className="flex items-center justify-between px-2">
+				<div className="flex items-center justify-between px-2 py-4 border-t border-zinc-100 dark:border-zinc-800">
 					<div className="flex items-center gap-2">
-						<span className="text-muted-foreground text-sm">
-							Results per page:
+						<span className="text-muted-foreground text-xs uppercase tracking-wider font-medium">
+							Resultados por página:
 						</span>
 						<Select
 							value={pageInfo.pageSize.toString()}
 							onValueChange={(value) => onPageSizeChange(Number(value))}
 						>
-							<SelectTrigger className="w-[70px]">
+							<SelectTrigger className="w-[70px] h-8 text-xs border-zinc-200 dark:border-zinc-800">
 								<SelectValue />
 							</SelectTrigger>
 							<SelectContent>
@@ -237,9 +212,8 @@ export function LeadsEnrichmentTable({
 					</div>
 
 					<div className="flex items-center gap-4">
-						<span className="text-muted-foreground text-sm">
-							Page {pageInfo.currentPage} of {pageInfo.totalPages} (
-							{pageInfo.totalCount} total results)
+						<span className="text-muted-foreground text-xs">
+							Página {pageInfo.currentPage} de {pageInfo.totalPages} ({pageInfo.totalCount} resultados totales)
 						</span>
 
 						<div className="flex items-center gap-2">
@@ -248,16 +222,18 @@ export function LeadsEnrichmentTable({
 								size="sm"
 								onClick={() => onPageChange(pageInfo.currentPage - 1)}
 								disabled={!pageInfo.hasPreviousPage || loading}
+								className="h-8 px-3 text-xs border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900"
 							>
-								Previous
+								Anterior
 							</Button>
 							<Button
 								variant="outline"
 								size="sm"
 								onClick={() => onPageChange(pageInfo.currentPage + 1)}
 								disabled={!pageInfo.hasNextPage || loading}
+								className="h-8 px-3 text-xs border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900"
 							>
-								Next
+								Siguiente
 							</Button>
 						</div>
 					</div>

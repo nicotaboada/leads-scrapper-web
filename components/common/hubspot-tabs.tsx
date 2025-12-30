@@ -136,7 +136,7 @@ function HubSpotTabs({
 
 				{/* Animated underline indicator */}
 				<motion.div
-					className="absolute bottom-0 z-20 h-0.5 bg-foreground"
+					className="absolute bottom-0 z-20 h-[3px] rounded-t-full bg-zinc-900 dark:bg-zinc-100"
 					layoutId="hubspot-tabs-underline"
 					style={{
 						left: underlineStyle.left,
@@ -145,7 +145,7 @@ function HubSpotTabs({
 					transition={{
 						type: 'spring',
 						stiffness: 400,
-						damping: 40,
+						damping: 35,
 					}}
 				/>
 			</div>

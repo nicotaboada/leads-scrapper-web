@@ -38,39 +38,39 @@ export function RunStatusSection({
 			case RunStatus.RUNNING:
 				return {
 					icon: Loader2,
-					iconClassName: 'animate-spin text-blue-600 dark:text-blue-400',
+					iconClassName: 'animate-spin text-zinc-600 dark:text-zinc-400',
 					bgClassName:
-						'bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800',
-					message: 'Processing...',
-					description: 'This run is currently being executed by Apify.',
+						'bg-zinc-50/50 dark:bg-zinc-900/30 border-zinc-200 dark:border-zinc-800',
+					message: 'Ejecutando...',
+					description: 'Esta ejecución está siendo procesada por Apify.',
 				}
 			case RunStatus.SUCCEEDED:
 				return {
 					icon: CheckCircle,
-					iconClassName: 'text-green-600 dark:text-green-400',
+					iconClassName: 'text-zinc-900 dark:text-zinc-100',
 					bgClassName:
-						'bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-800',
-					message: 'Completed successfully',
-					description: 'This run has finished and all results are available.',
+						'bg-zinc-50 dark:bg-zinc-900/50 border-zinc-900/10 dark:border-zinc-100/10',
+					message: 'Completado con éxito',
+					description: 'Esta ejecución ha finalizado y todos los resultados están disponibles.',
 				}
 			case RunStatus.FAILED:
 				return {
 					icon: XCircle,
-					iconClassName: 'text-red-600 dark:text-red-400',
+					iconClassName: 'text-zinc-900 dark:text-zinc-100',
 					bgClassName:
-						'bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800',
-					message: 'Run failed',
-					description: 'This run encountered an error during execution.',
+						'bg-zinc-50 dark:bg-zinc-900/50 border-zinc-900/20 dark:border-zinc-100/20 border-dashed',
+					message: 'Error en la ejecución',
+					description: 'Esta ejecución encontró un error durante su procesamiento.',
 				}
 			case RunStatus.PAUSED:
 			default:
 				return {
 					icon: CheckCircle,
-					iconClassName: 'text-gray-600 dark:text-gray-400',
+					iconClassName: 'text-zinc-500 dark:text-zinc-400',
 					bgClassName:
-						'bg-gray-50 dark:bg-gray-950/30 border-gray-200 dark:border-gray-800',
-					message: 'Paused',
-					description: 'This run is currently paused.',
+						'bg-zinc-50/30 dark:bg-zinc-950/30 border-zinc-200 dark:border-zinc-800',
+					message: 'Pausado',
+					description: 'Esta ejecución se encuentra pausada.',
 				}
 		}
 	}
@@ -81,30 +81,36 @@ export function RunStatusSection({
 	return (
 		<div
 			className={cn(
-				'rounded-lg border p-6 transition-colors',
+				'rounded-xl border p-5 transition-colors',
 				config.bgClassName
 			)}
 		>
-			<div className="flex items-start gap-4">
+			<div className="flex items-start gap-3">
 				<StatusIcon
-					className={cn('h-6 w-6 flex-shrink-0', config.iconClassName)}
+					className={cn('h-5 w-5 flex-shrink-0 mt-0.5', config.iconClassName)}
 				/>
-				<div className="flex-1 space-y-2">
+				<div className="flex-1 space-y-3">
 					<div>
-						<h3 className="text-lg font-semibold">{config.message}</h3>
-						<p className="muted-foreground text-sm">{config.description}</p>
+						<h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100 leading-none mb-1.5">
+							{config.message}
+						</h3>
+						<p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+							{config.description}
+						</p>
 					</div>
 
 					{apifyUrl && (
-						<div className="flex items-center gap-2 pt-2">
-							<span className="text-sm font-medium">Apify Console:</span>
+						<div className="flex items-center gap-2 pt-1">
+							<span className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+								Apify Console:
+							</span>
 							<a
 								href={`https://console.apify.com/actors/runs/${apifyUrl}#output`}
 								target="_blank"
 								rel="noopener noreferrer"
-								className="inline-flex items-center gap-1 text-sm text-blue-600 hover:text-blue-800 hover:underline dark:text-blue-400 dark:hover:text-blue-300"
+								className="inline-flex items-center gap-1 text-sm text-zinc-900 hover:underline dark:text-zinc-100 transition-colors"
 							>
-								View in Apify
+								Ver en Apify
 								<ExternalLink className="h-3 w-3" />
 							</a>
 						</div>

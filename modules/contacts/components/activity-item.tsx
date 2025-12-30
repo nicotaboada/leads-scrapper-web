@@ -7,6 +7,7 @@
  * Summary is collapsible with a distinctive background
  */
 
+import { motion, AnimatePresence } from 'motion/react'
 import { useState } from 'react'
 import {
 	ChevronDown,
@@ -26,9 +27,6 @@ interface ActivityItemProps {
 	activity: Activity
 	isLast?: boolean
 }
-
-const COLLAPSED_HEIGHT = 'h-16'
-const EXPANDED_HEIGHT = 'h-24'
 
 const iconComponents: Record<string, React.ElementType> = {
 	MessageCircle,
@@ -55,9 +53,9 @@ export function ActivityItem({ activity, isLast = false }: ActivityItemProps) {
 			return null
 		}
 		return (
-			<span className="text-muted-foreground">
+			<span className="text-zinc-400 font-medium">
 				{' '}
-				from {formatStatus(metadata.fromStatus)} → {formatStatus(metadata.toStatus)}
+				from <span className="text-zinc-900 dark:text-zinc-100">{formatStatus(metadata.fromStatus)}</span> → <span className="text-zinc-900 dark:text-zinc-100">{formatStatus(metadata.toStatus)}</span>
 			</span>
 		)
 	}
@@ -72,47 +70,39 @@ export function ActivityItem({ activity, isLast = false }: ActivityItemProps) {
 		}
 	}
 
-	const lineHeight = hasSummary && isExpanded ? EXPANDED_HEIGHT : COLLAPSED_HEIGHT
-
 	return (
-		<div className="relative flex gap-4">
+		<div className="relative flex gap-6">
 			{/* Timeline line */}
 			{!isLast && (
 				<div
-					className={cn(
-						'absolute top-10 left-5 w-px bg-border transition-all',
-						lineHeight
-					)}
+					className="absolute top-12 left-5 bottom-0 w-[2px] bg-zinc-100 dark:bg-zinc-800"
 				/>
 			)}
 
 			{/* Icon */}
 			<div
-				className={cn(
-					'relative z-10 flex size-10 shrink-0 items-center justify-center rounded-lg',
-					config.bgColor
-				)}
+				className="relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-white bg-zinc-900 shadow-sm dark:border-zinc-950 dark:bg-zinc-100"
 			>
-				<IconComponent className={cn('size-5', config.textColor)} />
+				<IconComponent className="size-4 text-zinc-50 dark:text-zinc-900" />
 			</div>
 
 			{/* Content */}
-			<div className="min-w-0 flex-1 pb-6">
+			<div className="min-w-0 flex-1 pb-10">
 				{/* Header row */}
 				<div
 					className={cn(
-						'flex items-center justify-between',
+						'flex items-center justify-between group',
 						hasSummary && 'cursor-pointer'
 					)}
 					onClick={toggleExpanded}
 				>
 					<div className="flex flex-wrap items-center gap-x-2">
-						<span className="font-semibold uppercase tracking-wide">
+						<span className="text-sm font-semibold uppercase text-zinc-900 dark:text-zinc-100">
 							{config.label}
 						</span>
 						{activity.activityType !== 'STATUS_CHANGED' && (
-							<span className="text-muted-foreground">
-								added by {activity.authorName}
+							<span className="text-zinc-400 text-sm font-medium">
+								por <span className="text-zinc-600 dark:text-zinc-300">{activity.authorName}</span>
 							</span>
 						)}
 						{renderStatusChangeInfo()}
@@ -122,7 +112,7 @@ export function ActivityItem({ activity, isLast = false }: ActivityItemProps) {
 					{hasSummary && (
 						<button
 							type="button"
-							className="text-muted-foreground hover:text-foreground p-1"
+							className="text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 transition-colors p-1"
 							aria-label={isExpanded ? 'Collapse' : 'Expand'}
 						>
 							{isExpanded ? (
@@ -135,13 +125,22 @@ export function ActivityItem({ activity, isLast = false }: ActivityItemProps) {
 				</div>
 
 				{/* Collapsible summary */}
-				{hasSummary && isExpanded && (
-					<div className="mt-2 rounded-md border-l-4 border-muted-foreground/30 bg-muted/50 py-2 pl-3 pr-2">
-						<p className="text-muted-foreground text-sm italic">
-							{activity.summary}
-						</p>
-					</div>
-				)}
+				<AnimatePresence initial={false}>
+					{hasSummary && isExpanded && (
+						<motion.div
+							initial={{ height: 0, opacity: 0, marginTop: 0 }}
+							animate={{ height: 'auto', opacity: 1, marginTop: 8 }}
+							exit={{ height: 0, opacity: 0, marginTop: 0 }}
+							className="overflow-hidden"
+						>
+							<div className="rounded-xl border border-zinc-100 bg-zinc-50/50 p-4 dark:border-zinc-800 dark:bg-zinc-900/30">
+								<p className="text-zinc-600 dark:text-zinc-400 text-sm font-medium leading-relaxed italic">
+									&ldquo;{activity.summary}&rdquo;
+								</p>
+							</div>
+						</motion.div>
+					)}
+				</AnimatePresence>
 			</div>
 		</div>
 	)

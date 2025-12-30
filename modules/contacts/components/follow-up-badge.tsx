@@ -37,45 +37,40 @@ export function FollowUpBadge({ followUp }: FollowUpBadgeProps) {
 				<TooltipTrigger asChild>
 					<div
 						className={cn(
-							'flex size-6 items-center justify-center rounded-full',
+							'flex size-5 items-center justify-center rounded-full transition-colors',
 							isOverdue
-								? 'bg-red-100 text-red-600'
-								: 'bg-amber-100 text-amber-600'
+								? 'bg-zinc-900 text-zinc-50 dark:bg-zinc-100 dark:text-zinc-950 shadow-sm'
+								: 'bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400'
 						)}
 					>
 						{isOverdue ? (
-							<AlertCircle className="size-3.5" />
+							<AlertCircle className="size-3" />
 						) : (
-							<CalendarDays className="size-3.5" />
+							<CalendarDays className="size-3" />
 						)}
 					</div>
 				</TooltipTrigger>
-				<TooltipContent side="top" className="max-w-xs">
-					<div className="space-y-1">
+				<TooltipContent side="top" className="max-w-xs shadow-xl">
+					<div className="space-y-1.5 p-1">
 						<div className="flex items-center gap-2">
-							<span className="font-semibold">Follow-up:</span>
+							<span className="text-xs font-bold uppercase tracking-tight opacity-90">Seguimiento:</span>
 							<span
 								className={cn(
-									'text-sm',
-									isOverdue ? 'text-red-500' : 'text-muted-foreground'
+									'text-xs font-medium',
+									isOverdue && 'underline underline-offset-2'
 								)}
 							>
 								{formatFollowUpDate(followUp.dueDate)}
 							</span>
-							<span
-								className={cn(
-									'text-xs',
-									isOverdue ? 'text-red-400' : 'text-muted-foreground'
-								)}
-							>
-								({getFollowUpRelativeTime(followUp.dueDate)})
-							</span>
 						</div>
 						{followUp.note && (
-							<p className="text-xs text-muted-foreground line-clamp-2">
-								{followUp.note}
+							<p className="text-xs opacity-80 line-clamp-2 italic leading-relaxed">
+								&ldquo;{followUp.note}&rdquo;
 							</p>
 						)}
+						<div className="text-[10px] opacity-60 font-medium">
+							{getFollowUpRelativeTime(followUp.dueDate)}
+						</div>
 					</div>
 				</TooltipContent>
 			</Tooltip>

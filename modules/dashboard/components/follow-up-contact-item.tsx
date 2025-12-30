@@ -31,18 +31,27 @@ export function FollowUpContactItem({ contact }: FollowUpContactItemProps) {
 		<button
 			type="button"
 			onClick={handleClick}
-			className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left transition-colors hover:bg-accent focus:bg-accent focus:outline-none"
+			className="group flex w-full items-center gap-4 px-6 py-4 text-left transition-all hover:bg-zinc-50 dark:hover:bg-zinc-900/50"
 		>
-			<Avatar className="h-10 w-10 shrink-0">
-				<AvatarFallback className="bg-muted">
-					{isCompany ? (
-						<Building2 className="h-5 w-5 text-muted-foreground" />
-					) : (
-						<User className="h-5 w-5 text-muted-foreground" />
-					)}
-				</AvatarFallback>
-			</Avatar>
-			<span className="truncate text-sm font-medium">{contact.displayName}</span>
+			<div className="relative">
+				<Avatar className="h-10 w-10 shrink-0 border border-zinc-100 dark:border-zinc-800 shadow-sm transition-transform group-hover:scale-105">
+					<AvatarFallback className="bg-zinc-50 text-zinc-400 dark:bg-zinc-900 dark:text-zinc-500">
+						{isCompany ? (
+							<Building2 className="h-5 w-5" />
+						) : (
+							<User className="h-5 w-5" />
+						)}
+					</AvatarFallback>
+				</Avatar>
+			</div>
+			<div className="flex flex-1 flex-col gap-0.5 min-w-0">
+				<span className="truncate text-[13px] font-semibold text-zinc-900 dark:text-zinc-100 leading-tight">
+					{contact.displayName}
+				</span>
+				<span className="text-[11px] text-muted-foreground/60 font-medium">
+					{isCompany ? 'Empresa' : 'Persona'}
+				</span>
+			</div>
 		</button>
 	)
 }

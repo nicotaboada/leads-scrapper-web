@@ -20,28 +20,17 @@ export function BulkActionHeader({
 	const hasSelection = selectedCount > 0
 
 	return (
-		<div className="flex items-center justify-between">
-			<div className="text-sm text-muted-foreground">
-				{hasSelection ? (
-					<span className="font-medium text-foreground">
-						{selectedCount} selected
-					</span>
-				) : (
-					<span>No items selected</span>
-				)}
-			</div>
-
-			{hasSelection && (
-				<Button
-					variant="default"
-					size="sm"
-					onClick={onCreateContacts}
-					disabled={disabled}
-				>
-					<UserPlusIcon className="mr-2 size-4" />
-					Create Contacts
-				</Button>
-			)}
+		<div className="flex items-center justify-end">
+			<Button
+				variant="default"
+				size="sm"
+				onClick={onCreateContacts}
+				disabled={disabled || !hasSelection}
+				className="bg-zinc-900 text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-950 dark:hover:bg-zinc-200 transition-all duration-200 shadow-sm"
+			>
+				<UserPlusIcon className="mr-2 size-4" />
+				Create Contacts
+			</Button>
 		</div>
 	)
 }

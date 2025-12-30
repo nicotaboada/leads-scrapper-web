@@ -52,24 +52,24 @@ export function FollowUpSection({
 	}
 
 	return (
-		<div className="py-2">
+		<div className="py-4">
 			{!followUp ? (
 				// No follow-up state
 				<>
 					{/* Header row with button */}
-					<div className="flex items-center justify-between gap-2 mb-2">
-						<h3 className="text-sm font-semibold">Follow-up</h3>
+					<div className="mb-4 flex items-center justify-between gap-2">
+						<h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Follow-up</h3>
 						<Button
 							variant="outline"
 							size="sm"
-							className="h-7 text-xs px-2"
+							className="h-7 rounded-lg border-zinc-200 px-2 text-[11px] font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-900"
 							onClick={() => setIsModalOpen(true)}
 						>
 							Agregar follow-up
 						</Button>
 					</div>
 					{/* Empty state message */}
-					<p className="text-sm text-muted-foreground">
+					<p className="text-zinc-400 text-sm italic">
 						Sin follow-ups pendientes
 					</p>
 				</>
@@ -77,14 +77,14 @@ export function FollowUpSection({
 				// Has follow-up state
 				<>
 					{/* Header row: Title + Badge + Actions */}
-					<div className="mb-2 flex items-center justify-between gap-2">
+					<div className="mb-4 flex items-center justify-between gap-2">
 						<div className="flex items-center gap-2">
-							<h3 className="text-sm font-semibold">Follow-up</h3>
+							<h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Follow-up</h3>
 							<Badge
 								variant={isOverdue ? 'destructive' : 'secondary'}
 								className={cn(
-									'gap-1 px-1.5 py-0.5 text-[11px] font-medium',
-									!isOverdue && 'bg-green-100 text-green-700 hover:bg-green-100'
+									'gap-1 rounded-md px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider',
+									!isOverdue && 'bg-zinc-100 text-zinc-600 hover:bg-zinc-100 dark:bg-zinc-800 dark:text-zinc-400'
 								)}
 							>
 								{isOverdue ? (
@@ -104,7 +104,7 @@ export function FollowUpSection({
 							<Button
 								variant="ghost"
 								size="sm"
-								className="size-7 p-0"
+								className="size-7 p-0 text-zinc-400 hover:text-emerald-600 dark:hover:text-emerald-400"
 								onClick={handleComplete}
 								disabled={completeLoading}
 								title="Marcar como hecho"
@@ -114,7 +114,7 @@ export function FollowUpSection({
 							<Button
 								variant="ghost"
 								size="sm"
-								className="size-7 p-0"
+								className="size-7 p-0 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100"
 								onClick={() => setIsModalOpen(true)}
 								title="Editar follow-up"
 							>
@@ -123,17 +123,35 @@ export function FollowUpSection({
 						</div>
 					</div>
 
-					{/* Date row */}
-					<p className="text-sm font-medium">
-						{formatDate(followUp.dueDate)}
-					</p>
+					<div className="divide-zinc-100 space-y-0.5 divide-y dark:divide-zinc-800">
+						{/* Date Row */}
+						<div className="flex items-start gap-3 py-3 transition-colors hover:bg-zinc-50/50 dark:hover:bg-zinc-900/50">
+							<div className="text-zinc-400 mt-0.5 shrink-0 dark:text-zinc-500">
+								<Clock className="size-4" />
+							</div>
+							<div className="min-w-0 flex-1">
+								<p className="text-zinc-500 text-[10px] font-medium uppercase dark:text-zinc-400">Fecha de vencimiento</p>
+								<p className="text-zinc-900 text-sm font-medium dark:text-zinc-100">
+									{formatDate(followUp.dueDate)}
+								</p>
+							</div>
+						</div>
 
-					{/* Note row */}
-					{followUp.note && (
-						<p className="text-muted-foreground mt-1 text-sm">
-							<span className="font-medium">Nota:</span> {followUp.note}
-						</p>
-					)}
+						{/* Note Row */}
+						{followUp.note && (
+							<div className="flex items-start gap-3 py-3 transition-colors hover:bg-zinc-50/50 dark:hover:bg-zinc-900/50">
+								<div className="text-zinc-400 mt-0.5 shrink-0 dark:text-zinc-500">
+									<AlertCircle className="size-4" />
+								</div>
+								<div className="min-w-0 flex-1">
+									<p className="text-zinc-500 text-[10px] font-medium uppercase dark:text-zinc-400">Nota</p>
+									<p className="text-zinc-900 text-sm font-medium dark:text-zinc-100">
+										{followUp.note}
+									</p>
+								</div>
+							</div>
+						)}
+					</div>
 				</>
 			)}
 

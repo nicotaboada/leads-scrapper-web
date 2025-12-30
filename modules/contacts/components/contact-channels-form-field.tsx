@@ -15,20 +15,20 @@ const CHANNEL_CONFIG = {
 	[ContactChannel.LINKEDIN]: {
 		icon: Linkedin,
 		label: 'LinkedIn',
-		activeClass: 'bg-blue-100 text-blue-700',
-		hoverClass: 'hover:bg-blue-50',
+		activeClass: 'bg-zinc-900 text-zinc-50 dark:bg-zinc-50 dark:text-zinc-900 border-zinc-900 dark:border-zinc-50',
+		hoverClass: 'hover:bg-zinc-50 dark:hover:bg-zinc-900',
 	},
 	[ContactChannel.WHATSAPP]: {
 		icon: MessageCircle,
 		label: 'WhatsApp',
-		activeClass: 'bg-green-100 text-green-700',
-		hoverClass: 'hover:bg-green-50',
+		activeClass: 'bg-zinc-900 text-zinc-50 dark:bg-zinc-50 dark:text-zinc-900 border-zinc-900 dark:border-zinc-50',
+		hoverClass: 'hover:bg-zinc-50 dark:hover:bg-zinc-900',
 	},
 	[ContactChannel.EMAIL]: {
 		icon: Mail,
 		label: 'Email',
-		activeClass: 'bg-purple-100 text-purple-700',
-		hoverClass: 'hover:bg-purple-50',
+		activeClass: 'bg-zinc-900 text-zinc-50 dark:bg-zinc-50 dark:text-zinc-900 border-zinc-900 dark:border-zinc-50',
+		hoverClass: 'hover:bg-zinc-50 dark:hover:bg-zinc-900',
 	},
 } as const
 
@@ -53,7 +53,7 @@ export function ContactChannelsFormField({
 	}
 
 	return (
-		<div className="flex gap-1">
+		<div className="flex gap-2">
 			{Object.entries(CHANNEL_CONFIG).map(([channel, config]) => {
 				const isActive = value.includes(channel as ContactChannel)
 				const Icon = config.icon
@@ -65,16 +65,16 @@ export function ContactChannelsFormField({
 						onClick={() => handleToggle(channel as ContactChannel)}
 						disabled={disabled}
 						className={cn(
-							'flex h-8 w-8 cursor-pointer items-center justify-center rounded-md border transition-colors',
+							'flex h-11 w-11 cursor-pointer items-center justify-center rounded-xl border transition-all duration-200',
 							'disabled:cursor-not-allowed disabled:opacity-50',
 							isActive
 								? config.activeClass
-								: `border-input bg-background ${config.hoverClass}`
+								: 'border-zinc-200 bg-white text-zinc-400 hover:border-zinc-300 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-500 dark:hover:border-zinc-700'
 						)}
 						aria-label={config.label}
 						aria-pressed={isActive}
 					>
-						<Icon className="h-4 w-4" />
+						<Icon className="h-5 w-5" />
 					</button>
 				)
 			})}

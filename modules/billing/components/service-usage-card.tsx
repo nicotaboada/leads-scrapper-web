@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import {
 	Card,
 	CardContent,
@@ -15,6 +16,7 @@ import {
 	Search,
 	Sparkles,
 	AlertCircle,
+	ArrowRight,
 } from 'lucide-react'
 import type { ServiceUsage, ServiceKey } from '../types'
 import { UsageProgressBar } from './usage-progress-bar'
@@ -91,11 +93,15 @@ function DisabledState() {
 		<div className="space-y-3 py-2">
 			<div className="flex items-center gap-2 text-muted-foreground">
 				<AlertCircle className="h-4 w-4" />
-				<span className="text-sm font-medium">Not configured</span>
+				<span className="text-sm font-medium">No active key configured</span>
 			</div>
-			<p className="text-sm text-muted-foreground">
-				Set up this service in API Keys settings
-			</p>
+			<Link
+				href="/settings/api-keys"
+				className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+			>
+				Configure API Key
+				<ArrowRight className="h-3 w-3" />
+			</Link>
 		</div>
 	)
 }

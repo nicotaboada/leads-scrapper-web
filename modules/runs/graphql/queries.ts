@@ -13,6 +13,12 @@ export const RUN_FIELDS_FRAGMENT = gql`
 		status
 		input
 		resultCount
+		userId
+		user {
+			id
+			email
+			name
+		}
 		createdAt
 		updatedAt
 	}

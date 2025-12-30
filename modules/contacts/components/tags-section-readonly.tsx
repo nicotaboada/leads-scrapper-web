@@ -28,7 +28,8 @@ export function TagsSectionReadonly({ tags }: TagsSectionReadonlyProps) {
 						tags.map((tag) => (
 							<TagChip
 								key={tag.id}
-								tag={{ id: tag.id, name: tag.name, color: tag.color ?? undefined }}
+								tag={{ id: tag.id, name: tag.name, color: null }}
+								size="sm"
 							/>
 						))
 					)}

@@ -51,16 +51,24 @@ export function TagsTable({
 	const isEmpty = !loading && tags.length === 0
 
 	return (
-		<div className="space-y-4">
-			<div className="rounded-md border">
+		<div className="w-full space-y-4">
+			<div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
 				<Table>
-					<TableHeader>
-						<TableRow>
-							<TableHead>Nombre</TableHead>
-							<TableHead>Color</TableHead>
-							<TableHead className="max-w-[300px]">Descripción</TableHead>
-							<TableHead>Creado</TableHead>
-							<TableHead className="w-[70px]"></TableHead>
+					<TableHeader className="bg-zinc-50/50 dark:bg-zinc-900/50">
+						<TableRow className="border-zinc-200 hover:bg-transparent dark:border-zinc-800">
+							<TableHead className="pl-6 font-semibold text-zinc-900 dark:text-zinc-100">
+								Nombre
+							</TableHead>
+							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">
+								Color
+							</TableHead>
+							<TableHead className="max-w-[300px] font-semibold text-zinc-900 dark:text-zinc-100">
+								Descripción
+							</TableHead>
+							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">
+								Creado
+							</TableHead>
+							<TableHead className="w-[70px] pr-6 font-semibold text-zinc-900 dark:text-zinc-100"></TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
@@ -68,16 +76,16 @@ export function TagsTable({
 							<TableSkeletonRows
 								rows={5}
 								columns={[
-									{ width: '150px' },
+									{ cellClassName: 'pl-6', width: '150px' },
 									{ width: '40px' },
 									{ width: '200px' },
 									{ width: '100px' },
-									{ width: '40px' },
+									{ cellClassName: 'pr-6', width: '40px' },
 								]}
 							/>
 						) : isEmpty ? (
 							<TableRow>
-								<TableCell colSpan={5}>
+								<TableCell colSpan={5} className="py-12">
 									<TableEmptyState
 										icon={TagIcon}
 										title="No hay tags"
@@ -91,18 +99,20 @@ export function TagsTable({
 							</TableRow>
 						) : (
 							tags.map((tag) => (
-								<TableRow key={tag.id}>
-									<TableCell className="font-medium">{tag.name}</TableCell>
+								<TableRow key={tag.id} className="group transition-colors">
+									<TableCell className="pl-6 font-medium text-zinc-900 dark:text-zinc-100">
+										{tag.name}
+									</TableCell>
 									<TableCell>
 										<TagColorBadge color={tag.color} />
 									</TableCell>
-									<TableCell className="text-muted-foreground max-w-[300px] truncate">
+									<TableCell className="max-w-[300px] truncate text-zinc-500">
 										{tag.description || '—'}
 									</TableCell>
-									<TableCell className="text-muted-foreground">
+									<TableCell className="text-zinc-500">
 										{formatDate(tag.createdAt)}
 									</TableCell>
-									<TableCell>
+									<TableCell className="pr-6 text-right">
 										<TagActionsMenu
 											tag={tag}
 											onEdit={onEdit}

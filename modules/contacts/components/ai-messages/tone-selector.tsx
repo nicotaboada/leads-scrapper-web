@@ -37,12 +37,12 @@ export function ToneSelector({ value, onChange, disabled }: ToneSelectorProps) {
 						disabled={disabled}
 						onClick={() => onChange(tone)}
 						className={cn(
-							'flex-1 rounded-lg px-4 py-2.5 text-sm font-medium transition-all',
+							'flex-1 rounded-lg px-4 py-2.5 text-sm font-bold transition-all shadow-sm',
 							'hover:bg-zinc-100 dark:hover:bg-zinc-800',
 							'disabled:cursor-not-allowed disabled:opacity-50',
 							value === tone
-								? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900'
-								: 'bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400'
+								? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 ring-1 ring-zinc-900 dark:ring-zinc-100'
+								: 'bg-white text-zinc-500 border border-zinc-200 dark:bg-zinc-950 dark:text-zinc-500 dark:border-zinc-800'
 						)}
 					>
 						{TONE_LABELS[tone]}

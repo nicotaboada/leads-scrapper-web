@@ -29,7 +29,7 @@ export default async function DashboardPage() {
 		<div>
 			<SectionHeader title="Dashboard" subtitle={`Bienvenido, ${user.email}`} />
 
-			<div className="grid gap-6 lg:grid-cols-2">
+			<div className="grid gap-6 lg:grid-cols-2 lg:items-stretch">
 				{/* Row 1: Leads status + Activities */}
 				<LeadsStatusCard />
 				<ActivityCard />

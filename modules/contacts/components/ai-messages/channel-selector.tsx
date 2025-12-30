@@ -30,10 +30,9 @@ export function ChannelSelector({ value, onChange, disabled, compact }: ChannelS
 						onClick={() => onChange(MessageChannel.WHATSAPP)}
 						className={cn(
 							'flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-xs font-medium transition-all',
-							'hover:bg-zinc-50 dark:hover:bg-zinc-800',
 							'disabled:cursor-not-allowed disabled:opacity-50',
 							value === MessageChannel.WHATSAPP
-								? 'border-green-500 bg-green-50 text-green-700 dark:border-green-400 dark:bg-green-950/30 dark:text-green-400'
+								? 'border-zinc-900 bg-zinc-900 text-zinc-50 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900'
 								: 'border-zinc-200 text-zinc-500 dark:border-zinc-700 dark:text-zinc-400'
 						)}
 					>
@@ -46,10 +45,9 @@ export function ChannelSelector({ value, onChange, disabled, compact }: ChannelS
 						onClick={() => onChange(MessageChannel.EMAIL)}
 						className={cn(
 							'flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-xs font-medium transition-all',
-							'hover:bg-zinc-50 dark:hover:bg-zinc-800',
 							'disabled:cursor-not-allowed disabled:opacity-50',
 							value === MessageChannel.EMAIL
-								? 'border-blue-500 bg-blue-50 text-blue-700 dark:border-blue-400 dark:bg-blue-950/30 dark:text-blue-400'
+								? 'border-zinc-900 bg-zinc-900 text-zinc-50 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900'
 								: 'border-zinc-200 text-zinc-500 dark:border-zinc-700 dark:text-zinc-400'
 						)}
 					>
@@ -72,12 +70,11 @@ export function ChannelSelector({ value, onChange, disabled, compact }: ChannelS
 					disabled={disabled}
 					onClick={() => onChange(MessageChannel.WHATSAPP)}
 					className={cn(
-						'flex flex-1 items-center justify-center gap-2 rounded-lg border-2 px-4 py-3 text-sm font-medium transition-all',
-						'hover:bg-zinc-50 dark:hover:bg-zinc-800',
-						'disabled:cursor-not-allowed disabled:opacity-50',
+						'flex flex-1 items-center justify-center gap-2 rounded-lg border-2 px-4 py-3 text-sm font-bold transition-all',
+						'disabled:cursor-not-allowed disabled:opacity-50 shadow-sm',
 						value === MessageChannel.WHATSAPP
-							? 'border-green-500 bg-green-50 text-green-700 dark:border-green-400 dark:bg-green-950/30 dark:text-green-400'
-							: 'border-zinc-200 text-zinc-600 dark:border-zinc-700 dark:text-zinc-400'
+							? 'border-zinc-900 bg-zinc-900 text-zinc-50 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900'
+							: 'border-zinc-200 bg-white text-zinc-500 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-500'
 					)}
 				>
 					<MessageSquare className="h-4 w-4" />
@@ -88,12 +85,11 @@ export function ChannelSelector({ value, onChange, disabled, compact }: ChannelS
 					disabled={disabled}
 					onClick={() => onChange(MessageChannel.EMAIL)}
 					className={cn(
-						'flex flex-1 items-center justify-center gap-2 rounded-lg border-2 px-4 py-3 text-sm font-medium transition-all',
-						'hover:bg-zinc-50 dark:hover:bg-zinc-800',
-						'disabled:cursor-not-allowed disabled:opacity-50',
+						'flex flex-1 items-center justify-center gap-2 rounded-lg border-2 px-4 py-3 text-sm font-bold transition-all',
+						'disabled:cursor-not-allowed disabled:opacity-50 shadow-sm',
 						value === MessageChannel.EMAIL
-							? 'border-blue-500 bg-blue-50 text-blue-700 dark:border-blue-400 dark:bg-blue-950/30 dark:text-blue-400'
-							: 'border-zinc-200 text-zinc-600 dark:border-zinc-700 dark:text-zinc-400'
+							? 'border-zinc-900 bg-zinc-900 text-zinc-50 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900'
+							: 'border-zinc-200 bg-white text-zinc-500 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-500'
 					)}
 				>
 					<Mail className="h-4 w-4" />

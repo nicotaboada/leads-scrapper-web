@@ -23,15 +23,14 @@ export function WebsiteSeoEmptyState({
 }: WebsiteSeoEmptyStateProps) {
 	if (!hasWebsite) {
 		return (
-			<Card>
+			<Card className="border-zinc-200 dark:border-zinc-800 shadow-sm">
 				<CardContent className="flex flex-col items-center justify-center py-12">
-					<div className="bg-muted mb-4 rounded-full p-4">
-						<Globe className="text-muted-foreground h-8 w-8" />
+					<div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800">
+						<Globe className="h-8 w-8 text-zinc-400 dark:text-zinc-500" />
 					</div>
-					<h3 className="mb-2 text-lg font-semibold">Sin sitio web registrado</h3>
-					<p className="text-muted-foreground max-w-sm text-center text-sm">
-						Esta empresa no tiene un sitio web registrado. Agrega uno para poder
-						realizar el análisis.
+					<h3 className="mb-2 text-lg font-bold text-zinc-900 dark:text-zinc-100">Sin sitio web registrado</h3>
+					<p className="text-zinc-500 max-w-xs text-center text-sm font-medium dark:text-zinc-400 leading-relaxed">
+						Esta empresa no tiene un sitio web registrado. Agrega uno en el perfil para poder realizar el análisis.
 					</p>
 				</CardContent>
 			</Card>
@@ -39,17 +38,20 @@ export function WebsiteSeoEmptyState({
 	}
 
 	return (
-		<Card>
+		<Card className="border-zinc-200 dark:border-zinc-800 shadow-sm">
 			<CardContent className="flex flex-col items-center justify-center py-12">
-				<div className="bg-muted mb-4 rounded-full p-4">
-					<Globe className="text-muted-foreground h-8 w-8" />
+				<div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800">
+					<Globe className="h-8 w-8 text-zinc-400 dark:text-zinc-500" />
 				</div>
-				<h3 className="mb-2 text-lg font-semibold">Sin análisis realizado</h3>
-				<p className="text-muted-foreground mb-6 max-w-sm text-center text-sm">
-					Ejecuta un análisis para evaluar la calidad del sitio web y su
-					posicionamiento SEO.
+				<h3 className="mb-2 text-lg font-bold text-zinc-900 dark:text-zinc-100">Sin análisis realizado</h3>
+				<p className="text-zinc-500 mb-6 max-w-xs text-center text-sm font-medium dark:text-zinc-400 leading-relaxed">
+					Ejecuta un análisis estratégico para evaluar la calidad del sitio web y su posicionamiento en Google.
 				</p>
-				<Button onClick={onRunAnalysis} disabled={isAnalyzing}>
+				<Button 
+					onClick={onRunAnalysis} 
+					disabled={isAnalyzing}
+					className="bg-zinc-900 font-bold text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 shadow-sm h-10 px-6"
+				>
 					{isAnalyzing ? (
 						<>
 							<Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -58,7 +60,7 @@ export function WebsiteSeoEmptyState({
 					) : (
 						<>
 							<Globe className="mr-2 h-4 w-4" />
-							Ejecutar Análisis
+							Ejecutar Análisis Estratégico
 						</>
 					)}
 				</Button>

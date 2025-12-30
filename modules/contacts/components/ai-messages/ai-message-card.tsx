@@ -7,20 +7,29 @@
  * Randomly selects 1-3 problems and uses default tone (Amigable).
  */
 
-import { useState, useMemo, useCallback, useEffect } from 'react'
-import { Sparkles, Loader2, Copy, Check, ArrowRight, Globe, AlertCircle } from 'lucide-react'
+import {
+	AlertCircle,
+	ArrowRight,
+	Check,
+	Copy,
+	Globe,
+	Loader2,
+	Sparkles,
+} from 'lucide-react'
+import { AnimatePresence, motion } from 'motion/react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { Button } from 'components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from 'components/ui/card'
 import { ChannelSelector } from './channel-selector'
 import { useGenerateAIMessage } from '../../hooks/use-generate-ai-message'
+import type { CompanyContact } from '../../types'
 import {
+	issueToProblem,
 	MessageChannel,
 	MessageTone,
-	issueToProblem,
 	type ProblemForMessage,
 } from '../../types/ai-message'
-import type { CompanyContact } from '../../types'
 
 interface AiMessageCardProps {
 	contact: CompanyContact
@@ -37,8 +46,13 @@ function selectRandomProblems(problems: ProblemForMessage[]): string[] {
 	return shuffled.slice(0, count).map((p) => p.id)
 }
 
-export function AiMessageCard({ contact, onNavigateToTab }: AiMessageCardProps) {
-	const [channel, setChannel] = useState<MessageChannel>(MessageChannel.WHATSAPP)
+export function AiMessageCard({
+	contact,
+	onNavigateToTab,
+}: AiMessageCardProps) {
+	const [channel, setChannel] = useState<MessageChannel>(
+		MessageChannel.WHATSAPP
+	)
 	const [generatedMessage, setGeneratedMessage] = useState<string | null>(null)
 	const [isCopied, setIsCopied] = useState(false)
 
@@ -59,10 +73,14 @@ export function AiMessageCard({ contact, onNavigateToTab }: AiMessageCardProps) 
 			.filter((p): p is ProblemForMessage => p !== null)
 	}, [hasAnalysis, primaryIssues])
 
-	// Randomly select problems on mount
+	// Randomly select problems on mount (only once when problems are available)
 	const [selectedProblemIds, setSelectedProblemIds] = useState<string[]>([])
+	const hasInitializedRef = useRef(false)
 	useEffect(() => {
-		setSelectedProblemIds(selectRandomProblems(problems))
+		if (problems.length > 0 && !hasInitializedRef.current) {
+			hasInitializedRef.current = true
+			setSelectedProblemIds(selectRandomProblems(problems))
+		}
 	}, [problems])
 
 	const hasProblems = problems.length > 0
@@ -113,7 +131,15 @@ export function AiMessageCard({ contact, onNavigateToTab }: AiMessageCardProps) 
 				problemIds: selectedProblemIds,
 			})
 		}
-	}, [contact.id, channel, hasWebsite, hasAnalysis, hasProblems, selectedProblemIds, generateMessage])
+	}, [
+		contact.id,
+		channel,
+		hasWebsite,
+		hasAnalysis,
+		hasProblems,
+		selectedProblemIds,
+		generateMessage,
+	])
 
 	// Navigate to AI Messages tab
 	const handleNavigateToTab = useCallback(() => {
@@ -125,105 +151,150 @@ export function AiMessageCard({ contact, onNavigateToTab }: AiMessageCardProps) 
 	const generateDisabled = !canGenerate || isGenerating
 
 	return (
-		<Card>
-			<CardHeader className="flex flex-row items-center justify-between pb-3">
-				<div className="flex items-center gap-4">
-					<CardTitle className="flex items-center gap-2 text-base font-semibold">
-						<Sparkles className="h-4 w-4" />
-						Generador de Mensajes
-					</CardTitle>
-					<button
-						onClick={handleNavigateToTab}
-						className="flex items-center gap-1 text-xs text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300"
-					>
-						Personalizar
-						<ArrowRight className="h-3 w-3" />
-					</button>
-				</div>
-				<div className="flex items-center gap-2">
-					{generatedMessage && (
-						<Button variant="outline" size="sm" onClick={handleCopy} className="gap-1.5">
-							{isCopied ? (
+		<motion.div
+			initial={{ opacity: 0, y: 10 }}
+			animate={{ opacity: 1, y: 0 }}
+			transition={{ duration: 0.4 }}
+		>
+			<Card className="overflow-hidden border-zinc-200 shadow-sm transition-shadow hover:shadow-md dark:border-zinc-800">
+				<CardHeader className="flex flex-row items-center justify-between border-b border-zinc-50 !pb-0 dark:border-zinc-900">
+					<div className="flex items-center gap-4">
+						<CardTitle className="flex items-center gap-2 text-base font-bold text-zinc-900 dark:text-zinc-100">
+							<Sparkles className="h-4 w-4 text-zinc-400" />
+							Generador de Mensajes
+						</CardTitle>
+						<button
+							onClick={handleNavigateToTab}
+							className="group flex items-center gap-1 text-xs font-medium text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-zinc-100"
+						>
+							Personalizar
+							<ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+						</button>
+					</div>
+					<div className="flex items-center gap-2">
+						{generatedMessage && (
+							<Button
+								variant="outline"
+								size="sm"
+								onClick={handleCopy}
+								className="h-8 gap-1.5 border-zinc-200 text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 dark:border-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-100"
+							>
+								{isCopied ? (
+									<>
+										<Check className="h-3.5 w-3.5 text-zinc-900 dark:text-zinc-100" />
+										Copiado
+									</>
+								) : (
+									<>
+										<Copy className="h-3.5 w-3.5" />
+										Copiar
+									</>
+								)}
+							</Button>
+						)}
+						<Button
+							size="sm"
+							onClick={handleGenerate}
+							disabled={generateDisabled}
+							className="h-8 gap-1.5 bg-zinc-900 text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+						>
+							{isGenerating ? (
 								<>
-									<Check className="h-3.5 w-3.5" />
-									Copiado
+									<Loader2 className="h-3.5 w-3.5 animate-spin" />
+									Generando...
 								</>
 							) : (
 								<>
-									<Copy className="h-3.5 w-3.5" />
-									Copiar
+									<Sparkles className="h-3.5 w-3.5" />
+									Generar
 								</>
 							)}
 						</Button>
-					)}
-					<Button
-						size="sm"
-						onClick={handleGenerate}
-						disabled={generateDisabled}
-						className="gap-1.5"
-					>
-						{isGenerating ? (
-							<>
-								<Loader2 className="h-3.5 w-3.5 animate-spin" />
-								Generando...
-							</>
-						) : (
-							<>
-								<Sparkles className="h-3.5 w-3.5" />
-								Generar
-							</>
-						)}
-					</Button>
-				</div>
-			</CardHeader>
-			<CardContent className="space-y-3 pt-0">
-				{/* Channel Selector (compact mode) */}
-				<ChannelSelector value={channel} onChange={setChannel} disabled={isGenerating} compact />
+					</div>
+				</CardHeader>
+				<CardContent className="space-y-4">
+					{/* Channel Selector (compact mode) */}
+					<ChannelSelector
+						value={channel}
+						onChange={setChannel}
+						disabled={isGenerating}
+						compact
+					/>
 
-				{/* Message Preview or Empty State - prioritize generated message */}
-				{generatedMessage ? (
-					// Generated message (takes priority)
-					<div className="min-h-[80px] rounded-lg border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-700 dark:bg-zinc-900">
-						<p className="line-clamp-4 whitespace-pre-wrap text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
-							{generatedMessage}
-						</p>
-					</div>
-				) : hasWebsite && !hasAnalysis ? (
-					// Pending analysis state
-					<div className="flex items-center gap-3 rounded-lg border border-dashed border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-700 dark:bg-zinc-900">
-						<AlertCircle className="h-4 w-4 shrink-0 text-blue-500" />
-						<div className="flex-1">
-							<p className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-								Análisis pendiente
-							</p>
-							<p className="text-xs text-zinc-500">
-								Ejecuta el análisis del sitio web primero
-							</p>
-						</div>
-					</div>
-				) : !hasWebsite ? (
-					// No website state
-					<div className="flex items-center gap-3 rounded-lg border border-dashed border-amber-200 bg-amber-50 p-3 dark:border-amber-800 dark:bg-amber-950/20">
-						<Globe className="h-4 w-4 shrink-0 text-amber-500" />
-						<div className="flex-1">
-							<p className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-								Sin sitio web
-							</p>
-							<p className="text-xs text-zinc-500">
-								Genera un mensaje ofreciendo creación de web
-							</p>
-						</div>
-					</div>
-				) : (
-					// Empty state (has analysis with problems)
-					<div className="flex min-h-[80px] items-center justify-center rounded-lg border border-dashed border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-700 dark:bg-zinc-900">
-						<p className="text-sm text-zinc-500">
-							Haz clic en "Generar" para crear un mensaje
-						</p>
-					</div>
-				)}
-			</CardContent>
-		</Card>
+					{/* Message Preview or Empty State - prioritize generated message */}
+					<AnimatePresence mode="wait">
+						{generatedMessage ? (
+							// Generated message (takes priority)
+							<motion.div
+								key="generated"
+								initial={{ opacity: 0, scale: 0.98 }}
+								animate={{ opacity: 1, scale: 1 }}
+								className="relative min-h-[100px] overflow-hidden rounded-lg border border-zinc-200 bg-white p-4 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)] dark:border-zinc-800 dark:bg-zinc-950"
+							>
+								<div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent to-zinc-50/50 dark:to-zinc-900/10" />
+								<p className="relative line-clamp-5 text-sm leading-relaxed whitespace-pre-wrap text-zinc-700 dark:text-zinc-300">
+									{generatedMessage}
+								</p>
+							</motion.div>
+						) : hasWebsite && !hasAnalysis ? (
+							// Pending analysis state
+							<motion.div
+								key="pending"
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								className="flex items-center gap-4 rounded-lg border border-zinc-200 bg-zinc-50/50 p-4 dark:border-zinc-800 dark:bg-zinc-900/30"
+							>
+								<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800">
+									<AlertCircle className="h-5 w-5 text-zinc-400" />
+								</div>
+								<div className="flex-1">
+									<p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+										Análisis pendiente
+									</p>
+									<p className="text-xs font-medium text-zinc-500">
+										Ejecuta el análisis del sitio web primero para una
+										personalización total.
+									</p>
+								</div>
+							</motion.div>
+						) : !hasWebsite ? (
+							// No website state
+							<motion.div
+								key="no-website"
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								className="flex items-center gap-4 rounded-lg border border-zinc-200 bg-zinc-50/50 p-4 dark:border-zinc-800 dark:bg-zinc-900/30"
+							>
+								<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800">
+									<Globe className="h-5 w-5 text-zinc-400" />
+								</div>
+								<div className="flex-1">
+									<p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+										Sin sitio web
+									</p>
+									<p className="text-xs font-medium text-zinc-500">
+										Genera un mensaje estratégico ofreciendo servicios de
+										creación web.
+									</p>
+								</div>
+							</motion.div>
+						) : (
+							// Empty state (has analysis with problems)
+							<motion.div
+								key="empty"
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								className="flex min-h-[100px] flex-col items-center justify-center rounded-lg border border-dashed border-zinc-200 bg-zinc-50/30 p-4 text-center dark:border-zinc-800 dark:bg-zinc-900/10"
+							>
+								<Sparkles className="mb-2 h-5 w-5 text-zinc-300 dark:text-zinc-700" />
+								<p className="text-xs font-medium text-zinc-400">
+									Haz clic en "Generar" para crear un mensaje personalizado
+								</p>
+							</motion.div>
+						)}
+					</AnimatePresence>
+				</CardContent>
+			</Card>
+		</motion.div>
 	)
 }
-

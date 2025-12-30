@@ -1,6 +1,7 @@
 'use client'
 
-import { RefreshCw } from 'lucide-react'
+import Link from 'next/link'
+import { RefreshCw, Key } from 'lucide-react'
 import { SectionHeader } from 'components/layouts/section-header'
 import { Button } from 'components/ui/button'
 import { useBillingUsage } from '../hooks/use-billing-usage'
@@ -65,10 +66,19 @@ export function BillingPage() {
 			)}
 
 			{!loading && services.length === 0 && (
-				<div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-12 text-center">
-					<p className="text-muted-foreground">
-						No services configured. Add your API keys in Settings to get started.
-					</p>
+				<div className="flex flex-col items-center justify-center gap-4 rounded-lg border border-dashed p-12 text-center">
+					<div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted">
+						<Key className="h-6 w-6 text-muted-foreground" />
+					</div>
+					<div className="space-y-1">
+						<p className="font-medium">No API keys configured</p>
+						<p className="text-sm text-muted-foreground">
+							Add your API keys to start tracking usage
+						</p>
+					</div>
+					<Button asChild>
+						<Link href="/settings/api-keys">Configure API Keys</Link>
+					</Button>
 				</div>
 			)}
 		</div>

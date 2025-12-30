@@ -10,13 +10,14 @@
 import {
 	FileText,
 	HelpCircle,
+	History,
 	Linkedin,
 	Mail,
 	MessageCircle,
 	MessageSquare,
 	RefreshCw,
 } from 'lucide-react'
-import Link from 'next/link'
+import { EmptyState } from 'components/common/empty-state'
 import { Card } from 'components/ui/card'
 import { Skeleton } from 'components/ui/skeleton'
 import { cn } from 'lib/utils/merge'
@@ -76,50 +77,56 @@ export function RecentActivitiesCard({
 	const recentActivity = activities[0]
 
 	return (
-		<Card className="p-6">
+		<Card className="border-zinc-200 p-6 shadow-sm dark:border-zinc-800">
 			{/* Header */}
-			<div className="flex items-center gap-2">
-				<h3 className="text-base font-semibold">Recent communications</h3>
-				<HelpCircle className="text-muted-foreground size-4" />
+			<div className="mb-4 flex items-center justify-between gap-2">
+				<div className="flex items-center gap-2">
+					<h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100">
+						Recent communications
+					</h3>
+					<HelpCircle className="size-4 text-zinc-400 dark:text-zinc-500" />
+				</div>
 			</div>
 
 			{/* Content */}
 			{loading ? (
 				<RecentActivitiesCardSkeleton />
 			) : error ? (
-				<p className="text-muted-foreground text-sm">
+				<p className="sm text-red-500 italic">
 					Error loading recent activities
 				</p>
 			) : recentActivity ? (
-				<div className="flex items-center justify-between gap-4">
+				<div className="flex items-center justify-between gap-4 rounded-lg border border-zinc-100 bg-zinc-50/50 p-4 dark:border-zinc-800 dark:bg-zinc-900/30">
 					<div className="flex items-center gap-3">
 						{/* Activity type icon */}
 						<ActivityIcon type={recentActivity.activityType} />
 
 						{/* Activity description */}
-						<p className="text-sm">
-							<span className="text-muted-foreground">
-								{recentActivity.authorName}
-							</span>{' '}
-							{getActivityActionVerb(recentActivity.activityType)}{' '}
-							<Link
-								href="#"
-								className="font-medium text-teal-600 hover:underline dark:text-teal-400"
-							>
-								{contactName}
-							</Link>
-						</p>
+						<div className="flex flex-col">
+							<p className="text-sm leading-tight">
+								<span className="font-semibold text-zinc-900 dark:text-zinc-100">
+									{recentActivity.authorName}
+								</span>{' '}
+								<span className="text-zinc-500 dark:text-zinc-400">
+									{getActivityActionVerb(recentActivity.activityType)}
+								</span>{' '}
+								<span className="font-semibold text-zinc-900 dark:text-zinc-100">
+									{contactName}
+								</span>
+							</p>
+							<span className="mt-1 text-[11px] font-medium text-zinc-400 dark:text-zinc-500">
+								{formatActivityDate(recentActivity.createdAt)}
+							</span>
+						</div>
 					</div>
-
-					{/* Date */}
-					<span className="text-muted-foreground shrink-0 text-sm">
-						{formatActivityDate(recentActivity.createdAt)}
-					</span>
 				</div>
 			) : (
-				<p className="text-muted-foreground text-sm">
-					No recent communications
-				</p>
+				<EmptyState
+					icon={History}
+					title="No recent communications"
+					description="Toda la actividad reciente con este contacto aparecerá aquí."
+					className="py-6"
+				/>
 			)}
 		</Card>
 	)
@@ -135,11 +142,11 @@ function ActivityIcon({ type }: { type: ActivityType }) {
 	return (
 		<div
 			className={cn(
-				'flex size-8 shrink-0 items-center justify-center rounded',
-				config.bgColor
+				'flex size-10 shrink-0 items-center justify-center rounded-full border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-950'
+				// We ignore the config.bgColor to keep it grayscale
 			)}
 		>
-			<IconComponent className={cn('size-4', config.textColor)} />
+			<IconComponent className="size-5 text-zinc-600 dark:text-zinc-400" />
 		</div>
 	)
 }
@@ -158,4 +165,3 @@ function RecentActivitiesCardSkeleton() {
 		</div>
 	)
 }
-

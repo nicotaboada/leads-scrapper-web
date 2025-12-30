@@ -45,7 +45,7 @@ export function FollowUpContactList({
 	const handleObserver = useCallback(
 		(entries: IntersectionObserverEntry[]) => {
 			const target = entries[0]
-			if (target.isIntersecting && hasNextPage && !loading) {
+			if (target && target.isIntersecting && hasNextPage && !loading) {
 				onLoadMore()
 			}
 		},
@@ -67,11 +67,11 @@ export function FollowUpContactList({
 
 	if (loading && contacts.length === 0) {
 		return (
-			<div className="space-y-1">
+			<div className="flex flex-col">
 				<ContactItemSkeleton />
+				<div className="mx-6 h-px bg-zinc-100 dark:bg-zinc-800/50" />
 				<ContactItemSkeleton />
-				<ContactItemSkeleton />
-				<ContactItemSkeleton />
+				<div className="mx-6 h-px bg-zinc-100 dark:bg-zinc-800/50" />
 				<ContactItemSkeleton />
 			</div>
 		)
@@ -82,9 +82,14 @@ export function FollowUpContactList({
 	}
 
 	return (
-		<div className="space-y-1">
-			{contacts.map((contact) => (
-				<FollowUpContactItem key={contact.id} contact={contact} />
+		<div className="flex flex-col">
+			{contacts.map((contact, index) => (
+				<div key={contact.id}>
+					<FollowUpContactItem contact={contact} />
+					{index < contacts.length - 1 && (
+						<div className="mx-6 h-px bg-zinc-100 dark:bg-zinc-800/50" />
+					)}
+				</div>
 			))}
 
 			{/* Infinite scroll trigger */}
@@ -92,8 +97,7 @@ export function FollowUpContactList({
 
 			{/* Loading more indicator */}
 			{loading && contacts.length > 0 && (
-				<div className="space-y-1 pt-2">
-					<ContactItemSkeleton />
+				<div className="flex flex-col pt-2">
 					<ContactItemSkeleton />
 				</div>
 			)}

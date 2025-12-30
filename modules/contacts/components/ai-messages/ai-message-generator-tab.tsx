@@ -7,6 +7,7 @@
  * with channel, tone, and problem selection controls.
  */
 
+import { motion } from 'motion/react'
 import { useState, useMemo, useCallback } from 'react'
 import { Sparkles, Loader2 } from 'lucide-react'
 import { Button } from 'components/ui/button'
@@ -29,6 +30,27 @@ import type { CompanyContact } from '../../types'
 interface AiMessageGeneratorTabProps {
 	contact: CompanyContact
 	onNavigateToTab?: (tabValue: string) => void
+}
+
+const containerVariants = {
+	hidden: { opacity: 0 },
+	visible: {
+		opacity: 1,
+		transition: {
+			staggerChildren: 0.1,
+		},
+	},
+}
+
+const itemVariants = {
+	hidden: { opacity: 0, y: 20 },
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: {
+			duration: 0.4,
+		},
+	},
 }
 
 export function AiMessageGeneratorTab({ contact, onNavigateToTab }: AiMessageGeneratorTabProps) {
@@ -97,102 +119,150 @@ export function AiMessageGeneratorTab({ contact, onNavigateToTab }: AiMessageGen
 	// Scenario: No website
 	if (!hasWebsite) {
 		return (
-			<div className="space-y-6">
-				<Header />
+			<motion.div
+				className="space-y-6"
+				variants={containerVariants}
+				initial="hidden"
+				animate="visible"
+			>
+				<motion.div variants={itemVariants}>
+					<Header />
+				</motion.div>
 				<div className="grid gap-6 lg:grid-cols-2">
-					<Card>
-						<CardContent className="space-y-6 py-6">
-							<ChannelSelector value={channel} onChange={setChannel} />
-							<ToneSelector value={tone} onChange={setTone} />
-						</CardContent>
-					</Card>
-					<NoWebsiteState onGenerate={handleGenerateNoWebsite} isGenerating={isGenerating} />
+					<motion.div variants={itemVariants}>
+						<Card className="border-zinc-200 shadow-sm dark:border-zinc-800">
+							<CardContent className="space-y-6 py-6">
+								<ChannelSelector value={channel} onChange={setChannel} />
+								<ToneSelector value={tone} onChange={setTone} />
+							</CardContent>
+						</Card>
+					</motion.div>
+					<motion.div variants={itemVariants}>
+						<NoWebsiteState onGenerate={handleGenerateNoWebsite} isGenerating={isGenerating} />
+					</motion.div>
 				</div>
 				{generatedMessage && (
-					<MessagePreview message={generatedMessage} className="mt-6" />
+					<motion.div variants={itemVariants}>
+						<MessagePreview message={generatedMessage} className="mt-6" />
+					</motion.div>
 				)}
-			</div>
+			</motion.div>
 		)
 	}
 
 	// Scenario: Has website but no analysis
 	if (!hasAnalysis) {
 		return (
-			<div className="space-y-6">
-				<Header />
-				<AnalysisPendingState onNavigateToAnalysis={handleNavigateToAnalysis} />
-			</div>
+			<motion.div
+				className="space-y-6"
+				variants={containerVariants}
+				initial="hidden"
+				animate="visible"
+			>
+				<motion.div variants={itemVariants}>
+					<Header />
+				</motion.div>
+				<motion.div variants={itemVariants}>
+					<AnalysisPendingState onNavigateToAnalysis={handleNavigateToAnalysis} />
+				</motion.div>
+			</motion.div>
 		)
 	}
 
 	// Scenario: Has analysis but no problems
 	if (!hasProblems) {
 		return (
-			<div className="space-y-6">
-				<Header />
+			<motion.div
+				className="space-y-6"
+				variants={containerVariants}
+				initial="hidden"
+				animate="visible"
+			>
+				<motion.div variants={itemVariants}>
+					<Header />
+				</motion.div>
 				<div className="grid gap-6 lg:grid-cols-2">
-					<Card>
-						<CardContent className="space-y-6 py-6">
-							<ChannelSelector value={channel} onChange={setChannel} />
-							<ToneSelector value={tone} onChange={setTone} />
-						</CardContent>
-					</Card>
-					<AllOkState onGenerate={handleGenerateAllOk} isGenerating={isGenerating} />
+					<motion.div variants={itemVariants}>
+						<Card className="border-zinc-200 shadow-sm dark:border-zinc-800">
+							<CardContent className="space-y-6 py-6">
+								<ChannelSelector value={channel} onChange={setChannel} />
+								<ToneSelector value={tone} onChange={setTone} />
+							</CardContent>
+						</Card>
+					</motion.div>
+					<motion.div variants={itemVariants}>
+						<AllOkState onGenerate={handleGenerateAllOk} isGenerating={isGenerating} />
+					</motion.div>
 				</div>
 				{generatedMessage && (
-					<MessagePreview message={generatedMessage} className="mt-6" />
+					<motion.div variants={itemVariants}>
+						<MessagePreview message={generatedMessage} className="mt-6" />
+					</motion.div>
 				)}
-			</div>
+			</motion.div>
 		)
 	}
 
 	// Normal scenario: Has problems to select
 	return (
-		<div className="space-y-6">
-			<Header />
+		<motion.div
+			className="space-y-6"
+			variants={containerVariants}
+			initial="hidden"
+			animate="visible"
+		>
+			<motion.div variants={itemVariants}>
+				<Header />
+			</motion.div>
 			<div className="grid gap-6 lg:grid-cols-2">
 				{/* Left Column: Controls */}
-				<Card>
-					<CardContent className="space-y-6 py-6">
-						<ChannelSelector value={channel} onChange={setChannel} disabled={isGenerating} />
-						<ToneSelector value={tone} onChange={setTone} disabled={isGenerating} />
-						<ProblemSelector
-							problems={problems}
-							selectedIds={selectedProblemIds}
-							onSelectionChange={setSelectedProblemIds}
-							disabled={isGenerating}
-						/>
-					</CardContent>
-				</Card>
+				<motion.div variants={itemVariants}>
+					<Card className="border-zinc-200 shadow-sm dark:border-zinc-800">
+						<CardContent className="space-y-6 py-6">
+							<ChannelSelector value={channel} onChange={setChannel} disabled={isGenerating} />
+							<ToneSelector value={tone} onChange={setTone} disabled={isGenerating} />
+							<ProblemSelector
+								problems={problems}
+								selectedIds={selectedProblemIds}
+								onSelectionChange={setSelectedProblemIds}
+								disabled={isGenerating}
+							/>
+						</CardContent>
+					</Card>
+				</motion.div>
 
 				{/* Right Column: Preview and Generate */}
 				<div className="flex flex-col gap-4">
-					<MessagePreview
-						message={generatedMessage}
-						isLoading={isGenerating}
-						className="flex-1"
-					/>
-					<Button
-						size="lg"
-						onClick={handleGenerate}
-						disabled={!hasSelectedProblems || isGenerating}
-						className="w-full gap-2"
-					>
-						{isGenerating ? (
-							<>
-								<Loader2 className="h-4 w-4 animate-spin" />
-								Generando mensaje...
-							</>
-						) : (
-							<>
-								<Sparkles className="h-4 w-4" />
-								Generar Mensaje con IA
-							</>
-						)}
-					</Button>
+					<motion.div variants={itemVariants} className="flex-1">
+						<MessagePreview
+							message={generatedMessage}
+							isLoading={isGenerating}
+							className="h-full"
+						/>
+					</motion.div>
+					<motion.div variants={itemVariants}>
+						<Button
+							size="lg"
+							onClick={handleGenerate}
+							disabled={!hasSelectedProblems || isGenerating}
+							className="w-full gap-2 bg-zinc-900 font-bold text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 shadow-sm"
+						>
+							{isGenerating ? (
+								<>
+									<Loader2 className="h-4 w-4 animate-spin" />
+									Generando mensaje...
+								</>
+							) : (
+								<>
+									<Sparkles className="h-4 w-4" />
+									Generar Mensaje con IA
+								</>
+							)}
+						</Button>
+					</motion.div>
 				</div>
 			</div>
-		</div>
+		</motion.div>
 	)
 }
 

@@ -24,9 +24,9 @@ export function TagColorPicker({ value, onChange }: TagColorPickerProps) {
               key={color}
               type="button"
               onClick={() => onChange(color)}
-              className={`h-6 w-6 rounded-full transition-all ${
+              className={`h-6 w-6 rounded-full transition-all border border-zinc-200/50 dark:border-zinc-800/50 ${
                 isSelected
-                  ? 'ring-2 ring-offset-2 ring-gray-400'
+                  ? 'ring-2 ring-offset-2 ring-zinc-400 dark:ring-zinc-600'
                   : 'hover:scale-110'
               }`}
               style={{ backgroundColor: config.hex }}
@@ -38,9 +38,9 @@ export function TagColorPicker({ value, onChange }: TagColorPickerProps) {
         <button
           type="button"
           onClick={() => onChange(null)}
-          className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
+          className="text-sm text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300 transition-colors"
         >
-          Clear
+          Limpiar
         </button>
       </div>
       <p className="text-xs text-muted-foreground">

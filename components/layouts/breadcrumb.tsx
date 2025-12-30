@@ -27,7 +27,7 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
 	return (
 		<nav
 			aria-label="Breadcrumb"
-			className={cn('flex items-center gap-2 py-6', className)}
+			className={cn('flex items-center gap-2', className)}
 		>
 			{items.map((item, index) => {
 				const isLast = index === items.length - 1
@@ -40,9 +40,9 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
 							<Link
 								href={item.href}
 								className={cn(
-									'hover:text-foreground text-md flex items-center gap-2 transition-colors',
+									'hover:text-foreground text-sm flex items-center gap-2 transition-colors',
 									isLast
-										? 'text-foreground font-medium'
+										? 'text-foreground font-semibold'
 										: 'text-muted-foreground',
 									'focus-visible:ring-ring rounded-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none'
 								)}
@@ -53,9 +53,9 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
 						) : (
 							<span
 								className={cn(
-									'flex items-center gap-2 text-lg',
+									'flex items-center gap-2 text-sm',
 									isLast
-										? 'text-foreground font-medium'
+										? 'text-foreground font-semibold'
 										: 'text-muted-foreground'
 								)}
 							>

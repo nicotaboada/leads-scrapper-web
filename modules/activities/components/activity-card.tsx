@@ -18,18 +18,21 @@ import { useActivities } from '../hooks/use-activities'
  */
 function ActivityCardSkeleton() {
 	return (
-		<div>
+		<div className="flex h-full flex-col">
 			<h3 className="mb-4 text-base font-semibold">Actividades Recientes</h3>
-			<Card>
-				<CardContent className="space-y-2 p-6">
+			<Card className="flex-1 overflow-hidden">
+				<CardContent className="space-y-4 p-0">
 					{Array.from({ length: 5 }).map((_, i) => (
-						<div key={i} className="flex items-center gap-2">
-							<Skeleton className="h-6 w-6 rounded-full" />
-							<Skeleton className="h-4 flex-1" />
+						<div key={i} className="flex items-center gap-4 px-4 py-3">
+							<Skeleton className="h-10 w-10 rounded-full" />
+							<div className="flex-1 space-y-2">
+								<Skeleton className="h-4 w-3/4" />
+								<Skeleton className="h-3 w-1/4" />
+							</div>
 						</div>
 					))}
 				</CardContent>
-				<CardFooter className="px-6">
+				<CardFooter className="border-t bg-zinc-50/50 p-2 dark:bg-zinc-900/50">
 					<Skeleton className="h-9 w-full" />
 				</CardFooter>
 			</Card>
@@ -51,10 +54,10 @@ export function ActivityCard() {
 
 	if (error) {
 		return (
-			<div>
+			<div className="flex h-full flex-col">
 				<h3 className="mb-4 text-base font-semibold">Actividades Recientes</h3>
-				<Card>
-					<CardContent className="p-6">
+				<Card className="flex-1">
+					<CardContent className="flex h-full items-center justify-center p-12 text-center">
 						<p className="text-muted-foreground text-sm">
 							Error al cargar las actividades
 						</p>
@@ -68,33 +71,39 @@ export function ActivityCard() {
 
 	return (
 		<>
-			<div>
+			<div className="flex h-full flex-col">
 				<h3 className="mb-4 text-base font-semibold">Actividades Recientes</h3>
-				<Card>
-					<CardContent className="px-6">
+				<Card className="flex flex-1 flex-col overflow-hidden transition-all hover:shadow-md dark:border-zinc-800">
+					<CardContent className="flex-1 p-0">
 						{activities.length === 0 ? (
-							<ActivityEmptyState />
+							<div className="flex h-full flex-col items-center justify-center p-12 text-center">
+								<ActivityEmptyState />
+							</div>
 						) : (
-							<div className="divide-border/50 divide-y">
-								{displayedActivities.map((activity) => (
-									<ActivityItem
-										key={activity.id}
-										activity={activity}
-										showTimestamp={false}
-										compact
-									/>
+							<div className="flex flex-col">
+								{displayedActivities.map((activity, index) => (
+									<div key={activity.id}>
+										<ActivityItem
+											activity={activity}
+											showTimestamp={true}
+											compact={true}
+										/>
+										{index < displayedActivities.length - 1 && (
+											<div className="mx-6 h-px bg-zinc-100 dark:bg-zinc-800/50" />
+										)}
+									</div>
 								))}
 							</div>
 						)}
 					</CardContent>
-					<CardFooter className="px-6">
+					<CardFooter className="shrink-0 border-t bg-zinc-50/50 p-2 dark:bg-zinc-900/50">
 						<Button
 							variant="ghost"
-							className="text-muted-foreground hover:text-foreground w-full"
+							className="text-muted-foreground hover:text-foreground h-9 w-full text-xs font-medium"
 							onClick={() => setIsSheetOpen(true)}
 							disabled={totalCount === 0}
 						>
-							Ver más
+							Ver todas las actividades
 						</Button>
 					</CardFooter>
 				</Card>

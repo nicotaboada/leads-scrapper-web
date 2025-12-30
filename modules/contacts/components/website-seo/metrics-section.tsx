@@ -22,21 +22,25 @@ interface MetricBarProps {
 
 function MetricBar({ label, score, description }: MetricBarProps) {
 	return (
-		<div className="space-y-2">
-			<div className="flex items-center justify-between">
-				<div className="flex flex-col">
-					<span className="text-sm font-medium">{label}</span>
+		<div className="space-y-3">
+			<div className="flex items-end justify-between">
+				<div className="flex flex-col gap-0.5">
+					<span className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{label}</span>
 					{description && (
-						<span className="text-muted-foreground text-xs">{description}</span>
+						<span className="text-[11px] font-medium text-zinc-500 dark:text-zinc-400 uppercase">
+							{description}
+						</span>
 					)}
 				</div>
-				<span className="text-sm font-semibold">{score}/100</span>
+				<span className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{score}/100</span>
 			</div>
-			<Progress
-				value={score}
-				indicatorClassName="bg-zinc-800 dark:bg-zinc-200"
-				className="h-2 bg-zinc-200 dark:bg-zinc-700"
-			/>
+			<div className="relative h-2 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
+				<Progress
+					value={score}
+					indicatorClassName="bg-zinc-900 dark:bg-zinc-100"
+					className="h-full w-full"
+				/>
+			</div>
 		</div>
 	)
 }

@@ -8,6 +8,7 @@
  */
 
 import { Building2, MapPin, Users } from 'lucide-react'
+import { cn } from 'lib/utils/merge'
 import Link from 'next/link'
 import { useState } from 'react'
 import { TableEmptyState } from 'components/common/table-empty-state'
@@ -152,14 +153,20 @@ export function ContactsTable({
 
 	return (
 		<div className="w-full space-y-4">
-			<div className="rounded-md border">
+			<div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
 				<Table>
-					<TableHeader>
-						<TableRow>
-							<TableHead className="w-[280px] pl-6">Contacto</TableHead>
-							<TableHead className="w-[200px]">Ciudad</TableHead>
-							<TableHead className="w-[160px]">Estado</TableHead>
-							<TableHead className="w-[70px] pr-6"></TableHead>
+					<TableHeader className="bg-zinc-50/50 dark:bg-zinc-900/50">
+						<TableRow className="border-zinc-200 hover:bg-transparent dark:border-zinc-800">
+							<TableHead className="w-[280px] pl-6 font-semibold text-zinc-900 dark:text-zinc-100">
+								Contacto
+							</TableHead>
+							<TableHead className="w-[200px] font-semibold text-zinc-900 dark:text-zinc-100">
+								Ciudad
+							</TableHead>
+							<TableHead className="w-[160px] font-semibold text-zinc-900 dark:text-zinc-100">
+								Estado
+							</TableHead>
+							<TableHead className="w-[70px] pr-6 font-semibold text-zinc-900 dark:text-zinc-100"></TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
@@ -167,36 +174,39 @@ export function ContactsTable({
 							<TableSkeletonRows rows={5} columns={skeletonTableColumns} />
 						) : (
 							contacts.map((contact) => (
-								<TableRow key={contact.id}>
+								<TableRow key={contact.id} className="group transition-colors">
 									<TableCell className="max-w-0 pl-6">
 										<div className="flex items-center gap-3 overflow-hidden">
-											<Avatar className="shrink-0">
+											<Avatar className="h-9 w-9 shrink-0 border border-zinc-100 dark:border-zinc-800">
 												<AvatarFallback
-													className={
+													className={cn(
+														'text-[10px] font-bold',
 														contact.type === ContactType.COMPANY
-															? 'bg-blue-100 text-blue-700'
-															: 'bg-gray-100 text-gray-700'
-													}
+															? 'bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100'
+															: 'bg-zinc-50 text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400'
+													)}
 												>
 													{isPersonContact(contact) ? (
 														getPersonInitials(contact)
 													) : (
-														<Building2 className="h-5 w-5" />
+														<Building2 className="h-4 w-4" />
 													)}
 												</AvatarFallback>
 											</Avatar>
-											<Link
-												href={getDetailRoute(contact)}
-												className="cursor-pointer truncate font-medium hover:underline"
-											>
-												{getContactName(contact)}
-											</Link>
-											<FollowUpBadge followUp={contact.followUp} />
+											<div className="flex min-w-0 items-center gap-2">
+												<Link
+													href={getDetailRoute(contact)}
+													className="cursor-pointer truncate font-medium text-zinc-900 decoration-zinc-400 underline-offset-4 transition-colors hover:underline dark:text-zinc-100"
+												>
+													{getContactName(contact)}
+												</Link>
+												<FollowUpBadge followUp={contact.followUp} />
+											</div>
 										</div>
 									</TableCell>
 									<TableCell className="max-w-0">
-										<div className="flex items-center gap-2 overflow-hidden text-sm">
-											<span className="text-muted-foreground truncate">
+										<div className="flex items-center gap-2 overflow-hidden">
+											<span className="truncate text-sm text-zinc-500">
 												{isCompanyContact(contact) ? contact.city || '-' : '-'}
 											</span>
 										</div>
@@ -204,7 +214,7 @@ export function ContactsTable({
 									<TableCell>
 										<LeadStatusBadge status={contact.leadStatus} />
 									</TableCell>
-									<TableCell className="pr-6">
+									<TableCell className="pr-6 text-right">
 										<ContactActionsMenu
 											contact={contact}
 											onEdit={handleEdit}

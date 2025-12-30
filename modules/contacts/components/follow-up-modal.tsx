@@ -124,18 +124,18 @@ export function FollowUpModal({
 
 	return (
 		<AlertDialog open={open} onOpenChange={onOpenChange}>
-			<AlertDialogContent className="sm:max-w-md">
-				<AlertDialogHeader>
-					<AlertDialogTitle className="flex items-center gap-2">
-						<CalendarDays className="size-5" />
+			<AlertDialogContent className="max-w-[400px] border-none shadow-lg">
+				<AlertDialogHeader className="pb-2">
+					<AlertDialogTitle className="flex items-center gap-2.5 text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+						<CalendarDays className="size-6" />
 						{isEditMode ? 'Editar Follow-up' : 'Agregar Follow-up'}
 					</AlertDialogTitle>
 				</AlertDialogHeader>
 
-				<div className="space-y-4 py-4">
+				<div className="space-y-6 py-2">
 					{/* Date Picker */}
-					<div className="space-y-2">
-						<Label>Fecha de vencimiento</Label>
+					<div className="space-y-2.5">
+						<Label className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Fecha de vencimiento</Label>
 						<DatePicker
 							date={dueDate}
 							onDateChange={setDueDate}
@@ -151,6 +151,7 @@ export function FollowUpModal({
 							variant="outline"
 							size="sm"
 							onClick={() => handleDateShortcut(1)}
+							className="rounded-lg border-zinc-200 text-xs font-medium text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 dark:border-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-100"
 						>
 							Mañana
 						</Button>
@@ -159,6 +160,7 @@ export function FollowUpModal({
 							variant="outline"
 							size="sm"
 							onClick={() => handleDateShortcut(7)}
+							className="rounded-lg border-zinc-200 text-xs font-medium text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 dark:border-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-100"
 						>
 							En 1 semana
 						</Button>
@@ -167,14 +169,15 @@ export function FollowUpModal({
 							variant="outline"
 							size="sm"
 							onClick={() => handleDateShortcut(30)}
+							className="rounded-lg border-zinc-200 text-xs font-medium text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 dark:border-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-100"
 						>
 							En 1 mes
 						</Button>
 					</div>
 
 					{/* Note Input */}
-					<div className="space-y-2">
-						<Label htmlFor="note">Nota (opcional)</Label>
+					<div className="space-y-2.5">
+						<Label htmlFor="note" className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Nota (opcional)</Label>
 						<Textarea
 							id="note"
 							placeholder="Ej: Llamar para confirmar reunión..."
@@ -182,37 +185,37 @@ export function FollowUpModal({
 							onChange={(e) => setNote(e.target.value)}
 							rows={3}
 							maxLength={500}
-							className="resize-none"
+							className="resize-none rounded-xl border-zinc-200 focus:ring-zinc-900 dark:border-zinc-800 dark:focus:ring-zinc-100"
 						/>
-						<p className="text-muted-foreground text-right text-xs">
+						<p className="text-right text-[10px] font-medium text-zinc-400">
 							{note.length}/500
 						</p>
 					</div>
 				</div>
 
-				<AlertDialogFooter className="flex-col gap-2 sm:flex-row">
+				<AlertDialogFooter className="mt-4 gap-3 sm:flex-row">
 					{isEditMode && (
 						<Button
 							type="button"
 							variant="destructive"
 							onClick={handleDelete}
 							disabled={loading}
-							className="w-full sm:w-auto"
+							className="w-full rounded-xl font-semibold sm:w-auto"
 						>
 							Eliminar
 						</Button>
 					)}
-					<div className="flex flex-1 gap-2 sm:justify-end">
+					<div className="flex flex-1 gap-3 sm:justify-end">
 						<AlertDialogCancel
 							disabled={loading}
-							className="flex-1 sm:flex-none"
+							className="flex-1 rounded-xl border-zinc-200 font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-100 sm:flex-none"
 						>
 							Cancelar
 						</AlertDialogCancel>
 						<Button
 							onClick={handleSubmit}
 							disabled={!dueDate || loading}
-							className="flex-1 sm:flex-none"
+							className="flex-1 rounded-xl bg-zinc-900 font-semibold text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200 sm:flex-none"
 						>
 							{loading ? 'Guardando...' : isEditMode ? 'Guardar' : 'Crear'}
 						</Button>

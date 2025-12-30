@@ -7,6 +7,7 @@
  * Shows either the analysis results or an empty state with action button.
  */
 
+import { motion } from 'motion/react'
 import { ExternalLink, Loader2, RefreshCw } from 'lucide-react'
 import { Button } from 'components/ui/button'
 import { Card, CardContent } from 'components/ui/card'
@@ -21,6 +22,27 @@ import type { CompanyContact } from '../../types'
 
 interface WebsiteSeoTabProps {
 	contact: CompanyContact
+}
+
+const containerVariants = {
+	hidden: { opacity: 0 },
+	visible: {
+		opacity: 1,
+		transition: {
+			staggerChildren: 0.1,
+		},
+	},
+}
+
+const itemVariants = {
+	hidden: { opacity: 0, y: 20 },
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: {
+			duration: 0.4,
+		},
+	},
 }
 
 export function WebsiteSeoTab({ contact }: WebsiteSeoTabProps) {
@@ -53,19 +75,24 @@ export function WebsiteSeoTab({ contact }: WebsiteSeoTabProps) {
 	}
 
 	return (
-		<div className="space-y-6">
+		<motion.div
+			className="space-y-6"
+			variants={containerVariants}
+			initial="hidden"
+			animate="visible"
+		>
 			{/* Header with website URL and re-analyze button */}
-			<div className="flex items-center justify-between">
+			<motion.div variants={itemVariants} className="flex items-center justify-between">
 				<div className="flex items-center gap-2">
-					<span className="text-muted-foreground text-sm">Sitio web:</span>
+					<span className="text-zinc-500 text-sm font-medium">Sitio web:</span>
 					<a
 						href={analysis.websiteUrl}
 						target="_blank"
 						rel="noopener noreferrer"
-						className="flex items-center gap-1 text-sm text-blue-600 hover:underline"
+						className="flex items-center gap-1.5 text-sm font-bold text-zinc-900 hover:underline dark:text-zinc-100"
 					>
-						{analysis.websiteUrl}
-						<ExternalLink className="h-3 w-3" />
+						{analysis.websiteUrl.replace(/^https?:\/\//, '')}
+						<ExternalLink className="h-3.5 w-3.5 text-zinc-400" />
 					</a>
 				</div>
 				<Button
@@ -73,41 +100,50 @@ export function WebsiteSeoTab({ contact }: WebsiteSeoTabProps) {
 					size="sm"
 					onClick={runAnalysis}
 					disabled={isAnalyzing}
+					className="h-8 border-zinc-200 text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 dark:border-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-100"
 				>
 					{isAnalyzing ? (
 						<>
-							<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+							<Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
 							Analizando...
 						</>
 					) : (
 						<>
-							<RefreshCw className="mr-2 h-4 w-4" />
+							<RefreshCw className="mr-2 h-3.5 w-3.5 text-zinc-400" />
 							Re-analizar
 						</>
 					)}
 				</Button>
-			</div>
+			</motion.div>
 
 			{/* Score Circles */}
-			<ScoreCirclesSection analysis={analysis} />
+			<motion.div variants={itemVariants}>
+				<ScoreCirclesSection analysis={analysis} />
+			</motion.div>
 
 			{/* Primary Issues */}
-			<IssuesSection analysis={analysis} />
+			<motion.div variants={itemVariants}>
+				<IssuesSection analysis={analysis} />
+			</motion.div>
 
-			<MetricsSection analysis={analysis} />
+			<motion.div variants={itemVariants}>
+				<MetricsSection analysis={analysis} />
+			</motion.div>
 
 			{/* Last analyzed timestamp */}
-			<p className="text-muted-foreground text-center text-xs">
+			<motion.p variants={itemVariants} className="text-zinc-400 text-center text-[10px] font-bold uppercase pt-4">
 				Último análisis:{' '}
-				{new Date(analysis.analyzedAt).toLocaleDateString('es-AR', {
-					day: '2-digit',
-					month: 'short',
-					year: 'numeric',
-					hour: '2-digit',
-					minute: '2-digit',
-				})}
-			</p>
-		</div>
+				<span className="text-zinc-500">
+					{new Date(analysis.analyzedAt).toLocaleDateString('es-AR', {
+						day: '2-digit',
+						month: 'short',
+						year: 'numeric',
+						hour: '2-digit',
+						minute: '2-digit',
+					})}
+				</span>
+			</motion.p>
+		</motion.div>
 	)
 }
 

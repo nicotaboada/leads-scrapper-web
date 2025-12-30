@@ -22,29 +22,32 @@ export enum FollowUpFilterValue {
  * Configuration for follow-up filter display
  */
 export interface FollowUpFilterConfig {
-  label: string
-  emoji: string
+	label: string
+	color: string
 }
 
 /**
  * Configuration map for all follow-up filter options
  */
-export const FOLLOW_UP_FILTER_CONFIG: Record<FollowUpFilterValue, FollowUpFilterConfig> = {
-  [FollowUpFilterValue.OVERDUE]: {
-    label: 'Vencido',
-    emoji: '🔴',
-  },
-  [FollowUpFilterValue.TODAY]: {
-    label: 'Hoy',
-    emoji: '🟡',
-  },
-  [FollowUpFilterValue.NEXT_3_DAYS]: {
-    label: 'Próximos 3 días',
-    emoji: '🟢',
-  },
-  [FollowUpFilterValue.NO_FOLLOW_UP]: {
-    label: 'Sin seguimiento',
-    emoji: '⚪',
-  },
+export const FOLLOW_UP_FILTER_CONFIG: Record<
+	FollowUpFilterValue,
+	FollowUpFilterConfig
+> = {
+	[FollowUpFilterValue.OVERDUE]: {
+		label: 'Vencido',
+		color: 'bg-zinc-900 dark:bg-zinc-100',
+	},
+	[FollowUpFilterValue.TODAY]: {
+		label: 'Hoy',
+		color: 'bg-zinc-600 dark:bg-zinc-400',
+	},
+	[FollowUpFilterValue.NEXT_3_DAYS]: {
+		label: 'Próximos 3 días',
+		color: 'bg-zinc-300 dark:bg-zinc-600',
+	},
+	[FollowUpFilterValue.NO_FOLLOW_UP]: {
+		label: 'Sin seguimiento',
+		color: 'bg-zinc-100 dark:bg-zinc-800',
+	},
 }
 

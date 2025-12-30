@@ -52,37 +52,37 @@ export function ProblemSelector({
 							onClick={() => handleToggle(problem.id)}
 							className={cn(
 								'flex cursor-pointer gap-4 rounded-xl border p-4 transition-all',
-								'hover:shadow-sm',
+								'hover:shadow-md',
 								disabled && 'cursor-not-allowed opacity-50',
 								isSelected
-									? 'border-indigo-300 bg-indigo-50/50 ring-1 ring-indigo-200 dark:border-indigo-600 dark:bg-indigo-950/20 dark:ring-indigo-800'
-									: 'border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-900'
+									? 'border-zinc-900 bg-zinc-50/50 ring-1 ring-zinc-900 dark:border-zinc-100 dark:bg-zinc-900/20 dark:ring-zinc-100'
+									: 'border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950 shadow-sm'
 							)}
 						>
 							<Checkbox
 								checked={isSelected}
 								disabled={disabled}
 								onCheckedChange={() => handleToggle(problem.id)}
-								className="mt-0.5"
+								className="mt-0.5 border-zinc-300 data-[state=checked]:bg-zinc-900 data-[state=checked]:text-zinc-50 dark:border-zinc-700 dark:data-[state=checked]:bg-zinc-100 dark:data-[state=checked]:text-zinc-900"
 							/>
 							<div className="flex-1 space-y-1">
 								<div className="flex items-center gap-2">
-									<span className="font-medium text-zinc-900 dark:text-zinc-100">
+									<span className="font-bold text-zinc-900 dark:text-zinc-100">
 										{problem.title}
 									</span>
 									<Badge
-										variant="outline"
+										variant={problem.severity === 'critical' ? 'default' : 'outline'}
 										className={cn(
-											'text-xs font-normal',
+											'text-[10px] font-bold uppercase px-1.5 py-0',
 											problem.severity === 'critical'
-												? 'border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-950/30 dark:text-red-400'
-												: 'border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-400'
+												? 'bg-zinc-900 text-zinc-50 dark:bg-zinc-100 dark:text-zinc-900 border-transparent'
+												: 'border-zinc-200 text-zinc-500 dark:border-zinc-800 dark:text-zinc-400'
 										)}
 									>
 										{problem.severity === 'critical' ? 'Crítico' : 'Mejorable'}
 									</Badge>
 								</div>
-								<p className="text-sm text-zinc-500 dark:text-zinc-400">
+								<p className="text-xs font-medium text-zinc-500 dark:text-zinc-400 leading-relaxed">
 									{problem.description}
 								</p>
 							</div>
