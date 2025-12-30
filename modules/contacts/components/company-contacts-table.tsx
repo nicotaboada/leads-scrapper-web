@@ -44,38 +44,45 @@ export function CompanyContactsTable({
 	}
 
 	return (
-		<div className="overflow-hidden rounded-md border">
+		<div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
 			<Table>
-				<TableHeader>
-					<TableRow className="bg-slate-800 hover:bg-slate-800">
-						<TableHead className="font-semibold text-white">NAME</TableHead>
-						<TableHead className="font-semibold text-white">
-							JOB TITLE
+				<TableHeader className="bg-zinc-50/50 dark:bg-zinc-900/50">
+					<TableRow className="border-zinc-200 hover:bg-transparent dark:border-zinc-800">
+						<TableHead className="pl-6 font-semibold text-zinc-900 dark:text-zinc-100">
+							Nombre
 						</TableHead>
-						<TableHead className="font-semibold text-white">
-							EMAIL ADDRESS
+						<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">
+							Cargo
 						</TableHead>
-						<TableHead className="font-semibold text-white">MOBILE</TableHead>
+						<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">
+							Email
+						</TableHead>
+						<TableHead className="pr-6 font-semibold text-zinc-900 dark:text-zinc-100">
+							Móvil
+						</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
 					{employees.map((employee) => (
-						<TableRow key={employee.id} className="hover:bg-muted/50">
-							<TableCell>
+						<TableRow
+							key={employee.id}
+							className="group border-zinc-200 transition-colors dark:border-zinc-800"
+						>
+							<TableCell className="py-4 pl-6">
 								<Link
 									href={ROUTES.CONTACT_PERSON_DETAIL(employee.id)}
-									className="font-medium text-blue-600 hover:underline"
+									className="font-medium text-zinc-900 decoration-zinc-400 underline-offset-4 transition-colors hover:underline dark:text-zinc-100"
 								>
 									{employee.firstName} {employee.lastName}
 								</Link>
 							</TableCell>
-							<TableCell className="text-muted-foreground">
+							<TableCell className="py-4 text-zinc-500 dark:text-zinc-400">
 								{employee.jobTitle || '-'}
 							</TableCell>
-							<TableCell className="text-muted-foreground">
+							<TableCell className="py-4 text-zinc-500 dark:text-zinc-400">
 								{employee.email || '-'}
 							</TableCell>
-							<TableCell className="text-muted-foreground">
+							<TableCell className="py-4 pr-6 text-zinc-500 dark:text-zinc-400">
 								{employee.celular || '-'}
 							</TableCell>
 						</TableRow>
@@ -88,33 +95,40 @@ export function CompanyContactsTable({
 
 export function CompanyContactsTableSkeleton() {
 	return (
-		<div className="overflow-hidden rounded-md border">
+		<div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
 			<Table>
-				<TableHeader>
-					<TableRow className="bg-slate-800 hover:bg-slate-800">
-						<TableHead className="font-semibold text-white">NAME</TableHead>
-						<TableHead className="font-semibold text-white">
-							JOB TITLE
+				<TableHeader className="bg-zinc-50/50 dark:bg-zinc-900/50">
+					<TableRow className="border-zinc-200 hover:bg-transparent dark:border-zinc-800">
+						<TableHead className="pl-6 font-semibold text-zinc-900 dark:text-zinc-100">
+							Nombre
 						</TableHead>
-						<TableHead className="font-semibold text-white">
-							EMAIL ADDRESS
+						<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">
+							Cargo
 						</TableHead>
-						<TableHead className="font-semibold text-white">MOBILE</TableHead>
+						<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">
+							Email
+						</TableHead>
+						<TableHead className="pr-6 font-semibold text-zinc-900 dark:text-zinc-100">
+							Móvil
+						</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
 					{Array.from({ length: 5 }).map((_, index) => (
-						<TableRow key={index}>
-							<TableCell>
+						<TableRow
+							key={index}
+							className="border-zinc-200 dark:border-zinc-800"
+						>
+							<TableCell className="py-4 pl-6">
 								<Skeleton className="h-4 w-32" />
 							</TableCell>
-							<TableCell>
+							<TableCell className="py-4">
 								<Skeleton className="h-4 w-24" />
 							</TableCell>
-							<TableCell>
+							<TableCell className="py-4">
 								<Skeleton className="h-4 w-40" />
 							</TableCell>
-							<TableCell>
+							<TableCell className="py-4 pr-6">
 								<Skeleton className="h-4 w-28" />
 							</TableCell>
 						</TableRow>

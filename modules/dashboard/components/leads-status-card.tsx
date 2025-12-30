@@ -4,15 +4,15 @@
  * Card component showing leads status summary for dashboard
  */
 
+import { Users } from 'lucide-react'
 import { Card, CardContent } from 'components/ui/card'
 import { Skeleton } from 'components/ui/skeleton'
-import { Users } from 'lucide-react'
-import { useLeadsStatusSummary } from '../hooks/use-leads-status-summary'
 import { LeadsStatusDonut } from './leads-status-donut'
+import { useLeadsStatusSummary } from '../hooks/use-leads-status-summary'
 import {
-	LeadStatus,
 	LEAD_STATUS_COLORS,
 	LEAD_STATUS_LABELS,
+	LeadStatus,
 } from '../types/leads-summary'
 
 /**
@@ -47,22 +47,19 @@ function StatusRow({
 					{count}
 				</span>
 			</div>
-			
+
 			{/* Progress bar */}
 			<div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-200/50 dark:bg-zinc-800/50">
-				<div 
+				<div
 					className="h-full rounded-full transition-all duration-1000 ease-out"
-					style={{ 
+					style={{
 						width: `${percentage}%`,
-						backgroundColor: LEAD_STATUS_COLORS[status]
+						backgroundColor: LEAD_STATUS_COLORS[status],
 					}}
 				/>
 			</div>
-			
+
 			<div className="flex items-center justify-between">
-				<span className="text-[10px] text-muted-foreground/60">
-					Distribución
-				</span>
 				<div className="flex items-center gap-1">
 					<span className="text-[10px] font-semibold text-zinc-500 dark:text-zinc-400">
 						{formattedPercentage}%
@@ -108,11 +105,11 @@ function EmptyState() {
 			<h3 className="mb-4 text-base font-semibold">Resumen de Leads</h3>
 			<Card className="flex-1">
 				<CardContent className="flex h-full flex-col items-center justify-center p-6 text-center">
-					<div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 shadow-sm">
+					<div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-zinc-100 bg-zinc-50 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
 						<Users className="h-6 w-6 text-zinc-400 dark:text-zinc-600" />
 					</div>
-					<h4 className="text-base font-semibold mb-1">Sin datos de leads</h4>
-					<p className="max-w-[200px] text-sm text-muted-foreground">
+					<h4 className="mb-1 text-base font-semibold">Sin datos de leads</h4>
+					<p className="text-muted-foreground max-w-[200px] text-sm">
 						No hay leads aún. Crea un run para comenzar a generar leads.
 					</p>
 				</CardContent>
@@ -138,7 +135,7 @@ export function LeadsStatusCard() {
 				<h3 className="mb-4 text-base font-semibold">Resumen de Leads</h3>
 				<Card className="flex-1">
 					<CardContent className="flex h-full items-center justify-center p-6">
-						<p className="text-sm text-muted-foreground">
+						<p className="text-muted-foreground text-sm">
 							Error al cargar los datos
 						</p>
 					</CardContent>
@@ -158,13 +155,17 @@ export function LeadsStatusCard() {
 				<CardContent className="flex h-full flex-col items-center justify-center p-4 sm:p-6">
 					<div className="flex w-full flex-col items-center gap-6">
 						{/* Donut chart section - centered at the top */}
-						<div className="relative flex shrink-0 items-center justify-center scale-90 sm:scale-100">
+						<div className="relative flex shrink-0 scale-90 items-center justify-center sm:scale-100">
 							<LeadsStatusDonut summary={summary} />
 						</div>
 
 						{/* Stats grid section - 2 rows of 2 columns, full width */}
 						<div className="grid w-full max-w-2xl grid-cols-2 gap-3">
-							<StatusRow status={LeadStatus.NEW} count={summary.new} total={summary.total} />
+							<StatusRow
+								status={LeadStatus.NEW}
+								count={summary.new}
+								total={summary.total}
+							/>
 							<StatusRow
 								status={LeadStatus.CONTACTED}
 								count={summary.contacted}
@@ -175,9 +176,9 @@ export function LeadsStatusCard() {
 								count={summary.inConversations}
 								total={summary.total}
 							/>
-							<StatusRow 
-								status={LeadStatus.CLOSED} 
-								count={summary.closed} 
+							<StatusRow
+								status={LeadStatus.CLOSED}
+								count={summary.closed}
 								total={summary.total}
 							/>
 						</div>

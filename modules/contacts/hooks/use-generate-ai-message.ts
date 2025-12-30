@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client/react'
 import { useCallback } from 'react'
 import { toast } from 'sonner'
-import { GENERATE_AI_MESSAGE } from '../graphql/mutations/generate-ai-message'
+import { GENERATE_AI_MESSAGE } from '../graphql/generate-ai-message'
 import type {
 	GenerateAIMessageInput,
 	GenerateAIMessageResponse,

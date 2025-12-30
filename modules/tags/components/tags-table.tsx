@@ -50,6 +50,20 @@ export function TagsTable({
 }: TagsTableProps) {
 	const isEmpty = !loading && tags.length === 0
 
+	if (isEmpty) {
+		return (
+			<TableEmptyState
+				icon={TagIcon}
+				title="No hay tags"
+				description="Crea tu primer tag para organizar tus contactos"
+				action={{
+					label: 'Crear Tag',
+					onClick: onCreateTag,
+				}}
+			/>
+		)
+	}
+
 	return (
 		<div className="w-full space-y-4">
 			<div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
@@ -83,20 +97,6 @@ export function TagsTable({
 									{ cellClassName: 'pr-6', width: '40px' },
 								]}
 							/>
-						) : isEmpty ? (
-							<TableRow>
-								<TableCell colSpan={5} className="py-12">
-									<TableEmptyState
-										icon={TagIcon}
-										title="No hay tags"
-										description="Crea tu primer tag para organizar tus contactos"
-										action={{
-											label: 'Crear Tag',
-											onClick: onCreateTag,
-										}}
-									/>
-								</TableCell>
-							</TableRow>
 						) : (
 							tags.map((tag) => (
 								<TableRow key={tag.id} className="group transition-colors">

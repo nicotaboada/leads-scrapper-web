@@ -7,8 +7,8 @@
  * Shows either the analysis results or an empty state with action button.
  */
 
-import { motion } from 'motion/react'
 import { ExternalLink, Loader2, RefreshCw } from 'lucide-react'
+import { motion } from 'motion/react'
 import { Button } from 'components/ui/button'
 import { Card, CardContent } from 'components/ui/card'
 import { Skeleton } from 'components/ui/skeleton'
@@ -82,19 +82,11 @@ export function WebsiteSeoTab({ contact }: WebsiteSeoTabProps) {
 			animate="visible"
 		>
 			{/* Header with website URL and re-analyze button */}
-			<motion.div variants={itemVariants} className="flex items-center justify-between">
-				<div className="flex items-center gap-2">
-					<span className="text-zinc-500 text-sm font-medium">Sitio web:</span>
-					<a
-						href={analysis.websiteUrl}
-						target="_blank"
-						rel="noopener noreferrer"
-						className="flex items-center gap-1.5 text-sm font-bold text-zinc-900 hover:underline dark:text-zinc-100"
-					>
-						{analysis.websiteUrl.replace(/^https?:\/\//, '')}
-						<ExternalLink className="h-3.5 w-3.5 text-zinc-400" />
-					</a>
-				</div>
+			<motion.div
+				variants={itemVariants}
+				className="flex items-center justify-between"
+			>
+				<div className="flex items-center gap-2"></div>
 				<Button
 					variant="outline"
 					size="sm"
@@ -131,7 +123,10 @@ export function WebsiteSeoTab({ contact }: WebsiteSeoTabProps) {
 			</motion.div>
 
 			{/* Last analyzed timestamp */}
-			<motion.p variants={itemVariants} className="text-zinc-400 text-center text-[10px] font-bold uppercase pt-4">
+			<motion.p
+				variants={itemVariants}
+				className="pt-4 text-center text-[10px] font-bold text-zinc-400 uppercase"
+			>
 				Último análisis:{' '}
 				<span className="text-zinc-500">
 					{new Date(analysis.analyzedAt).toLocaleDateString('es-AR', {

@@ -7,9 +7,9 @@
  * with rich cards showing title, description and impact badge
  */
 
-import { XCircle, AlertCircle, CheckCircle2 } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from 'components/ui/card'
+import { AlertCircle, CheckCircle2, XCircle } from 'lucide-react'
 import { Badge } from 'components/ui/badge'
+import { Card, CardContent, CardHeader, CardTitle } from 'components/ui/card'
 import { cn } from 'lib/utils/merge'
 import type { WebsiteAnalysis } from '../../types/website-analysis'
 
@@ -31,7 +31,8 @@ function parseIssueToDetail(issue: string, index: number): IssueDetail {
 	const issueMap: Record<string, IssueDetail> = {
 		'No clear value proposition above the fold': {
 			title: 'Sin propuesta de valor clara',
-			description: 'No hay una propuesta de valor visible en la parte superior de la página',
+			description:
+				'No hay una propuesta de valor visible en la parte superior de la página',
 			impact: 'Reduce conversiones',
 			severity: 'critical',
 		},
@@ -79,7 +80,8 @@ function parseIssueToDetail(issue: string, index: number): IssueDetail {
 		},
 		'Not appearing in Google top 10 results': {
 			title: 'Sin posicionamiento en Google',
-			description: 'El negocio no aparece en los primeros 10 resultados de Google',
+			description:
+				'El negocio no aparece en los primeros 10 resultados de Google',
 			impact: 'Pérdida de clientes potenciales',
 			severity: 'critical',
 		},
@@ -113,29 +115,37 @@ function IssueCard({ issue }: { issue: IssueDetail }) {
 
 	return (
 		<div className="flex gap-4 rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition-all hover:shadow-md dark:border-zinc-800 dark:bg-zinc-950">
-			<div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-zinc-50 dark:bg-zinc-900 shadow-inner">
-				<IconComponent className={cn(
-					"h-6 w-6",
-					isCritical ? "text-zinc-900 dark:text-zinc-100" : "text-zinc-400 dark:text-zinc-500"
-				)} />
+			<div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-zinc-50 shadow-inner dark:bg-zinc-900">
+				<IconComponent
+					className={cn(
+						'h-6 w-6',
+						isCritical
+							? 'text-zinc-900 dark:text-zinc-100'
+							: 'text-zinc-400 dark:text-zinc-500'
+					)}
+				/>
 			</div>
 			<div className="flex flex-col gap-1.5">
 				<div className="flex items-center gap-2">
-					<h4 className="font-bold text-zinc-900 dark:text-zinc-100 leading-tight">{issue.title}</h4>
-					<Badge 
-						variant={isCritical ? "default" : "secondary"} 
+					<h4 className="leading-tight font-bold text-zinc-900 dark:text-zinc-100">
+						{issue.title}
+					</h4>
+					<Badge
+						variant={isCritical ? 'default' : 'secondary'}
 						className={cn(
-							"text-[9px] font-bold uppercase px-1.5 py-0",
-							isCritical 
-								? "bg-zinc-900 text-zinc-50 dark:bg-zinc-100 dark:text-zinc-900" 
-								: "bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400"
+							'px-1.5 py-0 text-[9px] font-bold uppercase',
+							isCritical
+								? 'bg-zinc-900 text-zinc-50 dark:bg-zinc-100 dark:text-zinc-900'
+								: 'bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400'
 						)}
 					>
 						{isCritical ? 'Crítico' : 'Alerta'}
 					</Badge>
 				</div>
-				<p className="text-xs font-medium text-zinc-500 dark:text-zinc-400 leading-relaxed">{issue.description}</p>
-				<p className="text-[10px] font-semibold text-zinc-400 dark:text-zinc-600 mt-1 uppercase">
+				<p className="text-xs leading-relaxed font-medium text-zinc-500 dark:text-zinc-400">
+					{issue.description}
+				</p>
+				<p className="mt-1 text-[10px] font-semibold text-zinc-400 uppercase dark:text-zinc-600">
 					Impacto: {issue.impact}
 				</p>
 			</div>
@@ -151,8 +161,10 @@ export function IssuesSection({ analysis }: IssuesSectionProps) {
 
 	return (
 		<Card>
-			<CardHeader className="pb-4">
-				<CardTitle className="text-base font-semibold">Problemas Detectados</CardTitle>
+			<CardHeader>
+				<CardTitle className="text-base font-semibold">
+					Problemas Detectados
+				</CardTitle>
 			</CardHeader>
 			<CardContent>
 				{hasIssues ? (
@@ -180,4 +192,3 @@ export function IssuesSection({ analysis }: IssuesSectionProps) {
 		</Card>
 	)
 }
-
