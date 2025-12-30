@@ -6,6 +6,7 @@
 
 import { Card, CardContent } from 'components/ui/card'
 import { Skeleton } from 'components/ui/skeleton'
+import { Users } from 'lucide-react'
 import { useLeadsStatusSummary } from '../hooks/use-leads-status-summary'
 import { LeadsStatusDonut } from './leads-status-donut'
 import {
@@ -107,8 +108,8 @@ function EmptyState() {
 			<h3 className="mb-4 text-base font-semibold">Resumen de Leads</h3>
 			<Card className="flex-1">
 				<CardContent className="flex h-full flex-col items-center justify-center p-6 text-center">
-					<div className="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-zinc-50 dark:bg-zinc-900">
-						<span className="text-3xl">📊</span>
+					<div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 shadow-sm">
+						<Users className="h-6 w-6 text-zinc-400 dark:text-zinc-600" />
 					</div>
 					<h4 className="text-base font-semibold mb-1">Sin datos de leads</h4>
 					<p className="max-w-[200px] text-sm text-muted-foreground">

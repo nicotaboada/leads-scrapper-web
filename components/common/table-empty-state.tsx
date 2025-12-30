@@ -6,6 +6,7 @@
 
 import type { LucideIcon } from 'lucide-react'
 import { Button } from 'components/ui/button'
+import { isValidElement } from 'react'
 import {
 	Empty,
 	EmptyContent,
@@ -19,10 +20,12 @@ interface TableEmptyStateProps {
 	icon: LucideIcon
 	title: string
 	description?: string
-	action?: {
-		label: string
-		onClick: () => void
-	}
+	action?:
+		| {
+				label: string
+				onClick: () => void
+		  }
+		| React.ReactNode
 }
 
 export function TableEmptyState({
@@ -42,9 +45,16 @@ export function TableEmptyState({
 			</EmptyHeader>
 			{action && (
 				<EmptyContent>
-					<Button className="cursor-pointer" onClick={action.onClick}>
-						{action.label}
-					</Button>
+					{isValidElement(action) ? (
+						action
+					) : (
+						<Button
+							className="cursor-pointer"
+							onClick={(action as { onClick: () => void }).onClick}
+						>
+							{(action as { label: string }).label}
+						</Button>
+					)}
 				</EmptyContent>
 			)}
 		</Empty>

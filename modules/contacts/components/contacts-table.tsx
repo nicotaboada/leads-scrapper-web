@@ -69,6 +69,7 @@ export function ContactsTable({
 		null
 	)
 	const [deletingContact, setDeletingContact] = useState<Contact | null>(null)
+	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
 
 	function handleEdit(contact: Contact) {
 		if (isPersonContact(contact)) {
@@ -80,6 +81,14 @@ export function ContactsTable({
 
 	function handleDelete(contact: Contact) {
 		setDeletingContact(contact)
+		setIsDeleteDialogOpen(true)
+	}
+
+	function handleDeleteDialogOpenChange(open: boolean) {
+		setIsDeleteDialogOpen(open)
+		if (!open) {
+			setTimeout(() => setDeletingContact(null), 150)
+		}
 	}
 
 	function handleContactUpdated() {
@@ -262,15 +271,13 @@ export function ContactsTable({
 				/>
 			)}
 
-			{/* Delete Contact Dialog */}
-			{deletingContact && (
-				<DeleteContactDialog
-					open={!!deletingContact}
-					onOpenChange={(open) => !open && setDeletingContact(null)}
-					contact={deletingContact}
-					onContactDeleted={handleContactDeleted}
-				/>
-			)}
+			{/* Delete Contact Dialog - Always rendered to prevent portal cleanup issues */}
+			<DeleteContactDialog
+				open={isDeleteDialogOpen}
+				onOpenChange={handleDeleteDialogOpenChange}
+				contact={deletingContact}
+				onContactDeleted={handleContactDeleted}
+			/>
 		</div>
 	)
 }

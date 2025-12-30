@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { Check, Trash2, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -26,27 +25,24 @@ interface ActiveKeyDisplayProps {
  * Displays the active API key with masked value and label
  */
 export function ActiveKeyDisplay({ apiKey, onDelete, isDeleting }: ActiveKeyDisplayProps) {
-	const [isHovered, setIsHovered] = useState(false)
 	const maskedKey = `*********${apiKey.keyLastFour}`
 
 	return (
 		<div 
-			className="group relative rounded-lg border-2 border-emerald-500/30 bg-emerald-500/5 p-4"
-			onMouseEnter={() => setIsHovered(true)}
-			onMouseLeave={() => setIsHovered(false)}
+			className="group relative rounded-lg border bg-muted/30 p-4 transition-colors hover:bg-muted/50"
 		>
 			<div className="flex items-center justify-between">
-				<p className="text-xs font-medium uppercase text-emerald-600">
+				<p className="text-xs font-medium uppercase text-muted-foreground">
 					Current Active Key
 				</p>
 				<div className="flex items-center gap-2">
-					{isHovered && onDelete && (
+					{onDelete && (
 						<AlertDialog>
 							<AlertDialogTrigger asChild>
 								<Button
 									variant="ghost"
 									size="icon"
-									className="h-6 w-6 text-destructive hover:bg-destructive/10 hover:text-destructive"
+									className="h-6 w-6 text-muted-foreground opacity-0 transition-opacity hover:text-destructive group-hover:opacity-100"
 									disabled={isDeleting}
 								>
 									{isDeleting ? (
@@ -76,7 +72,7 @@ export function ActiveKeyDisplay({ apiKey, onDelete, isDeleting }: ActiveKeyDisp
 							</AlertDialogContent>
 						</AlertDialog>
 					)}
-					<Check className="h-4 w-4 text-emerald-500" />
+					<Check className="h-4 w-4 text-foreground" />
 				</div>
 			</div>
 			<p className="mt-2 font-mono text-sm font-semibold">{maskedKey}</p>

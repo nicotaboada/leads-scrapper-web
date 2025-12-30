@@ -24,7 +24,7 @@ import { type Contact, getContactName } from '../types'
 interface DeleteContactDialogProps {
 	open: boolean
 	onOpenChange: (open: boolean) => void
-	contact: Contact
+	contact: Contact | null
 	onContactDeleted?: () => void
 }
 
@@ -36,16 +36,18 @@ export function DeleteContactDialog({
 }: DeleteContactDialogProps) {
 	const { deleteContact, loading } = useDeleteContact()
 
-	const contactName = getContactName(contact)
+	const contactName = contact ? getContactName(contact) : ''
 
-	async function handleDelete() {
+	async function handleDelete(e: React.MouseEvent) {
+		e.preventDefault()
+		if (!contact) return
 		try {
 			const success = await deleteContact(contact.id)
 
 			if (success) {
 				toast.success('Contacto eliminado exitosamente')
-				onContactDeleted?.()
 				onOpenChange(false)
+				onContactDeleted?.()
 			} else {
 				toast.error('Error al eliminar el contacto')
 			}
@@ -79,4 +81,3 @@ export function DeleteContactDialog({
 		</AlertDialog>
 	)
 }
-

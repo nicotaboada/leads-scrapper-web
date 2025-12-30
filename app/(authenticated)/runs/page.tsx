@@ -85,6 +85,10 @@ export default function RunsPage() {
 					icon={Activity}
 					title="No runs found"
 					description="Try adjusting your search to find what you're looking for."
+					action={{
+						label: 'Clear search',
+						onClick: () => setSearchQuery(''),
+					}}
 				/>
 			) : filteredRuns.length === 0 ? (
 				<TableEmptyState
@@ -92,9 +96,9 @@ export default function RunsPage() {
 					title="No runs yet"
 					description="Your scraping runs will appear here once you start a job."
 					action={
-						<Button className="mt-4 cursor-pointer" onClick={handleCreateRun}>
+						<Button className="cursor-pointer" onClick={handleCreateRun}>
 							<PlusIcon className="mr-2 h-4 w-4" />
-							Create your first run
+							Add run
 						</Button>
 					}
 				/>

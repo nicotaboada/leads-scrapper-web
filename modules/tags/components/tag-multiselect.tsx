@@ -2,11 +2,7 @@
 
 import { Check, ChevronDown, ChevronUp } from 'lucide-react'
 import { useCallback, useMemo, useRef, useState } from 'react'
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from 'components/ui/popover'
+import { Popover, PopoverContent, PopoverTrigger } from 'components/ui/popover'
 import { Skeleton } from 'components/ui/skeleton'
 import { cn } from 'lib/utils/merge'
 import { TagChip } from './tag-chip'

@@ -22,12 +22,14 @@ import { Label } from 'components/ui/label'
 import { ContactChannelsFormField } from './contact-channels-form-field'
 import { LeadStatusFormField } from './lead-status-form-field'
 import { useUpdateCompany } from '../hooks/use-update-company'
-import { type ContactChannel, LeadStatus } from '../types'
+import { useUpdatePersonContact } from '../hooks/use-update-person-contact'
+import { type ContactChannel, ContactType, LeadStatus } from '../types'
 
 interface LeadEditModalProps {
 	open: boolean
 	onOpenChange: (open: boolean) => void
 	contactId: string
+	contactType: ContactType
 	currentStatus: LeadStatus
 	currentChannels: ContactChannel[]
 	onLeadChanged?: () => void
@@ -37,6 +39,7 @@ export function LeadEditModal({
 	open,
 	onOpenChange,
 	contactId,
+	contactType,
 	currentStatus,
 	currentChannels,
 	onLeadChanged,
@@ -45,7 +48,10 @@ export function LeadEditModal({
 	const [contactedChannels, setContactedChannels] =
 		useState<ContactChannel[]>(currentChannels)
 
-	const { updateCompany, loading } = useUpdateCompany()
+	const { updateCompany, loading: companyLoading } = useUpdateCompany()
+	const { updatePersonContact, loading: personLoading } = useUpdatePersonContact()
+
+	const loading = companyLoading || personLoading
 
 	// Reset form when modal opens or when current values change
 	useEffect(() => {
@@ -56,10 +62,18 @@ export function LeadEditModal({
 	}, [open, currentStatus, currentChannels])
 
 	async function handleSubmit(): Promise<void> {
-		const result = await updateCompany(contactId, {
-			leadStatus,
-			contactedChannels,
-		})
+		let result: boolean | string | null = null
+		if (contactType === ContactType.COMPANY) {
+			result = await updateCompany(contactId, {
+				leadStatus,
+				contactedChannels,
+			})
+		} else {
+			result = await updatePersonContact(contactId, {
+				leadStatus,
+				contactedChannels,
+			})
+		}
 		if (result) {
 			onOpenChange(false)
 			onLeadChanged?.()

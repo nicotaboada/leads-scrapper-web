@@ -79,7 +79,7 @@ export function ServiceCard({
 					{hasActiveKey && (
 						<Badge
 							variant="secondary"
-							className="border-emerald-500/20 bg-emerald-500/10 text-emerald-600"
+							className="border-border bg-muted/50 text-foreground"
 						>
 							Active
 						</Badge>

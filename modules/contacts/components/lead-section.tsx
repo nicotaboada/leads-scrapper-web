@@ -140,6 +140,7 @@ export function LeadSection({ contact, onLeadChanged }: LeadSectionProps) {
 				open={isModalOpen}
 				onOpenChange={setIsModalOpen}
 				contactId={contact.id}
+				contactType={contact.type}
 				currentStatus={contact.leadStatus}
 				currentChannels={contact.contactedChannels}
 				onLeadChanged={onLeadChanged}
