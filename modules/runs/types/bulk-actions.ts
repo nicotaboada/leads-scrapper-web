@@ -19,11 +19,12 @@ export type HeaderCheckboxState = 'empty' | 'indeterminate' | 'checked'
 
 /**
  * Selection mode enum matching backend (uppercase)
+ * - SELECTED: User explicitly selected specific IDs
+ * - ALL_EXCEPT: User selected all items except the deselected IDs
  */
 export enum BulkSelectionMode {
-	ALL = 'ALL',
 	SELECTED = 'SELECTED',
-	PAGE = 'PAGE',
+	ALL_EXCEPT = 'ALL_EXCEPT',
 }
 
 /**

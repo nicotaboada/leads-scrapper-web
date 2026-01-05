@@ -17,7 +17,7 @@ import { GET_CONTACTS } from 'modules/contacts/graphql/queries'
 import { useAvailableCities } from 'modules/contacts/hooks/use-available-cities'
 import type {
 	Contact,
-	type FollowUpFilterValue,
+	FollowUpFilterValue,
 	LeadStatus,
 	PaginatedContactsResponse,
 } from 'modules/contacts/types'

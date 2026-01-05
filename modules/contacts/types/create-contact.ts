@@ -16,7 +16,7 @@ export interface CreateContactFormInput {
 	jobTitle?: string
 	// Company fields
 	companyId?: string
-	isCreatingNewCompany: boolean
+	isCreatingNewCompany?: boolean
 	newCompanyName?: string
 	newCompanyEmail?: string
 	newCompanyPhone?: string

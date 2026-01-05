@@ -95,7 +95,7 @@ export function SearchFiltersRow({
 
 			{/* Filter Buttons */}
 			<StatusFilter
-				value={filters.status}
+				value={filters.status ?? null}
 				onApply={(value) => onFilterApply('status', value)}
 			/>
 		</div>

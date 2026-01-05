@@ -163,7 +163,11 @@ export function TagMultiselect({
 					{selectedTags.map((tag) => (
 						<TagChip
 							key={tag.id}
-							tag={tag}
+							tag={{
+								id: tag.id,
+								name: tag.name,
+								color: tag.color as TagColor | null | undefined,
+							}}
 							onRemove={handleRemoveTag}
 							disabled={isDisabled}
 							variant="neutral"

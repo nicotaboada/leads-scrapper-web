@@ -8,7 +8,11 @@ import { useQuery } from '@apollo/client/react'
 import { useMemo } from 'react'
 import { useDebounce } from 'hooks/use-debounce'
 import { GET_CONTACTS } from '../graphql/queries'
-import { type CompanyContact, ContactType } from '../types'
+import {
+	type CompanyContact,
+	ContactType,
+	type PaginatedContactsResponse,
+} from '../types'
 
 interface UseSearchCompaniesProps {
 	search: string
@@ -29,7 +33,7 @@ export function useSearchCompanies({
 }: UseSearchCompaniesProps): UseSearchCompaniesReturn {
 	const debouncedSearch = useDebounce(search, 10)
 
-	const { data, loading } = useQuery(GET_CONTACTS, {
+	const { data, loading } = useQuery<PaginatedContactsResponse>(GET_CONTACTS, {
 		variables: {
 			filter: {
 				type: ContactType.COMPANY,

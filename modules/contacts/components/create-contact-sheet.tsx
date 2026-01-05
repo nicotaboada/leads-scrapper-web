@@ -246,7 +246,7 @@ export function CreateContactSheet({
 								<CompanySearchSelect
 									value={form.watch('companyId')}
 									selectedCompanyName={selectedCompanyName}
-									isCreatingNew={isCreatingNewCompany}
+									isCreatingNew={isCreatingNewCompany ?? false}
 									newCompanyName={form.watch('newCompanyName')}
 									onSelectCompany={handleSelectCompany}
 									onCreateNew={handleCreateNewCompany}

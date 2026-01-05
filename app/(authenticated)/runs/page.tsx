@@ -67,7 +67,6 @@ export default function RunsPage() {
 					onSearchChange={setSearchQuery}
 					filters={filters}
 					onFilterApply={() => {}}
-					onFilterClear={() => {}}
 					placeholder="Search runs by name..."
 				/>
 			</div>
