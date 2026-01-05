@@ -89,7 +89,8 @@ export const ISSUE_TO_PROBLEM: Record<
 	'Slow page load time': {
 		id: 'slow-load',
 		title: 'Velocidad de carga lenta',
-		description: 'El sitio tarda más de 3 segundos en cargar, lo que aumenta la tasa de rebote.',
+		description:
+			'El sitio tarda más de 3 segundos en cargar, lo que aumenta la tasa de rebote.',
 		severity: 'critical',
 	},
 	'Poor mobile responsiveness': {
@@ -108,19 +109,22 @@ export const ISSUE_TO_PROBLEM: Record<
 	'Outdated visual appearance': {
 		id: 'outdated-design',
 		title: 'Diseño desactualizado',
-		description: 'El sitio usa patrones de diseño de hace 5+ años, lo que afecta la credibilidad.',
+		description:
+			'El sitio usa patrones de diseño de hace 5+ años, lo que afecta la credibilidad.',
 		severity: 'warning',
 	},
 	'No SSL certificate': {
 		id: 'no-ssl',
 		title: 'Sin certificado SSL',
-		description: 'El sitio no tiene conexión segura HTTPS, lo que afecta la confianza y el SEO.',
+		description:
+			'El sitio no tiene conexión segura HTTPS, lo que afecta la confianza y el SEO.',
 		severity: 'critical',
 	},
 	'Unclear service offering': {
 		id: 'unclear-services',
 		title: 'Servicios poco claros',
-		description: 'No queda claro qué servicios ofrece la empresa o cuál es su propuesta de valor.',
+		description:
+			'No queda claro qué servicios ofrece la empresa o cuál es su propuesta de valor.',
 		severity: 'warning',
 	},
 	'Not appearing in Google top 10 results': {
@@ -157,7 +161,7 @@ export function issueToProblem(issue: string): ProblemForMessage | null {
 export const NO_WEBSITE_PROBLEM: ProblemForMessage = {
 	id: 'no-website',
 	title: 'Sin sitio web',
-	description: 'La empresa no tiene presencia online, perdiendo oportunidades de negocio.',
+	description:
+		'La empresa no tiene presencia online, perdiendo oportunidades de negocio.',
 	severity: 'critical',
 }
-

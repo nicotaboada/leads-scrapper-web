@@ -7,8 +7,7 @@
  * with different avatars and navigation based on contact type.
  */
 
-import { Building2, MapPin, Users } from 'lucide-react'
-import { cn } from 'lib/utils/merge'
+import { Building2, Users } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 import { TableEmptyState } from 'components/common/table-empty-state'
@@ -24,6 +23,7 @@ import {
 	TableRow,
 } from 'components/ui/table'
 import { ROUTES } from 'lib/config/routes'
+import { cn } from 'lib/utils/merge'
 import type { PaginationMeta } from 'types/pagination'
 import { ContactActionsMenu } from './contact-actions-menu'
 import { DeleteContactDialog } from './delete-contact-dialog'

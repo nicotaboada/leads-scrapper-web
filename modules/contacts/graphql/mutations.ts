@@ -29,7 +29,10 @@ export const CREATE_PERSON_CONTACT = gql`
  * Mutation to update a person contact
  */
 export const UPDATE_PERSON_CONTACT = gql`
-	mutation UpdatePersonContact($id: String!, $input: UpdatePersonContactInput!) {
+	mutation UpdatePersonContact(
+		$id: String!
+		$input: UpdatePersonContactInput!
+	) {
 		updatePersonContact(id: $id, input: $input) {
 			id
 			firstName
@@ -145,4 +148,3 @@ export const UPDATE_CONTACT_TAGS = gql`
 		}
 	}
 `
-

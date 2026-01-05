@@ -24,4 +24,3 @@ export const GET_BILLING_USAGE = gql`
 		}
 	}
 `
-

@@ -78,7 +78,7 @@ export function LeadsCompanyWarningModal({
 						<div className="space-y-3">
 							<p>
 								You are about to create{' '}
-								<span className="font-semibold text-foreground">
+								<span className="text-foreground font-semibold">
 									{selectedCount}
 								</span>{' '}
 								person contacts from the selected leads.
@@ -116,4 +116,3 @@ export function LeadsCompanyWarningModal({
 		</AlertDialog>
 	)
 }
-

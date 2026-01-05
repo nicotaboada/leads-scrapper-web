@@ -14,9 +14,18 @@ import { CityMultiselect } from './city-multiselect'
 interface CityFilterProps {
 	value: string[]
 	onApply: (cities: string[]) => void
+	/**
+	 * Pre-fetched cities to use instead of fetching internally.
+	 * When provided, improves performance by avoiding additional API calls.
+	 */
+	availableCities?: string[]
 }
 
-export function CityFilter({ value, onApply }: CityFilterProps) {
+export function CityFilter({
+	value,
+	onApply,
+	availableCities,
+}: CityFilterProps) {
 	const [selectedCities, setSelectedCities] = useState<string[]>(value)
 
 	const hasFilters = value.length > 0
@@ -57,6 +66,7 @@ export function CityFilter({ value, onApply }: CityFilterProps) {
 					onChange={setSelectedCities}
 					placeholder="Seleccionar ciudades..."
 					autoOpen={false}
+					availableCities={availableCities}
 				/>
 			</div>
 		</FilterBy>

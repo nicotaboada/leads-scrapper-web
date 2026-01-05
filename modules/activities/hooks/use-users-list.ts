@@ -9,13 +9,13 @@ import { GET_USERS_LIST } from '../graphql/activity-queries'
 import type { User } from '../types/activity'
 
 interface UsersListResponse {
-  users: User[]
+	users: User[]
 }
 
 interface UseUsersListReturn {
-  users: User[]
-  loading: boolean
-  error: Error | undefined
+	users: User[]
+	loading: boolean
+	error: Error | undefined
 }
 
 /**
@@ -23,14 +23,13 @@ interface UseUsersListReturn {
  * @returns Users list, loading state, and error
  */
 export function useUsersList(): UseUsersListReturn {
-  const { data, loading, error } = useQuery<UsersListResponse>(GET_USERS_LIST, {
-    fetchPolicy: 'cache-first',
-  })
+	const { data, loading, error } = useQuery<UsersListResponse>(GET_USERS_LIST, {
+		fetchPolicy: 'cache-first',
+	})
 
-  return {
-    users: data?.users ?? [],
-    loading,
-    error,
-  }
+	return {
+		users: data?.users ?? [],
+		loading,
+		error,
+	}
 }
-

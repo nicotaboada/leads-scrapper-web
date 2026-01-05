@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
 import { Bot, Camera, Search, Sparkles } from 'lucide-react'
+import { useState } from 'react'
 import { Button } from 'components/ui/button'
 import { Input } from 'components/ui/input'
 import { Label } from 'components/ui/label'
@@ -51,15 +51,15 @@ export function KeyForm({
 		<form onSubmit={handleSubmit} className="space-y-6">
 			{/* Selected service display */}
 			<div className="flex items-center gap-3 rounded-lg border p-4">
-				<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted">
-					<Icon className="h-5 w-5 text-muted-foreground" />
+				<div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
+					<Icon className="text-muted-foreground h-5 w-5" />
 				</div>
 				<div className="flex-1">
 					<p className="font-medium">{serviceConfig?.name}</p>
 					<button
 						type="button"
 						onClick={onBack}
-						className="text-sm text-primary hover:underline"
+						className="text-primary text-sm hover:underline"
 					>
 						Change service
 					</button>
@@ -89,12 +89,17 @@ export function KeyForm({
 					disabled={isLoading}
 					type="password"
 				/>
-				{error && <p className="text-sm text-destructive">{error}</p>}
+				{error && <p className="text-destructive text-sm">{error}</p>}
 			</div>
 
 			{/* Actions */}
 			<div className="flex justify-end gap-3 pt-2">
-				<Button type="button" variant="outline" onClick={onBack} disabled={isLoading}>
+				<Button
+					type="button"
+					variant="outline"
+					onClick={onBack}
+					disabled={isLoading}
+				>
 					Cancel
 				</Button>
 				<Button type="submit" disabled={!isValid || isLoading}>
@@ -104,4 +109,3 @@ export function KeyForm({
 		</form>
 	)
 }
-

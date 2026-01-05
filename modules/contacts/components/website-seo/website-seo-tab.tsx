@@ -7,7 +7,7 @@
  * Shows either the analysis results or an empty state with action button.
  */
 
-import { ExternalLink, Loader2, RefreshCw } from 'lucide-react'
+import { Loader2, RefreshCw } from 'lucide-react'
 import { motion } from 'motion/react'
 import { Button } from 'components/ui/button'
 import { Card, CardContent } from 'components/ui/card'

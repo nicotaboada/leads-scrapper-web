@@ -18,7 +18,12 @@ interface ChannelSelectorProps {
 	compact?: boolean
 }
 
-export function ChannelSelector({ value, onChange, disabled, compact }: ChannelSelectorProps) {
+export function ChannelSelector({
+	value,
+	onChange,
+	disabled,
+	compact,
+}: ChannelSelectorProps) {
 	if (compact) {
 		return (
 			<div className="flex items-center gap-2">
@@ -71,7 +76,7 @@ export function ChannelSelector({ value, onChange, disabled, compact }: ChannelS
 					onClick={() => onChange(MessageChannel.WHATSAPP)}
 					className={cn(
 						'flex flex-1 items-center justify-center gap-2 rounded-lg border-2 px-4 py-3 text-sm font-bold transition-all',
-						'disabled:cursor-not-allowed disabled:opacity-50 shadow-sm',
+						'shadow-sm disabled:cursor-not-allowed disabled:opacity-50',
 						value === MessageChannel.WHATSAPP
 							? 'border-zinc-900 bg-zinc-900 text-zinc-50 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900'
 							: 'border-zinc-200 bg-white text-zinc-500 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-500'
@@ -86,7 +91,7 @@ export function ChannelSelector({ value, onChange, disabled, compact }: ChannelS
 					onClick={() => onChange(MessageChannel.EMAIL)}
 					className={cn(
 						'flex flex-1 items-center justify-center gap-2 rounded-lg border-2 px-4 py-3 text-sm font-bold transition-all',
-						'disabled:cursor-not-allowed disabled:opacity-50 shadow-sm',
+						'shadow-sm disabled:cursor-not-allowed disabled:opacity-50',
 						value === MessageChannel.EMAIL
 							? 'border-zinc-900 bg-zinc-900 text-zinc-50 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900'
 							: 'border-zinc-200 bg-white text-zinc-500 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-500'
@@ -99,4 +104,3 @@ export function ChannelSelector({ value, onChange, disabled, compact }: ChannelS
 		</div>
 	)
 }
-

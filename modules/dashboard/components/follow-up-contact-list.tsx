@@ -4,7 +4,7 @@
  * Contact list with infinite scroll for follow-up sheet
  */
 
-import { useEffect, useRef, useCallback } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { Skeleton } from 'components/ui/skeleton'
 import { FollowUpContactItem } from './follow-up-contact-item'
 import { FollowUpEmptyState } from './follow-up-empty-state'
@@ -104,4 +104,3 @@ export function FollowUpContactList({
 		</div>
 	)
 }
-

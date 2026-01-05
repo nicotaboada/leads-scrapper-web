@@ -28,13 +28,13 @@ import {
 	SheetHeader,
 	SheetTitle,
 } from 'components/ui/sheet'
+import { CompanySearchSelect } from './company-search-select'
 import { useCreateCompany } from '../hooks/use-create-company'
 import { useCreateContact } from '../hooks/use-create-contact'
 import {
 	type CreateContactFormInput,
 	createContactSchema,
 } from '../types/create-contact'
-import { CompanySearchSelect } from './company-search-select'
 
 interface CreateContactSheetProps {
 	open: boolean

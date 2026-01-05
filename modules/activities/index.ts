@@ -14,11 +14,10 @@ export { useUsersList } from './hooks/use-users-list'
 
 // Types
 export type {
-  UserActivity,
-  UserActivityType,
-  DateRangeFilter,
-  UserActivityConnection,
-  UserActivitiesFilter,
-  User,
+	UserActivity,
+	UserActivityType,
+	DateRangeFilter,
+	UserActivityConnection,
+	UserActivitiesFilter,
+	User,
 } from './types/activity'
-

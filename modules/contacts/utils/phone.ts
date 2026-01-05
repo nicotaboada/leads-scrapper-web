@@ -46,11 +46,12 @@ export function buildWhatsAppUrl(phone: string): string {
  * @param phone - The phone number to validate
  * @returns True if the phone number has digits, false otherwise
  */
-export function isValidPhoneForWhatsApp(phone: string | undefined | null): boolean {
+export function isValidPhoneForWhatsApp(
+	phone: string | undefined | null
+): boolean {
 	if (!phone) {
 		return false
 	}
 	const cleaned = cleanPhoneForWhatsApp(phone)
 	return cleaned.length >= 8 // Minimum reasonable phone length
 }
-

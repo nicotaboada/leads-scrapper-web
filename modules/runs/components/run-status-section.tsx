@@ -51,7 +51,8 @@ export function RunStatusSection({
 					bgClassName:
 						'bg-zinc-50 dark:bg-zinc-900/50 border-zinc-900/10 dark:border-zinc-100/10',
 					message: 'Completado con éxito',
-					description: 'Esta ejecución ha finalizado y todos los resultados están disponibles.',
+					description:
+						'Esta ejecución ha finalizado y todos los resultados están disponibles.',
 				}
 			case RunStatus.FAILED:
 				return {
@@ -60,7 +61,8 @@ export function RunStatusSection({
 					bgClassName:
 						'bg-zinc-50 dark:bg-zinc-900/50 border-zinc-900/20 dark:border-zinc-100/20 border-dashed',
 					message: 'Error en la ejecución',
-					description: 'Esta ejecución encontró un error durante su procesamiento.',
+					description:
+						'Esta ejecución encontró un error durante su procesamiento.',
 				}
 			case RunStatus.PAUSED:
 			default:
@@ -87,14 +89,14 @@ export function RunStatusSection({
 		>
 			<div className="flex items-start gap-3">
 				<StatusIcon
-					className={cn('h-5 w-5 flex-shrink-0 mt-0.5', config.iconClassName)}
+					className={cn('mt-0.5 h-5 w-5 flex-shrink-0', config.iconClassName)}
 				/>
 				<div className="flex-1 space-y-3">
 					<div>
-						<h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100 leading-none mb-1.5">
+						<h3 className="mb-1.5 text-base leading-none font-bold text-zinc-900 dark:text-zinc-100">
 							{config.message}
 						</h3>
-						<p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+						<p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
 							{config.description}
 						</p>
 					</div>
@@ -108,7 +110,7 @@ export function RunStatusSection({
 								href={`https://console.apify.com/actors/runs/${apifyUrl}#output`}
 								target="_blank"
 								rel="noopener noreferrer"
-								className="inline-flex items-center gap-1 text-sm text-zinc-900 hover:underline dark:text-zinc-100 transition-colors"
+								className="inline-flex items-center gap-1 text-sm text-zinc-900 transition-colors hover:underline dark:text-zinc-100"
 							>
 								Ver en Apify
 								<ExternalLink className="h-3 w-3" />

@@ -65,4 +65,3 @@ export const GET_FOLLOW_UP = gql`
 		}
 	}
 `
-

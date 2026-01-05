@@ -52,4 +52,3 @@ export function useBulkCreatePersonContacts(): UseBulkCreatePersonContactsReturn
 		error: error ?? null,
 	}
 }
-

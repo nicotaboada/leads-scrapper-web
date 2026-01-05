@@ -6,7 +6,7 @@
  * Different empty states based on contact/analysis status
  */
 
-import { Globe, AlertCircle, CheckCircle2, ArrowRight } from 'lucide-react'
+import { AlertCircle, ArrowRight, CheckCircle2, Globe } from 'lucide-react'
 import { Button } from 'components/ui/button'
 import { Card, CardContent } from 'components/ui/card'
 
@@ -18,9 +18,12 @@ interface NoWebsiteStateProps {
 /**
  * State when contact has no website
  */
-export function NoWebsiteState({ onGenerate, isGenerating }: NoWebsiteStateProps) {
+export function NoWebsiteState({
+	onGenerate,
+	isGenerating,
+}: NoWebsiteStateProps) {
 	return (
-		<Card className="border-zinc-200 dark:border-zinc-800 shadow-sm">
+		<Card className="border-zinc-200 shadow-sm dark:border-zinc-800">
 			<CardContent className="flex flex-col items-center py-12 text-center">
 				<div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800">
 					<Globe className="h-8 w-8 text-zinc-400 dark:text-zinc-500" />
@@ -29,10 +32,11 @@ export function NoWebsiteState({ onGenerate, isGenerating }: NoWebsiteStateProps
 					Este lead no tiene sitio web
 				</h3>
 				<p className="mb-6 max-w-xs text-sm font-medium text-zinc-500 dark:text-zinc-400">
-					Puedes generar un mensaje estratégico ofreciendo la creación de un sitio web profesional.
+					Puedes generar un mensaje estratégico ofreciendo la creación de un
+					sitio web profesional.
 				</p>
-				<Button 
-					onClick={onGenerate} 
+				<Button
+					onClick={onGenerate}
 					disabled={isGenerating}
 					className="bg-zinc-900 font-bold text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
 				>
@@ -50,9 +54,11 @@ interface AnalysisPendingStateProps {
 /**
  * State when website exists but analysis hasn't run
  */
-export function AnalysisPendingState({ onNavigateToAnalysis }: AnalysisPendingStateProps) {
+export function AnalysisPendingState({
+	onNavigateToAnalysis,
+}: AnalysisPendingStateProps) {
 	return (
-		<Card className="border-zinc-200 dark:border-zinc-800 shadow-sm">
+		<Card className="border-zinc-200 shadow-sm dark:border-zinc-800">
 			<CardContent className="flex flex-col items-center py-12 text-center">
 				<div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800">
 					<AlertCircle className="h-8 w-8 text-zinc-400 dark:text-zinc-500" />
@@ -61,11 +67,12 @@ export function AnalysisPendingState({ onNavigateToAnalysis }: AnalysisPendingSt
 					Análisis pendiente
 				</h3>
 				<p className="mb-6 max-w-xs text-sm font-medium text-zinc-500 dark:text-zinc-400">
-					Primero debes ejecutar el análisis del sitio web para detectar problemas y oportunidades.
+					Primero debes ejecutar el análisis del sitio web para detectar
+					problemas y oportunidades.
 				</p>
-				<Button 
-					onClick={onNavigateToAnalysis} 
-					variant="outline" 
+				<Button
+					onClick={onNavigateToAnalysis}
+					variant="outline"
 					className="gap-2 border-zinc-200 font-bold text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 dark:border-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-100"
 				>
 					Ir a Website & SEO
@@ -86,7 +93,7 @@ interface AllOkStateProps {
  */
 export function AllOkState({ onGenerate, isGenerating }: AllOkStateProps) {
 	return (
-		<Card className="border-zinc-200 dark:border-zinc-800 shadow-sm">
+		<Card className="border-zinc-200 shadow-sm dark:border-zinc-800">
 			<CardContent className="flex flex-col items-center py-12 text-center">
 				<div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800">
 					<CheckCircle2 className="h-8 w-8 text-zinc-400 dark:text-zinc-500" />
@@ -95,10 +102,11 @@ export function AllOkState({ onGenerate, isGenerating }: AllOkStateProps) {
 					¡Excelente! Sin problemas detectados
 				</h3>
 				<p className="mb-6 max-w-xs text-sm font-medium text-zinc-500 dark:text-zinc-400">
-					El sitio web cumple con los estándares. Genera un mensaje de felicitación y servicios adicionales.
+					El sitio web cumple con los estándares. Genera un mensaje de
+					felicitación y servicios adicionales.
 				</p>
-				<Button 
-					onClick={onGenerate} 
+				<Button
+					onClick={onGenerate}
 					disabled={isGenerating}
 					className="bg-zinc-900 font-bold text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
 				>
@@ -108,4 +116,3 @@ export function AllOkState({ onGenerate, isGenerating }: AllOkStateProps) {
 		</Card>
 	)
 }
-

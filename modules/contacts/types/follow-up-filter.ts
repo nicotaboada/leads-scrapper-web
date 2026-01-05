@@ -8,14 +8,14 @@
  * Enum representing follow-up filter options
  */
 export enum FollowUpFilterValue {
-  /** Contactos con follow-up vencido (fecha pasada) */
-  OVERDUE = 'OVERDUE',
-  /** Contactos con follow-up para hoy */
-  TODAY = 'TODAY',
-  /** Contactos con follow-up en los próximos 3 días (sin incluir hoy) */
-  NEXT_3_DAYS = 'NEXT_3_DAYS',
-  /** Contactos sin follow-up programado */
-  NO_FOLLOW_UP = 'NO_FOLLOW_UP',
+	/** Contactos con follow-up vencido (fecha pasada) */
+	OVERDUE = 'OVERDUE',
+	/** Contactos con follow-up para hoy */
+	TODAY = 'TODAY',
+	/** Contactos con follow-up en los próximos 3 días (sin incluir hoy) */
+	NEXT_3_DAYS = 'NEXT_3_DAYS',
+	/** Contactos sin follow-up programado */
+	NO_FOLLOW_UP = 'NO_FOLLOW_UP',
 }
 
 /**
@@ -50,4 +50,3 @@ export const FOLLOW_UP_FILTER_CONFIG: Record<
 		color: 'bg-zinc-100 dark:bg-zinc-800',
 	},
 }
-

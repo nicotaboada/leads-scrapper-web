@@ -14,12 +14,14 @@ import { FollowUpFilter } from 'modules/contacts/components/follow-up-filter'
 import { LeadStatusFilter } from 'modules/contacts/components/lead-status-filter'
 import { TagsFilter } from 'modules/contacts/components/tags-filter'
 import { GET_CONTACTS } from 'modules/contacts/graphql/queries'
+import { useAvailableCities } from 'modules/contacts/hooks/use-available-cities'
 import type {
 	Contact,
+	type FollowUpFilterValue,
 	LeadStatus,
 	PaginatedContactsResponse,
 } from 'modules/contacts/types'
-import { type FollowUpFilterValue } from 'modules/contacts/types'
+import { useAllTags } from 'modules/tags/hooks/use-all-tags'
 
 export default function ContactsPage() {
 	const [searchQuery, setSearchQuery] = useState('')
@@ -29,10 +31,15 @@ export default function ContactsPage() {
 	)
 	const [tagIdsFilter, setTagIdsFilter] = useState<string[]>([])
 	const [cityFilter, setCityFilter] = useState<string[]>([])
-	const [followUpFilter, setFollowUpFilter] = useState<FollowUpFilterValue | null>(null)
+	const [followUpFilter, setFollowUpFilter] =
+		useState<FollowUpFilterValue | null>(null)
 
 	// Debounce search query to avoid excessive API calls
 	const debouncedSearch = useDebounce(searchQuery, 300)
+
+	// Pre-fetch filter options in parallel with contacts for better UX
+	const { tags: availableTags } = useAllTags()
+	const { cities: availableCities } = useAvailableCities()
 
 	// Fetch contacts with pagination and search
 	const {
@@ -90,8 +97,16 @@ export default function ContactsPage() {
 					value={leadStatusFilter}
 					onApply={setLeadStatusFilter}
 				/>
-				<TagsFilter value={tagIdsFilter} onApply={setTagIdsFilter} />
-				<CityFilter value={cityFilter} onApply={setCityFilter} />
+				<TagsFilter
+					value={tagIdsFilter}
+					onApply={setTagIdsFilter}
+					availableTags={availableTags}
+				/>
+				<CityFilter
+					value={cityFilter}
+					onApply={setCityFilter}
+					availableCities={availableCities}
+				/>
 				<FollowUpFilter value={followUpFilter} onApply={setFollowUpFilter} />
 			</div>
 

@@ -6,10 +6,11 @@
  * Side sheet for creating a new activity for a contact
  */
 
+import { Sparkles, User } from 'lucide-react'
+import { motion } from 'motion/react'
 import { useState } from 'react'
 import { toast } from 'sonner'
-import { motion } from 'motion/react'
-import { User, Sparkles } from 'lucide-react'
+import { cn } from '@/lib/utils/merge'
 import { Avatar, AvatarFallback } from 'components/ui/avatar'
 import { Button } from 'components/ui/button'
 import { Label } from 'components/ui/label'
@@ -21,7 +22,6 @@ import {
 	SheetTitle,
 } from 'components/ui/sheet'
 import { Textarea } from 'components/ui/textarea'
-import { cn } from '@/lib/utils/merge'
 import { useCurrentUser } from 'hooks/use-current-user'
 import { useCreateActivity } from '../hooks/use-create-activity'
 import {
@@ -123,14 +123,12 @@ export function AddActivitySheet({
 
 	return (
 		<Sheet open={open} onOpenChange={handleOpenChange}>
-			<SheetContent className="flex flex-col sm:max-w-md border-l border-zinc-200 dark:border-zinc-800 p-0">
-				<SheetHeader className="border-b border-zinc-100 dark:border-zinc-900 p-6">
-					<SheetTitle className="text-xl">
-						Add Activity
-					</SheetTitle>
+			<SheetContent className="flex flex-col border-l border-zinc-200 p-0 sm:max-w-md dark:border-zinc-800">
+				<SheetHeader className="border-b border-zinc-100 p-6 dark:border-zinc-900">
+					<SheetTitle className="text-xl">Add Activity</SheetTitle>
 				</SheetHeader>
 
-				<motion.div 
+				<motion.div
 					className="flex-1 space-y-8 overflow-y-auto p-6"
 					variants={containerVariants}
 					initial="hidden"
@@ -138,16 +136,16 @@ export function AddActivitySheet({
 				>
 					{/* Contact Section */}
 					<motion.div variants={itemVariants} className="space-y-3">
-						<Label className="text-sm font-medium text-zinc-500">
-							Contact
-						</Label>
+						<Label className="text-sm font-medium text-zinc-500">Contact</Label>
 						<div className="flex items-center gap-4 rounded-xl border border-zinc-100 bg-zinc-50/50 p-4 dark:border-zinc-800 dark:bg-zinc-900/30">
-							<Avatar className="size-12 border-2 border-white dark:border-zinc-800 shadow-sm">
+							<Avatar className="size-12 border-2 border-white shadow-sm dark:border-zinc-800">
 								<AvatarFallback className="bg-zinc-900 text-zinc-50 dark:bg-zinc-100 dark:text-zinc-900">
 									{getContactInitials() || <User className="size-6" />}
 								</AvatarFallback>
 							</Avatar>
-							<span className="font-medium text-zinc-900 dark:text-zinc-100 leading-tight">{contactName}</span>
+							<span className="leading-tight font-medium text-zinc-900 dark:text-zinc-100">
+								{contactName}
+							</span>
 						</div>
 					</motion.div>
 
@@ -166,9 +164,9 @@ export function AddActivitySheet({
 										type="button"
 										onClick={() => setSelectedType(type)}
 										className={cn(
-											'flex items-center justify-center rounded-lg border px-3 py-2 text-sm transition-all shadow-sm',
+											'flex items-center justify-center rounded-lg border px-3 py-2 text-sm shadow-sm transition-all',
 											isSelected
-												? 'border-zinc-900 bg-zinc-900 text-zinc-50 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900 font-medium'
+												? 'border-zinc-900 bg-zinc-900 font-medium text-zinc-50 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900'
 												: 'border-zinc-200 bg-white text-zinc-500 hover:border-zinc-300 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-500 dark:hover:border-zinc-700'
 										)}
 									>
@@ -198,11 +196,11 @@ export function AddActivitySheet({
 					</motion.div>
 				</motion.div>
 
-				<SheetFooter className="border-t border-zinc-100 dark:border-zinc-900 p-6 bg-zinc-50/30 dark:bg-zinc-900/10">
+				<SheetFooter className="border-t border-zinc-100 bg-zinc-50/30 p-6 dark:border-zinc-900 dark:bg-zinc-900/10">
 					<Button
 						onClick={handleSubmit}
 						disabled={!selectedType || loading}
-						className="w-full h-11 bg-zinc-900 text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 shadow-md gap-2"
+						className="h-11 w-full gap-2 bg-zinc-900 text-zinc-50 shadow-md hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
 					>
 						{loading ? (
 							<>Submitting...</>
@@ -218,4 +216,3 @@ export function AddActivitySheet({
 		</Sheet>
 	)
 }
-

@@ -15,19 +15,22 @@ const CHANNEL_CONFIG = {
 	[ContactChannel.LINKEDIN]: {
 		icon: Linkedin,
 		label: 'LinkedIn',
-		activeClass: 'bg-zinc-900 text-zinc-50 dark:bg-zinc-50 dark:text-zinc-900 border-zinc-900 dark:border-zinc-50',
+		activeClass:
+			'bg-zinc-900 text-zinc-50 dark:bg-zinc-50 dark:text-zinc-900 border-zinc-900 dark:border-zinc-50',
 		hoverClass: 'hover:bg-zinc-50 dark:hover:bg-zinc-900',
 	},
 	[ContactChannel.WHATSAPP]: {
 		icon: MessageCircle,
 		label: 'WhatsApp',
-		activeClass: 'bg-zinc-900 text-zinc-50 dark:bg-zinc-50 dark:text-zinc-900 border-zinc-900 dark:border-zinc-50',
+		activeClass:
+			'bg-zinc-900 text-zinc-50 dark:bg-zinc-50 dark:text-zinc-900 border-zinc-900 dark:border-zinc-50',
 		hoverClass: 'hover:bg-zinc-50 dark:hover:bg-zinc-900',
 	},
 	[ContactChannel.EMAIL]: {
 		icon: Mail,
 		label: 'Email',
-		activeClass: 'bg-zinc-900 text-zinc-50 dark:bg-zinc-50 dark:text-zinc-900 border-zinc-900 dark:border-zinc-50',
+		activeClass:
+			'bg-zinc-900 text-zinc-50 dark:bg-zinc-50 dark:text-zinc-900 border-zinc-900 dark:border-zinc-50',
 		hoverClass: 'hover:bg-zinc-50 dark:hover:bg-zinc-900',
 	},
 } as const

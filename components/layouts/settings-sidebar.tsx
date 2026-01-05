@@ -2,8 +2,8 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { cn } from 'lib/utils/merge'
 import { settingsNavigationItems } from 'lib/config/settings-nav'
+import { cn } from 'lib/utils/merge'
 
 /**
  * Settings sidebar component for the configuration section.
@@ -36,9 +36,9 @@ export function SettingsSidebar() {
 	const pathname = usePathname()
 
 	return (
-		<aside className="flex h-full w-64 flex-col border-r border-sidebar-border bg-sidebar/50">
-			<div className="flex h-16 items-center border-b border-sidebar-border/50 px-8">
-				<h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
+		<aside className="border-sidebar-border bg-sidebar/50 flex h-full w-64 flex-col border-r">
+			<div className="border-sidebar-border/50 flex h-16 items-center border-b px-8">
+				<h2 className="text-muted-foreground/70 text-xs font-semibold tracking-wider uppercase">
 					Configuración
 				</h2>
 			</div>
@@ -67,4 +67,3 @@ export function SettingsSidebar() {
 		</aside>
 	)
 }
-

@@ -27,4 +27,3 @@ export const GET_ACTIVITIES = gql`
 		}
 	}
 `
-

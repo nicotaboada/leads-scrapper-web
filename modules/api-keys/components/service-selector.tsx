@@ -25,7 +25,7 @@ export function ServiceSelector({
 }: ServiceSelectorProps) {
 	return (
 		<div className="space-y-4">
-			<p className="text-sm text-muted-foreground">
+			<p className="text-muted-foreground text-sm">
 				Select a service to add an API key
 			</p>
 
@@ -39,14 +39,14 @@ export function ServiceSelector({
 							key={config.key}
 							type="button"
 							onClick={() => onSelect(config.key)}
-							className="flex w-full items-center gap-3 rounded-lg border p-4 text-left transition-colors hover:bg-muted/50"
+							className="hover:bg-muted/50 flex w-full items-center gap-3 rounded-lg border p-4 text-left transition-colors"
 						>
-							<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted">
-								<Icon className="h-5 w-5 text-muted-foreground" />
+							<div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
+								<Icon className="text-muted-foreground h-5 w-5" />
 							</div>
 							<div>
 								<p className="font-medium">{config.name}</p>
-								<p className="text-sm text-muted-foreground">
+								<p className="text-muted-foreground text-sm">
 									{keyCount} key(s) configured
 								</p>
 							</div>
@@ -57,4 +57,3 @@ export function ServiceSelector({
 		</div>
 	)
 }
-

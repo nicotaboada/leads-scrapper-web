@@ -1,11 +1,11 @@
 'use client'
 
-import { useState } from 'react'
 import { Plus } from 'lucide-react'
+import { useState } from 'react'
 import { Button } from 'components/ui/button'
 import { Skeleton } from 'components/ui/skeleton'
-import { ServiceCard } from './service-card'
 import { AddKeySheet } from './add-key-sheet'
+import { ServiceCard } from './service-card'
 import { useApiKeys } from '../hooks/use-api-keys'
 import { SERVICE_CONFIGS } from '../types'
 
@@ -26,7 +26,7 @@ export function ApiKeysPage() {
 			<div className="flex items-start justify-between">
 				<div>
 					<h1 className="text-2xl font-bold">API Keys</h1>
-					<p className="mt-1 text-muted-foreground">
+					<p className="text-muted-foreground mt-1">
 						Manage your API keys for various services. Active keys will be used
 						for billing and usage tracking.
 					</p>
@@ -90,4 +90,3 @@ function ApiKeysPageSkeleton() {
 		</div>
 	)
 }
-

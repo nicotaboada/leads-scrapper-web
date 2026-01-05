@@ -17,4 +17,3 @@ export const CREATE_ACTIVITY = gql`
 		}
 	}
 `
-

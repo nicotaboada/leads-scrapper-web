@@ -5,105 +5,105 @@
  * Each card is clickable and opens the sheet with that category selected
  */
 
+import { ArrowUpRight } from 'lucide-react'
 import { useState } from 'react'
 import { Card, CardContent } from 'components/ui/card'
 import { Skeleton } from 'components/ui/skeleton'
-import { useFollowUpSummary } from '../hooks/use-follow-up-summary'
-import { FollowUpSheet } from './follow-up-sheet'
-import { FollowUpCategory } from '../types/follow-up'
 import { cn } from 'lib/utils/merge'
-import { ArrowUpRight } from 'lucide-react'
+import { FollowUpSheet } from './follow-up-sheet'
+import { useFollowUpSummary } from '../hooks/use-follow-up-summary'
+import { FollowUpCategory } from '../types/follow-up'
 
 interface FollowUpStatusConfig {
-  category: FollowUpCategory
-  label: string
-  dotColor: string
+	category: FollowUpCategory
+	label: string
+	dotColor: string
 }
 
 const FOLLOW_UP_STATUSES: readonly FollowUpStatusConfig[] = [
-  {
-    category: FollowUpCategory.OVERDUE,
-    label: 'Vencidos',
-    dotColor: 'bg-zinc-950 dark:bg-zinc-100',
-  },
-  {
-    category: FollowUpCategory.TODAY,
-    label: 'Hoy',
-    dotColor: 'bg-zinc-500',
-  },
-  {
-    category: FollowUpCategory.UPCOMING,
-    label: 'Próximos',
-    dotColor: 'bg-zinc-300 dark:bg-zinc-600',
-  },
+	{
+		category: FollowUpCategory.OVERDUE,
+		label: 'Vencidos',
+		dotColor: 'bg-zinc-950 dark:bg-zinc-100',
+	},
+	{
+		category: FollowUpCategory.TODAY,
+		label: 'Hoy',
+		dotColor: 'bg-zinc-500',
+	},
+	{
+		category: FollowUpCategory.UPCOMING,
+		label: 'Próximos',
+		dotColor: 'bg-zinc-300 dark:bg-zinc-600',
+	},
 ] as const
 
 /**
  * Individual status card component
  */
 function StatusCard({
-  config,
-  count,
-  onClick,
+	config,
+	count,
+	onClick,
 }: {
-  config: FollowUpStatusConfig
-  count: number
-  onClick: () => void
+	config: FollowUpStatusConfig
+	count: number
+	onClick: () => void
 }) {
-  return (
-    <Card
-      className="group cursor-pointer border border-zinc-100/50 bg-zinc-50/30 transition-all duration-300 hover:border-zinc-200 hover:bg-zinc-50 hover:shadow-sm dark:border-zinc-800/50 dark:bg-zinc-900/20 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/40"
-      onClick={onClick}
-    >
-      <CardContent className="p-5 flex flex-col gap-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div
-              className={cn("h-2 w-2 rounded-full shadow-sm", config.dotColor)}
-              aria-hidden="true"
-            />
-            <span className="text-[11px] font-semibold text-zinc-500">
-              {config.label}
-            </span>
-          </div>
-          <div className="h-6 w-6 rounded-full bg-white dark:bg-zinc-800 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-sm border border-zinc-100 dark:border-zinc-700">
-            <ArrowUpRight className="h-3 w-3 text-zinc-500" />
-          </div>
-        </div>
-        
-        <div className="flex items-baseline justify-between">
-          <span className="text-2xl font-semibold text-zinc-900 dark:text-zinc-100 leading-none">
-            {count}
-          </span>
-          <span className="text-[10px] font-medium text-muted-foreground/30">
-            Leads
-          </span>
-        </div>
-      </CardContent>
-    </Card>
-  )
+	return (
+		<Card
+			className="group cursor-pointer border border-zinc-100/50 bg-zinc-50/30 transition-all duration-300 hover:border-zinc-200 hover:bg-zinc-50 hover:shadow-sm dark:border-zinc-800/50 dark:bg-zinc-900/20 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/40"
+			onClick={onClick}
+		>
+			<CardContent className="flex flex-col gap-4 p-5">
+				<div className="flex items-center justify-between">
+					<div className="flex items-center gap-2">
+						<div
+							className={cn('h-2 w-2 rounded-full shadow-sm', config.dotColor)}
+							aria-hidden="true"
+						/>
+						<span className="text-[11px] font-semibold text-zinc-500">
+							{config.label}
+						</span>
+					</div>
+					<div className="flex h-6 w-6 items-center justify-center rounded-full border border-zinc-100 bg-white opacity-0 shadow-sm transition-all group-hover:opacity-100 dark:border-zinc-700 dark:bg-zinc-800">
+						<ArrowUpRight className="h-3 w-3 text-zinc-500" />
+					</div>
+				</div>
+
+				<div className="flex items-baseline justify-between">
+					<span className="text-2xl leading-none font-semibold text-zinc-900 dark:text-zinc-100">
+						{count}
+					</span>
+					<span className="text-muted-foreground/30 text-[10px] font-medium">
+						Leads
+					</span>
+				</div>
+			</CardContent>
+		</Card>
+	)
 }
 
 /**
  * Loading skeleton for status cards
  */
 function StatusCardSkeleton() {
-  return (
-    <Card className="border-zinc-100/50 bg-zinc-50/30 dark:border-zinc-800/50 dark:bg-zinc-900/20">
-      <CardContent className="p-5 flex flex-col gap-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Skeleton className="h-2 w-2 rounded-full" />
-            <Skeleton className="h-3 w-16" />
-          </div>
-        </div>
-        <div className="flex items-baseline justify-between">
-          <Skeleton className="h-8 w-10" />
-          <Skeleton className="h-2 w-12" />
-        </div>
-      </CardContent>
-    </Card>
-  )
+	return (
+		<Card className="border-zinc-100/50 bg-zinc-50/30 dark:border-zinc-800/50 dark:bg-zinc-900/20">
+			<CardContent className="flex flex-col gap-4 p-5">
+				<div className="flex items-center justify-between">
+					<div className="flex items-center gap-2">
+						<Skeleton className="h-2 w-2 rounded-full" />
+						<Skeleton className="h-3 w-16" />
+					</div>
+				</div>
+				<div className="flex items-baseline justify-between">
+					<Skeleton className="h-8 w-10" />
+					<Skeleton className="h-2 w-12" />
+				</div>
+			</CardContent>
+		</Card>
+	)
 }
 
 /**
@@ -155,7 +155,7 @@ export function FollowUpCards() {
 				<h3 className="mb-4 text-base font-semibold">Follow-ups pendientes</h3>
 				<Card>
 					<CardContent className="p-6">
-						<p className="text-sm text-muted-foreground">
+						<p className="text-muted-foreground text-sm">
 							Error al cargar los datos
 						</p>
 					</CardContent>
@@ -188,4 +188,3 @@ export function FollowUpCards() {
 		</>
 	)
 }
-

@@ -7,18 +7,18 @@
  * Wrapped in a Card for HubSpot-style layout.
  */
 
+import { Plus, Search } from 'lucide-react'
 import { motion } from 'motion/react'
 import { useState } from 'react'
-import { Plus, Search } from 'lucide-react'
 import { Button } from 'components/ui/button'
 import { Card } from 'components/ui/card'
 import { Input } from 'components/ui/input'
 import { Skeleton } from 'components/ui/skeleton'
 import { useDebounce } from 'hooks/use-debounce'
-import { useActivities } from '../hooks/use-activities'
 import { ActivityEmptyState } from './activity-empty-state'
 import { ActivityList } from './activity-list'
 import { AddActivitySheet } from './add-activity-sheet'
+import { useActivities } from '../hooks/use-activities'
 
 interface ActivitiesTabProps {
 	contactId: string
@@ -78,27 +78,26 @@ export function ActivitiesTab({ contactId, contactName }: ActivitiesTabProps) {
 	const isSearching = debouncedSearch.length > 0
 
 	return (
-		<motion.div
-			variants={containerVariants}
-			initial="hidden"
-			animate="visible"
-		>
-			<Card className="p-6 border-zinc-200 shadow-sm dark:border-zinc-800">
+		<motion.div variants={containerVariants} initial="hidden" animate="visible">
+			<Card className="border-zinc-200 p-6 shadow-sm dark:border-zinc-800">
 				<div className="space-y-6">
 					{/* Top Bar - Only show when there are activities */}
-					<motion.div variants={itemVariants} className="flex items-center justify-between gap-4">
+					<motion.div
+						variants={itemVariants}
+						className="flex items-center justify-between gap-4"
+					>
 						<div className="relative max-w-sm flex-1">
-							<Search className="text-zinc-400 absolute top-1/2 left-3 size-4 -translate-y-1/2 dark:text-zinc-500" />
+							<Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-zinc-400 dark:text-zinc-500" />
 							<Input
 								placeholder="Search for activities..."
 								value={searchQuery}
 								onChange={(e) => setSearchQuery(e.target.value)}
-								className="pl-9 border-zinc-200 bg-white font-medium focus:ring-zinc-900 dark:border-zinc-800 dark:bg-zinc-950 dark:focus:ring-zinc-100"
+								className="border-zinc-200 bg-white pl-9 font-medium focus:ring-zinc-900 dark:border-zinc-800 dark:bg-zinc-950 dark:focus:ring-zinc-100"
 							/>
 						</div>
-						<Button 
+						<Button
 							onClick={() => setIsAddSheetOpen(true)}
-							className="bg-zinc-900 font-medium text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 shadow-sm"
+							className="bg-zinc-900 font-medium text-zinc-50 shadow-sm hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
 						>
 							<Plus className="mr-2 size-4" />
 							Add Activity
@@ -112,13 +111,15 @@ export function ActivitiesTab({ contactId, contactName }: ActivitiesTabProps) {
 						) : hasActivities ? (
 							<ActivityList activities={activities} />
 						) : isSearching ? (
-							<div className="py-12 text-center rounded-xl border border-dashed border-zinc-200 dark:border-zinc-800">
-								<p className="text-zinc-500 font-medium text-sm">
+							<div className="rounded-xl border border-dashed border-zinc-200 py-12 text-center dark:border-zinc-800">
+								<p className="text-sm font-medium text-zinc-500">
 									No activities found matching &quot;{debouncedSearch}&quot;
 								</p>
 							</div>
 						) : (
-							<ActivityEmptyState onAddActivity={() => setIsAddSheetOpen(true)} />
+							<ActivityEmptyState
+								onAddActivity={() => setIsAddSheetOpen(true)}
+							/>
 						)}
 					</motion.div>
 

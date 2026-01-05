@@ -1,8 +1,7 @@
 'use client'
 
-import { useState } from 'react'
 import { Trash2 } from 'lucide-react'
-import { Button } from 'components/ui/button'
+import { useState } from 'react'
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -14,6 +13,7 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from 'components/ui/alert-dialog'
+import { Button } from 'components/ui/button'
 import type { ApiKey } from '../types'
 
 interface OtherKeysListProps {
@@ -43,13 +43,13 @@ export function OtherKeysList({
 	return (
 		<div className="mt-4">
 			<div className="flex items-center justify-between">
-				<p className="text-xs font-medium uppercase text-muted-foreground">
+				<p className="text-muted-foreground text-xs font-medium uppercase">
 					Other Keys ({keys.length})
 				</p>
 				<button
 					type="button"
 					onClick={() => setIsExpanded(!isExpanded)}
-					className="text-sm font-medium text-primary hover:underline"
+					className="text-primary text-sm font-medium hover:underline"
 				>
 					{isExpanded ? 'Hide' : 'Show all'}
 				</button>
@@ -91,11 +91,11 @@ function OtherKeyItem({
 	const maskedKey = `*********${apiKey.keyLastFour}`
 
 	return (
-		<div className="group flex items-center justify-between rounded-lg border bg-muted/30 p-3 transition-colors hover:bg-muted/50">
+		<div className="group bg-muted/30 hover:bg-muted/50 flex items-center justify-between rounded-lg border p-3 transition-colors">
 			<div>
 				<p className="font-mono text-sm">{maskedKey}</p>
 				{apiKey.label && (
-					<p className="text-xs text-muted-foreground">{apiKey.label}</p>
+					<p className="text-muted-foreground text-xs">{apiKey.label}</p>
 				)}
 			</div>
 
@@ -114,7 +114,7 @@ function OtherKeyItem({
 						<Button
 							variant="ghost"
 							size="icon"
-							className="h-8 w-8 text-muted-foreground hover:text-destructive"
+							className="text-muted-foreground hover:text-destructive h-8 w-8"
 							disabled={isDeleting}
 						>
 							<Trash2 className="h-4 w-4" />
@@ -143,4 +143,3 @@ function OtherKeyItem({
 		</div>
 	)
 }
-

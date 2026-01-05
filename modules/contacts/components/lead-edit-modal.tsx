@@ -49,7 +49,8 @@ export function LeadEditModal({
 		useState<ContactChannel[]>(currentChannels)
 
 	const { updateCompany, loading: companyLoading } = useUpdateCompany()
-	const { updatePersonContact, loading: personLoading } = useUpdatePersonContact()
+	const { updatePersonContact, loading: personLoading } =
+		useUpdatePersonContact()
 
 	const loading = companyLoading || personLoading
 
@@ -93,7 +94,9 @@ export function LeadEditModal({
 				<div className="space-y-6 py-2">
 					{/* Lead Status */}
 					<div className="space-y-2.5">
-						<Label className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Estado</Label>
+						<Label className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+							Estado
+						</Label>
 						<div className="flex">
 							<LeadStatusFormField
 								value={leadStatus}
@@ -105,7 +108,9 @@ export function LeadEditModal({
 
 					{/* Contacted Channels */}
 					<div className="space-y-2.5">
-						<Label className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Canales contactados</Label>
+						<Label className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+							Canales contactados
+						</Label>
 						<ContactChannelsFormField
 							value={contactedChannels}
 							onChange={setContactedChannels}
@@ -117,14 +122,14 @@ export function LeadEditModal({
 				<AlertDialogFooter className="mt-4 gap-3 sm:flex-row">
 					<AlertDialogCancel
 						disabled={loading}
-						className="flex-1 rounded-xl border-zinc-200 font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-100 sm:flex-none"
+						className="flex-1 rounded-xl border-zinc-200 font-semibold text-zinc-900 hover:bg-zinc-50 sm:flex-none dark:border-zinc-800 dark:text-zinc-100"
 					>
 						Cancelar
 					</AlertDialogCancel>
 					<Button
 						onClick={handleSubmit}
 						disabled={loading}
-						className="flex-1 rounded-xl bg-zinc-900 font-semibold text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200 sm:flex-none"
+						className="flex-1 rounded-xl bg-zinc-900 font-semibold text-zinc-50 hover:bg-zinc-800 sm:flex-none dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
 					>
 						{loading ? 'Guardando...' : 'Guardar'}
 					</Button>
@@ -133,4 +138,3 @@ export function LeadEditModal({
 		</AlertDialog>
 	)
 }
-

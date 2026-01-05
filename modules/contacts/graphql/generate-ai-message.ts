@@ -13,4 +13,3 @@ export const GENERATE_AI_MESSAGE = gql`
 		}
 	}
 `
-

@@ -23,17 +23,17 @@ interface SearchFiltersRowProps {
 	/**
 	 * Current filter values
 	 */
-	filters: Record<string, any>
+	filters: Record<string, string | null>
 
 	/**
 	 * Callback to apply a filter
 	 */
-	onFilterApply: (key: string, value: any) => void
+	onFilterApply: (key: string, value: string | null) => void
 
 	/**
 	 * Callback to clear a filter
 	 */
-	onFilterClear: (key: string) => void
+	_onFilterClear?: (key: string) => void
 
 	/**
 	 * Placeholder text for the search input
@@ -57,7 +57,7 @@ export function SearchFiltersRow({
 	onSearchChange,
 	filters,
 	onFilterApply,
-	onFilterClear,
+	_onFilterClear,
 	placeholder = 'Search...',
 	className = '',
 }: SearchFiltersRowProps) {
@@ -101,4 +101,3 @@ export function SearchFiltersRow({
 		</div>
 	)
 }
-

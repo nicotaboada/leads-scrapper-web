@@ -32,7 +32,6 @@ export interface EditCompanyFormInput {
 	tagIds: string[]
 }
 
-
 /**
  * Input for updatePersonContact mutation
  */
@@ -108,11 +107,7 @@ export interface DeleteContactResponse {
 export const editPersonContactSchema = z.object({
 	firstName: z.string().min(1, 'El nombre es requerido'),
 	lastName: z.string().min(1, 'El apellido es requerido'),
-	email: z
-		.string()
-		.email('El email no es válido')
-		.optional()
-		.or(z.literal('')),
+	email: z.string().email('El email no es válido').optional().or(z.literal('')),
 	phone: z.string().optional(),
 	linkedinUrl: z
 		.string()
@@ -139,4 +134,3 @@ export const editCompanySchema = z.object({
 		.or(z.literal('')),
 	tagIds: z.array(z.string()),
 })
-

@@ -56,7 +56,8 @@ export function LeadStatusSelector({
 }: LeadStatusSelectorProps) {
 	const [isOpen, setIsOpen] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
-	const currentConfig = LEAD_STATUS_CONFIG[value] ?? LEAD_STATUS_CONFIG[LeadStatus.NEW]
+	const currentConfig =
+		LEAD_STATUS_CONFIG[value] ?? LEAD_STATUS_CONFIG[LeadStatus.NEW]
 
 	async function handleSelect(status: LeadStatus) {
 		if (status === value) {
@@ -79,12 +80,20 @@ export function LeadStatusSelector({
 					variant="ghost"
 					size="sm"
 					disabled={disabled || isLoading}
-					className={cn('h-8 justify-start gap-2 px-2 font-normal', currentConfig.bgColor)}
+					className={cn(
+						'h-8 justify-start gap-2 px-2 font-normal',
+						currentConfig.bgColor
+					)}
 				>
 					{isLoading ? (
 						<Loader2 className="h-3 w-3 animate-spin" />
 					) : (
-						<span className={cn('h-3 w-3 shrink-0 rounded-full', currentConfig.color)} />
+						<span
+							className={cn(
+								'h-3 w-3 shrink-0 rounded-full',
+								currentConfig.color
+							)}
+						/>
 					)}
 					<span className="truncate text-sm">{currentConfig.label}</span>
 					<ChevronDown className="text-muted-foreground ml-auto h-3 w-3" />
@@ -115,4 +124,3 @@ export function LeadStatusSelector({
 		</Popover>
 	)
 }
-

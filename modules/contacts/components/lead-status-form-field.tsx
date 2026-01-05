@@ -15,14 +15,26 @@ import { cn } from 'lib/utils/merge'
 import { LeadStatus } from '../types'
 
 const LEAD_STATUS_OPTIONS = [
-	{ value: LeadStatus.NEW, label: 'Nuevo', color: 'bg-zinc-900 dark:bg-zinc-100' },
-	{ value: LeadStatus.CONTACTED, label: 'Contactado', color: 'bg-zinc-600 dark:bg-zinc-400' },
+	{
+		value: LeadStatus.NEW,
+		label: 'Nuevo',
+		color: 'bg-zinc-900 dark:bg-zinc-100',
+	},
+	{
+		value: LeadStatus.CONTACTED,
+		label: 'Contactado',
+		color: 'bg-zinc-600 dark:bg-zinc-400',
+	},
 	{
 		value: LeadStatus.IN_CONVERSATIONS,
 		label: 'En Conversación',
 		color: 'bg-zinc-400 dark:bg-zinc-500',
 	},
-	{ value: LeadStatus.CLOSED, label: 'Cerrado', color: 'bg-zinc-900 dark:bg-zinc-100' },
+	{
+		value: LeadStatus.CLOSED,
+		label: 'Cerrado',
+		color: 'bg-zinc-900 dark:bg-zinc-100',
+	},
 ] as const
 
 interface LeadStatusFormFieldProps {
@@ -58,9 +70,7 @@ export function LeadStatusFormField({
 						<span
 							className={cn('h-2.5 w-2.5 rounded-full', selectedOption?.color)}
 						/>
-						<span>
-							{selectedOption?.label ?? 'Seleccionar'}
-						</span>
+						<span>{selectedOption?.label ?? 'Seleccionar'}</span>
 					</div>
 					<ChevronDown className="h-4 w-4 text-zinc-400" />
 				</Button>
@@ -82,11 +92,16 @@ export function LeadStatusFormField({
 							className={cn(
 								'flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors',
 								'hover:bg-zinc-100 dark:hover:bg-zinc-900',
-								value === option.value ? 'bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100' : 'text-zinc-600 dark:text-zinc-400'
+								value === option.value
+									? 'bg-zinc-50 text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100'
+									: 'text-zinc-600 dark:text-zinc-400'
 							)}
 						>
 							<span
-								className={cn('h-2.5 w-2.5 shrink-0 rounded-full', option.color)}
+								className={cn(
+									'h-2.5 w-2.5 shrink-0 rounded-full',
+									option.color
+								)}
 							/>
 							<span className="flex-1">{option.label}</span>
 							{value === option.value && (

@@ -6,9 +6,9 @@
  * List of problems with checkboxes for selection
  */
 
-import { cn } from 'lib/utils/merge'
 import { Badge } from 'components/ui/badge'
 import { Checkbox } from 'components/ui/checkbox'
+import { cn } from 'lib/utils/merge'
 import type { ProblemForMessage } from '../../types/ai-message'
 
 interface ProblemSelectorProps {
@@ -56,7 +56,7 @@ export function ProblemSelector({
 								disabled && 'cursor-not-allowed opacity-50',
 								isSelected
 									? 'border-zinc-900 bg-zinc-50/50 ring-1 ring-zinc-900 dark:border-zinc-100 dark:bg-zinc-900/20 dark:ring-zinc-100'
-									: 'border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950 shadow-sm'
+									: 'border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-950'
 							)}
 						>
 							<Checkbox
@@ -71,18 +71,20 @@ export function ProblemSelector({
 										{problem.title}
 									</span>
 									<Badge
-										variant={problem.severity === 'critical' ? 'default' : 'outline'}
+										variant={
+											problem.severity === 'critical' ? 'default' : 'outline'
+										}
 										className={cn(
-											'text-[10px] font-bold uppercase px-1.5 py-0',
+											'px-1.5 py-0 text-[10px] font-bold uppercase',
 											problem.severity === 'critical'
-												? 'bg-zinc-900 text-zinc-50 dark:bg-zinc-100 dark:text-zinc-900 border-transparent'
+												? 'border-transparent bg-zinc-900 text-zinc-50 dark:bg-zinc-100 dark:text-zinc-900'
 												: 'border-zinc-200 text-zinc-500 dark:border-zinc-800 dark:text-zinc-400'
 										)}
 									>
 										{problem.severity === 'critical' ? 'Crítico' : 'Mejorable'}
 									</Badge>
 								</div>
-								<p className="text-xs font-medium text-zinc-500 dark:text-zinc-400 leading-relaxed">
+								<p className="text-xs leading-relaxed font-medium text-zinc-500 dark:text-zinc-400">
 									{problem.description}
 								</p>
 							</div>
@@ -93,4 +95,3 @@ export function ProblemSelector({
 		</div>
 	)
 }
-

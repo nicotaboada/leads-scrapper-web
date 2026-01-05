@@ -42,7 +42,7 @@ export function BulkCreateModal({
 					<AlertDialogTitle>Create Contacts</AlertDialogTitle>
 					<AlertDialogDescription>
 						You are about to create{' '}
-						<span className="font-semibold text-foreground">
+						<span className="text-foreground font-semibold">
 							{selectedCount}
 						</span>{' '}
 						company contacts from the selected results.
@@ -68,4 +68,3 @@ export function BulkCreateModal({
 		</AlertDialog>
 	)
 }
-

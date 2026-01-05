@@ -8,14 +8,23 @@ interface AllTagsResponse {
 	}
 }
 
+interface UseAllTagsOptions {
+	/**
+	 * Skip the query execution (useful when tags are provided externally)
+	 */
+	skip?: boolean
+}
+
 /**
  * Hook to fetch all tags for multiselect component
  */
-export function useAllTags() {
+export function useAllTags(options: UseAllTagsOptions = {}) {
+	const { skip = false } = options
 	const { data, loading, error, refetch } = useQuery<AllTagsResponse>(
 		GET_ALL_TAGS,
 		{
 			fetchPolicy: 'cache-and-network',
+			skip,
 		}
 	)
 
@@ -33,4 +42,3 @@ export function useAllTags() {
 		refetch,
 	}
 }
-

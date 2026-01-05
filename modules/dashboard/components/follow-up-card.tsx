@@ -5,6 +5,7 @@
  */
 
 import { useState } from 'react'
+import { Button } from 'components/ui/button'
 import {
 	Card,
 	CardContent,
@@ -12,10 +13,9 @@ import {
 	CardHeader,
 	CardTitle,
 } from 'components/ui/card'
-import { Button } from 'components/ui/button'
 import { Skeleton } from 'components/ui/skeleton'
-import { useFollowUpSummary } from '../hooks/use-follow-up-summary'
 import { FollowUpSheet } from './follow-up-sheet'
+import { useFollowUpSummary } from '../hooks/use-follow-up-summary'
 
 /**
  * Counter row component for displaying category count
@@ -42,7 +42,7 @@ function CounterRow({
 					className={`h-2.5 w-2.5 rounded-full ${colorClasses[color]}`}
 					aria-hidden="true"
 				/>
-				<span className="text-sm text-muted-foreground">{label}</span>
+				<span className="text-muted-foreground text-sm">{label}</span>
 			</div>
 			<span className="text-sm font-semibold">{count}</span>
 		</div>
@@ -89,7 +89,7 @@ export function FollowUpCard() {
 					<CardTitle>Follow-ups pendientes</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<p className="text-sm text-muted-foreground">
+					<p className="text-muted-foreground text-sm">
 						Error al cargar los datos
 					</p>
 				</CardContent>
@@ -141,4 +141,3 @@ export function FollowUpCard() {
 		</>
 	)
 }
-

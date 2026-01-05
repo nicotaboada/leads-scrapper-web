@@ -31,7 +31,7 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
 		>
 			{items.map((item, index) => {
 				const isLast = index === items.length - 1
-				const isFirst = index === 0
+				const _isFirst = index === 0
 				const Icon = item.icon
 
 				return (
@@ -40,7 +40,7 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
 							<Link
 								href={item.href}
 								className={cn(
-									'hover:text-foreground text-sm flex items-center gap-2 transition-colors',
+									'hover:text-foreground flex items-center gap-2 text-sm transition-colors',
 									isLast
 										? 'text-foreground font-semibold'
 										: 'text-muted-foreground',

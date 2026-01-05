@@ -43,15 +43,12 @@ export function AppLayout({ children, className }: AppLayoutProps) {
 		>
 			<main
 				className={cn(
-					'flex flex-1 flex-col bg-background dark:bg-gray-900',
+					'bg-background flex flex-1 flex-col dark:bg-gray-900',
 					!isSettings && 'overflow-y-auto'
 				)}
 			>
 				<div
-					className={cn(
-						'flex w-full flex-1 flex-col',
-						!isSettings && 'py-8'
-					)}
+					className={cn('flex w-full flex-1 flex-col', !isSettings && 'py-8')}
 				>
 					{children}
 				</div>

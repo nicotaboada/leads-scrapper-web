@@ -43,4 +43,3 @@ export const DELETE_TAG = gql`
 		}
 	}
 `
-

@@ -28,11 +28,10 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
 		<div className="flex h-full flex-1">
 			<SettingsSidebar />
 			<div className="flex flex-1 flex-col overflow-hidden">
-				<main className="flex-1 overflow-y-auto bg-background">
+				<main className="bg-background flex-1 overflow-y-auto">
 					<div className="w-full p-8">{children}</div>
 				</main>
 			</div>
 		</div>
 	)
 }
-

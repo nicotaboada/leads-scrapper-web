@@ -22,9 +22,8 @@ interface UseDeleteFollowUpReturn {
  * Returns true on success, false on error
  */
 export function useDeleteFollowUp(): UseDeleteFollowUpReturn {
-	const [mutate, { loading }] = useMutation<DeleteFollowUpResponse>(
-		DELETE_FOLLOW_UP
-	)
+	const [mutate, { loading }] =
+		useMutation<DeleteFollowUpResponse>(DELETE_FOLLOW_UP)
 
 	const deleteFollowUp = async (id: string): Promise<boolean> => {
 		try {
@@ -49,4 +48,3 @@ export function useDeleteFollowUp(): UseDeleteFollowUpReturn {
 		loading,
 	}
 }
-

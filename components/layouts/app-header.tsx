@@ -2,10 +2,10 @@
 
 import { usePathname } from 'next/navigation'
 import { SidebarTrigger } from 'components/ui/sidebar'
+import { settingsNavigationItems } from 'lib/config/settings-nav'
+import { navigationItems } from 'lib/config/sidebar-nav'
 import { UserAvatarMenu } from 'modules/auth/components/user-avatar-menu'
 import { Breadcrumb } from './breadcrumb'
-import { navigationItems } from 'lib/config/sidebar-nav'
-import { settingsNavigationItems } from 'lib/config/settings-nav'
 
 /**
  * Main application header that appears at the top of all pages.
@@ -40,7 +40,7 @@ export function AppHeader() {
 	// Generate breadcrumbs based on the current path
 	const generateBreadcrumbs = () => {
 		const items = []
-		const paths = pathname.split('/').filter(Boolean)
+		const _paths = pathname.split('/').filter(Boolean)
 
 		// Find the main navigation item
 		const mainItem = navigationItems.find(
@@ -75,10 +75,10 @@ export function AppHeader() {
 	const breadcrumbItems = generateBreadcrumbs()
 
 	return (
-		<header className="sticky top-0 z-50 flex h-16 shrink-0 items-center gap-4 border-b border-sidebar-border bg-background px-6">
+		<header className="border-sidebar-border bg-background sticky top-0 z-50 flex h-16 shrink-0 items-center gap-4 border-b px-6">
 			<div className="flex items-center gap-2">
 				<SidebarTrigger className="-ml-1 cursor-pointer" />
-				<div className="h-4 w-px bg-border/60 mx-1" />
+				<div className="bg-border/60 mx-1 h-4 w-px" />
 				<Breadcrumb items={breadcrumbItems} />
 			</div>
 

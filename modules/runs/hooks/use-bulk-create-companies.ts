@@ -3,8 +3,8 @@
 import { useMutation } from '@apollo/client/react'
 import { BULK_CREATE_COMPANIES_FROM_RUN } from '../graphql/mutations'
 import type {
-	BulkCreateCompaniesInput,
 	BulkCreateCompaniesFromRunResponse,
+	BulkCreateCompaniesInput,
 } from '../types/bulk-actions'
 
 interface UseBulkCreateCompaniesReturn {
@@ -50,4 +50,3 @@ export function useBulkCreateCompanies(): UseBulkCreateCompaniesReturn {
 		error: error ?? null,
 	}
 }
-

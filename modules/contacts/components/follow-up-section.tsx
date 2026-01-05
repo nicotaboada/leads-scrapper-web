@@ -7,15 +7,15 @@
  * Shows either an "Add follow-up" button or the existing follow-up details.
  */
 
-import { useState } from 'react'
-import { AlertCircle, Check, Clock, Pencil } from 'lucide-react'
 import dayjs from 'dayjs'
+import { AlertCircle, Check, Clock, Pencil } from 'lucide-react'
+import { useState } from 'react'
 import 'dayjs/locale/es'
+import { cn } from '@/lib/utils/merge'
 import { Badge } from 'components/ui/badge'
 import { Button } from 'components/ui/button'
-import { cn } from '@/lib/utils/merge'
-import { useCompleteFollowUp } from '../hooks/use-complete-follow-up'
 import { FollowUpModal } from './follow-up-modal'
+import { useCompleteFollowUp } from '../hooks/use-complete-follow-up'
 import { type FollowUp, isFollowUpOverdue } from '../types'
 
 dayjs.locale('es')
@@ -58,7 +58,9 @@ export function FollowUpSection({
 				<>
 					{/* Header row with button */}
 					<div className="mb-4 flex items-center justify-between gap-2">
-						<h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Follow-up</h3>
+						<h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+							Follow-up
+						</h3>
 						<Button
 							variant="outline"
 							size="sm"
@@ -69,7 +71,7 @@ export function FollowUpSection({
 						</Button>
 					</div>
 					{/* Empty state message */}
-					<p className="text-zinc-400 text-sm italic">
+					<p className="text-sm text-zinc-400 italic">
 						Sin follow-ups pendientes
 					</p>
 				</>
@@ -79,12 +81,15 @@ export function FollowUpSection({
 					{/* Header row: Title + Badge + Actions */}
 					<div className="mb-4 flex items-center justify-between gap-2">
 						<div className="flex items-center gap-2">
-							<h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Follow-up</h3>
+							<h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+								Follow-up
+							</h3>
 							<Badge
 								variant={isOverdue ? 'destructive' : 'secondary'}
 								className={cn(
-									'gap-1 rounded-md px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider',
-									!isOverdue && 'bg-zinc-100 text-zinc-600 hover:bg-zinc-100 dark:bg-zinc-800 dark:text-zinc-400'
+									'gap-1 rounded-md px-1.5 py-0.5 text-[10px] font-bold tracking-wider uppercase',
+									!isOverdue &&
+										'bg-zinc-100 text-zinc-600 hover:bg-zinc-100 dark:bg-zinc-800 dark:text-zinc-400'
 								)}
 							>
 								{isOverdue ? (
@@ -123,15 +128,17 @@ export function FollowUpSection({
 						</div>
 					</div>
 
-					<div className="divide-zinc-100 space-y-0.5 divide-y dark:divide-zinc-800">
+					<div className="space-y-0.5 divide-y divide-zinc-100 dark:divide-zinc-800">
 						{/* Date Row */}
 						<div className="flex items-start gap-3 py-3 transition-colors hover:bg-zinc-50/50 dark:hover:bg-zinc-900/50">
-							<div className="text-zinc-400 mt-0.5 shrink-0 dark:text-zinc-500">
+							<div className="mt-0.5 shrink-0 text-zinc-400 dark:text-zinc-500">
 								<Clock className="size-4" />
 							</div>
 							<div className="min-w-0 flex-1">
-								<p className="text-zinc-500 text-[10px] font-medium uppercase dark:text-zinc-400">Fecha de vencimiento</p>
-								<p className="text-zinc-900 text-sm font-medium dark:text-zinc-100">
+								<p className="text-[10px] font-medium text-zinc-500 uppercase dark:text-zinc-400">
+									Fecha de vencimiento
+								</p>
+								<p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
 									{formatDate(followUp.dueDate)}
 								</p>
 							</div>
@@ -140,12 +147,14 @@ export function FollowUpSection({
 						{/* Note Row */}
 						{followUp.note && (
 							<div className="flex items-start gap-3 py-3 transition-colors hover:bg-zinc-50/50 dark:hover:bg-zinc-900/50">
-								<div className="text-zinc-400 mt-0.5 shrink-0 dark:text-zinc-500">
+								<div className="mt-0.5 shrink-0 text-zinc-400 dark:text-zinc-500">
 									<AlertCircle className="size-4" />
 								</div>
 								<div className="min-w-0 flex-1">
-									<p className="text-zinc-500 text-[10px] font-medium uppercase dark:text-zinc-400">Nota</p>
-									<p className="text-zinc-900 text-sm font-medium dark:text-zinc-100">
+									<p className="text-[10px] font-medium text-zinc-500 uppercase dark:text-zinc-400">
+										Nota
+									</p>
+									<p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
 										{followUp.note}
 									</p>
 								</div>

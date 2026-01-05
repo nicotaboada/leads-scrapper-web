@@ -112,4 +112,3 @@ export function getScoreTrackColor(score: number): string {
 	if (score <= 70) return '#fef9c3' // yellow-100
 	return '#dcfce7' // green-100
 }
-

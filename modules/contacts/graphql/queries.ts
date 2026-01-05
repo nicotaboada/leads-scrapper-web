@@ -191,4 +191,3 @@ export const GET_AVAILABLE_CITIES = gql`
 		availableCities
 	}
 `
-

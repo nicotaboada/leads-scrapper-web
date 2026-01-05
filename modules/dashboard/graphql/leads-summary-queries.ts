@@ -14,4 +14,3 @@ export const GET_LEADS_STATUS_SUMMARY = gql`
 		}
 	}
 `
-

@@ -75,9 +75,7 @@ export function ScoreCircle({ score, label, size = 'md' }: ScoreCircleProps) {
 					</span>
 				</div>
 			</div>
-			<span className="text-xs font-bold text-zinc-500 uppercase">
-				{label}
-			</span>
+			<span className="text-xs font-bold text-zinc-500 uppercase">{label}</span>
 		</div>
 	)
 }

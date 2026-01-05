@@ -1,17 +1,13 @@
 'use client'
 
-import {
-	ExternalLink,
-	MoreHorizontal,
-	Pause,
-	Play,
-	Trash2,
-} from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { toast } from 'sonner'
-import Link from 'next/link'
 import { formatDistanceToNow } from 'date-fns'
 import { es } from 'date-fns/locale'
+import { ExternalLink, MoreHorizontal, Pause, Play, Trash2 } from 'lucide-react'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
 	DropdownMenu,
@@ -34,14 +30,12 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { RunStatusBadge } from './run-status-badge'
 import { useDeleteRun } from '../hooks/use-delete-run'
 import { usePauseRun } from '../hooks/use-pause-run'
 import { usePlayRun } from '../hooks/use-play-run'
 import { useRunSubscription } from '../hooks/use-run-subscription'
 import { Run, RunStatus } from '../types/run'
-import { Badge } from '@/components/ui/badge'
 
 /**
  * Get initials from user name or email
@@ -167,20 +161,20 @@ function RunTableRow({ run: initialRun }: { run: Run }) {
 				<div className="flex flex-col gap-1">
 					<Link
 						href={`/runs/${run.id}`}
-						className="flex items-center gap-2 font-medium hover:underline transition-colors decoration-zinc-400"
+						className="flex items-center gap-2 font-medium decoration-zinc-400 transition-colors hover:underline"
 					>
 						<span className="truncate">{run.name}</span>
 						{isSubscribed && (
 							<span className="relative flex h-2 w-2">
-								<span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-								<span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+								<span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75"></span>
+								<span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500"></span>
 							</span>
 						)}
 					</Link>
 					<div className="flex items-center gap-2">
 						<Badge
 							variant="secondary"
-							className="h-5 px-1.5 text-[10px] bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400 font-normal"
+							className="h-5 bg-zinc-100 px-1.5 text-[10px] font-normal text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400"
 						>
 							{run.actorName}
 						</Badge>
@@ -236,7 +230,7 @@ function RunTableRow({ run: initialRun }: { run: Run }) {
 							<TooltipTrigger asChild>
 								<div className="flex items-center gap-2">
 									<Avatar className="h-7 w-7">
-										<AvatarFallback className="bg-zinc-200 text-zinc-700 text-xs font-medium dark:bg-zinc-700 dark:text-zinc-300">
+										<AvatarFallback className="bg-zinc-200 text-xs font-medium text-zinc-700 dark:bg-zinc-700 dark:text-zinc-300">
 											{getInitials(run.user.name, run.user.email)}
 										</AvatarFallback>
 									</Avatar>
@@ -328,7 +322,7 @@ export function RunsTable({ runs }: RunsTableProps) {
 				<h3 className="mt-4 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
 					No se encontraron ejecuciones
 				</h3>
-				<p className="mt-2 text-center text-sm text-zinc-500 max-w-xs">
+				<p className="mt-2 max-w-xs text-center text-sm text-zinc-500">
 					Parece que aún no has creado ninguna ejecución. Comienza creando una
 					nueva para verla aquí.
 				</p>
@@ -337,26 +331,26 @@ export function RunsTable({ runs }: RunsTableProps) {
 	}
 
 	return (
-		<div className="rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950 overflow-hidden shadow-sm">
+		<div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
 			<Table>
 				<TableHeader className="bg-zinc-50/50 dark:bg-zinc-900/50">
-					<TableRow className="hover:bg-transparent border-zinc-200 dark:border-zinc-800">
+					<TableRow className="border-zinc-200 hover:bg-transparent dark:border-zinc-800">
 						<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">
 							Nombre de Ejecución
 						</TableHead>
 						<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">
 							Estado
 						</TableHead>
-						<TableHead className="hidden md:table-cell font-semibold text-zinc-900 dark:text-zinc-100">
+						<TableHead className="hidden font-semibold text-zinc-900 md:table-cell dark:text-zinc-100">
 							Apify
 						</TableHead>
 						<TableHead className="text-right font-semibold text-zinc-900 dark:text-zinc-100">
 							Resultados
 						</TableHead>
-						<TableHead className="hidden lg:table-cell font-semibold text-zinc-900 dark:text-zinc-100">
+						<TableHead className="hidden font-semibold text-zinc-900 lg:table-cell dark:text-zinc-100">
 							Fecha
 						</TableHead>
-						<TableHead className="hidden md:table-cell font-semibold text-zinc-900 dark:text-zinc-100">
+						<TableHead className="hidden font-semibold text-zinc-900 md:table-cell dark:text-zinc-100">
 							Autor
 						</TableHead>
 						<TableHead className="text-right font-semibold text-zinc-900 dark:text-zinc-100">

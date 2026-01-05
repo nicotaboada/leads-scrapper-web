@@ -11,10 +11,10 @@ import { AlertCircle, Calendar, Check, Clock, Pencil } from 'lucide-react'
 import { useState } from 'react'
 
 import { cn } from '@/lib/utils/merge'
+import { EmptyState } from 'components/common/empty-state'
 import { Badge } from 'components/ui/badge'
 import { Button } from 'components/ui/button'
 import { Card } from 'components/ui/card'
-import { EmptyState } from 'components/common/empty-state'
 import { FollowUpModal } from './follow-up-modal'
 import { useCompleteFollowUp } from '../hooks/use-complete-follow-up'
 import { type FollowUp, formatFollowUpDate, isFollowUpOverdue } from '../types'
@@ -44,14 +44,16 @@ export function FollowUpCard({
 	}
 
 	return (
-		<Card className="p-6 border-zinc-200 shadow-sm dark:border-zinc-800">
+		<Card className="border-zinc-200 p-6 shadow-sm dark:border-zinc-800">
 			{/* Content */}
 			{!followUp ? (
 				// No follow-up state
 				<div className="space-y-4">
 					{/* Header row with title */}
 					<div className="flex items-center justify-between gap-2">
-						<h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100">Follow-up</h3>
+						<h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100">
+							Follow-up
+						</h3>
 						<Button
 							variant="outline"
 							size="sm"
@@ -74,12 +76,15 @@ export function FollowUpCard({
 					{/* Header row: Title + Badge + Actions */}
 					<div className="flex items-center justify-between gap-2">
 						<div className="flex items-center gap-2">
-							<h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100">Follow-up</h3>
+							<h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100">
+								Follow-up
+							</h3>
 							<Badge
 								variant={isOverdue ? 'destructive' : 'secondary'}
 								className={cn(
 									'gap-1 px-1.5 py-0.5 text-[10px] font-bold uppercase',
-									!isOverdue && 'bg-zinc-100 text-zinc-600 hover:bg-zinc-100 dark:bg-zinc-800 dark:text-zinc-400'
+									!isOverdue &&
+										'bg-zinc-100 text-zinc-600 hover:bg-zinc-100 dark:bg-zinc-800 dark:text-zinc-400'
 								)}
 							>
 								{isOverdue ? (
@@ -128,7 +133,10 @@ export function FollowUpCard({
 						{/* Note */}
 						{followUp.note && (
 							<p className="mt-1 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
-								<span className="font-semibold text-zinc-400 dark:text-zinc-500">Nota:</span> {followUp.note}
+								<span className="font-semibold text-zinc-400 dark:text-zinc-500">
+									Nota:
+								</span>{' '}
+								{followUp.note}
 							</p>
 						)}
 					</div>

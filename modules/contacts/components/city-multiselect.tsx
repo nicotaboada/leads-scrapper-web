@@ -9,11 +9,7 @@
 
 import { Check, ChevronDown, ChevronUp } from 'lucide-react'
 import { useCallback, useMemo, useRef, useState } from 'react'
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from 'components/ui/popover'
+import { Popover, PopoverContent, PopoverTrigger } from 'components/ui/popover'
 import { Skeleton } from 'components/ui/skeleton'
 import { cn } from 'lib/utils/merge'
 import { useAvailableCities } from '../hooks/use-available-cities'
@@ -34,6 +30,11 @@ interface CityMultiselectProps {
 	 * Callback to notify parent when dropdown open state changes
 	 */
 	onOpenChange?: (isOpen: boolean) => void
+	/**
+	 * Pre-fetched cities to use instead of fetching internally.
+	 * When provided, the component won't call useAvailableCities hook.
+	 */
+	availableCities?: string[]
 }
 
 /**
@@ -48,6 +49,7 @@ export function CityMultiselect({
 	className,
 	autoOpen = true,
 	onOpenChange,
+	availableCities,
 }: CityMultiselectProps) {
 	const [isOpen, setIsOpenState] = useState(false)
 
@@ -59,7 +61,10 @@ export function CityMultiselect({
 	const [searchQuery, setSearchQuery] = useState('')
 	const inputRef = useRef<HTMLInputElement>(null)
 
-	const { cities, loading } = useAvailableCities()
+	// Use pre-fetched cities if provided, otherwise fetch internally
+	const { cities: fetchedCities, loading: fetchLoading } = useAvailableCities()
+	const cities = availableCities ?? fetchedCities
+	const loading = availableCities ? false : fetchLoading
 
 	// Filter cities by search query
 	const filteredCities = useMemo(() => {
@@ -248,4 +253,3 @@ export function CityMultiselect({
 		</Popover>
 	)
 }
-

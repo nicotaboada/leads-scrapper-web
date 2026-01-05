@@ -1,15 +1,15 @@
 'use client'
 
 import { useState } from 'react'
+import { toast } from 'sonner'
 import {
 	Sheet,
 	SheetContent,
 	SheetHeader,
 	SheetTitle,
 } from 'components/ui/sheet'
-import { toast } from 'sonner'
-import { ServiceSelector } from './service-selector'
 import { KeyForm } from './key-form'
+import { ServiceSelector } from './service-selector'
 import { useCreateApiKey } from '../hooks/use-create-api-key'
 import type { ApiKeyService } from '../types'
 
@@ -24,7 +24,11 @@ type Step = 'select-service' | 'enter-key'
 /**
  * Sheet/modal for adding a new API key with 2-step flow
  */
-export function AddKeySheet({ isOpen, onClose, getKeyCount }: AddKeySheetProps) {
+export function AddKeySheet({
+	isOpen,
+	onClose,
+	getKeyCount,
+}: AddKeySheetProps) {
 	const [step, setStep] = useState<Step>('select-service')
 	const [selectedService, setSelectedService] = useState<ApiKeyService | null>(
 		null
@@ -100,4 +104,3 @@ export function AddKeySheet({ isOpen, onClose, getKeyCount }: AddKeySheetProps) 
 		</Sheet>
 	)
 }
-

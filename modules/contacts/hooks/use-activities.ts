@@ -44,7 +44,7 @@ export function useActivities({
 				} satisfies ActivitiesFilterInput,
 			},
 			skip: !contactId,
-			fetchPolicy: 'cache-and-network',
+			fetchPolicy: 'cache-first',
 		}
 	)
 
@@ -56,4 +56,3 @@ export function useActivities({
 		refetch,
 	}
 }
-

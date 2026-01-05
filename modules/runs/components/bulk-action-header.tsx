@@ -26,7 +26,7 @@ export function BulkActionHeader({
 				size="sm"
 				onClick={onCreateContacts}
 				disabled={disabled || !hasSelection}
-				className="bg-zinc-900 text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-950 dark:hover:bg-zinc-200 transition-all duration-200 shadow-sm"
+				className="bg-zinc-900 text-zinc-50 shadow-sm transition-all duration-200 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-950 dark:hover:bg-zinc-200"
 			>
 				<UserPlusIcon className="mr-2 size-4" />
 				Create Contacts
@@ -34,4 +34,3 @@ export function BulkActionHeader({
 		</div>
 	)
 }
-

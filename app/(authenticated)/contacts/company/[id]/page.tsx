@@ -9,24 +9,24 @@
  */
 
 import { useQuery } from '@apollo/client/react'
-import { Building2, Sparkles } from 'lucide-react'
+import { Building2 } from 'lucide-react'
 import { useParams, useRouter } from 'next/navigation'
-import { useState, useCallback } from 'react'
-import { DetailHeader } from 'components/layouts/detail-header'
+import { useCallback, useState } from 'react'
 import { HubSpotTabs } from '@/components/common/hubspot-tabs'
+import { DetailHeader } from 'components/layouts/detail-header'
 import { Skeleton } from 'components/ui/skeleton'
 import { ROUTES } from 'lib/config/routes'
 import { ActivitiesTab } from 'modules/contacts/components/activities-tab'
 import { AiMessageGeneratorTab } from 'modules/contacts/components/ai-messages'
 import { CompanyContactsTab } from 'modules/contacts/components/company-contacts-tab'
 import { CompanyOverviewTab } from 'modules/contacts/components/company-overview-tab'
-import { WebsiteSeoTab } from 'modules/contacts/components/website-seo'
 import {
 	CompanySidebar,
 	CompanySidebarSkeleton,
 } from 'modules/contacts/components/company-sidebar'
 import { DeleteContactDialog } from 'modules/contacts/components/delete-contact-dialog'
 import { EditCompanySheet } from 'modules/contacts/components/edit-company-sheet'
+import { WebsiteSeoTab } from 'modules/contacts/components/website-seo'
 import { GET_CONTACT } from 'modules/contacts/graphql/queries'
 import {
 	type CompanyContact,

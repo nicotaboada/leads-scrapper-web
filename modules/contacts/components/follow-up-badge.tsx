@@ -7,19 +7,19 @@
  * Shows a calendar icon with tooltip containing follow-up details.
  */
 
-import { CalendarDays, AlertCircle } from 'lucide-react'
+import { AlertCircle, CalendarDays } from 'lucide-react'
+import { cn } from '@/lib/utils/merge'
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
 } from 'components/ui/tooltip'
-import { cn } from '@/lib/utils/merge'
 import {
 	type FollowUp,
-	isFollowUpOverdue,
 	formatFollowUpDate,
 	getFollowUpRelativeTime,
+	isFollowUpOverdue,
 } from '../types'
 
 interface FollowUpBadgeProps {
@@ -39,7 +39,7 @@ export function FollowUpBadge({ followUp }: FollowUpBadgeProps) {
 						className={cn(
 							'flex size-5 items-center justify-center rounded-full transition-colors',
 							isOverdue
-								? 'bg-zinc-900 text-zinc-50 dark:bg-zinc-100 dark:text-zinc-950 shadow-sm'
+								? 'bg-zinc-900 text-zinc-50 shadow-sm dark:bg-zinc-100 dark:text-zinc-950'
 								: 'bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400'
 						)}
 					>
@@ -53,7 +53,9 @@ export function FollowUpBadge({ followUp }: FollowUpBadgeProps) {
 				<TooltipContent side="top" className="max-w-xs shadow-xl">
 					<div className="space-y-1.5 p-1">
 						<div className="flex items-center gap-2">
-							<span className="text-xs font-bold uppercase tracking-tight opacity-90">Seguimiento:</span>
+							<span className="text-xs font-bold tracking-tight uppercase opacity-90">
+								Seguimiento:
+							</span>
 							<span
 								className={cn(
 									'text-xs font-medium',
@@ -64,11 +66,11 @@ export function FollowUpBadge({ followUp }: FollowUpBadgeProps) {
 							</span>
 						</div>
 						{followUp.note && (
-							<p className="text-xs opacity-80 line-clamp-2 italic leading-relaxed">
+							<p className="line-clamp-2 text-xs leading-relaxed italic opacity-80">
 								&ldquo;{followUp.note}&rdquo;
 							</p>
 						)}
-						<div className="text-[10px] opacity-60 font-medium">
+						<div className="text-[10px] font-medium opacity-60">
 							{getFollowUpRelativeTime(followUp.dueDate)}
 						</div>
 					</div>
@@ -77,4 +79,3 @@ export function FollowUpBadge({ followUp }: FollowUpBadgeProps) {
 		</TooltipProvider>
 	)
 }
-

@@ -21,9 +21,8 @@ interface UseCreateActivityReturn {
  * Returns the created activity ID on success, null on error
  */
 export function useCreateActivity(): UseCreateActivityReturn {
-	const [mutate, { loading }] = useMutation<CreateActivityResponse>(
-		CREATE_ACTIVITY
-	)
+	const [mutate, { loading }] =
+		useMutation<CreateActivityResponse>(CREATE_ACTIVITY)
 
 	const createActivity = async (
 		input: CreateActivityInput
@@ -44,4 +43,3 @@ export function useCreateActivity(): UseCreateActivityReturn {
 		loading,
 	}
 }
-

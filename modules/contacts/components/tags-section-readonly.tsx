@@ -38,4 +38,3 @@ export function TagsSectionReadonly({ tags }: TagsSectionReadonlyProps) {
 		</div>
 	)
 }
-

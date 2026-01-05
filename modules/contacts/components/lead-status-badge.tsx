@@ -9,8 +9,8 @@
 
 import { Badge } from '@/components/ui/badge'
 import { cn } from 'lib/utils/merge'
-import { LeadStatus } from '../types'
 import { LEAD_STATUS_CONFIG } from './lead-status-selector'
+import { LeadStatus } from '../types'
 
 interface LeadStatusBadgeProps {
 	status: LeadStatus

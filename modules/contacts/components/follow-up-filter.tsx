@@ -48,9 +48,8 @@ interface FollowUpFilterProps {
  * ```
  */
 export function FollowUpFilter({ value, onApply }: FollowUpFilterProps) {
-	const [selectedValue, setSelectedValue] = useState<FollowUpFilterValue | null>(
-		value
-	)
+	const [selectedValue, setSelectedValue] =
+		useState<FollowUpFilterValue | null>(value)
 
 	const options = Object.entries(FOLLOW_UP_FILTER_CONFIG).map(
 		([filterValue, config]) => ({
@@ -107,7 +106,9 @@ export function FollowUpFilter({ value, onApply }: FollowUpFilterProps) {
 						{options.map((option) => (
 							<SelectItem key={option.value} value={option.value}>
 								<div className="flex items-center gap-2">
-									<span className={cn('h-2.5 w-2.5 rounded-full', option.color)} />
+									<span
+										className={cn('h-2.5 w-2.5 rounded-full', option.color)}
+									/>
 									<span>{option.label}</span>
 								</div>
 							</SelectItem>
@@ -118,4 +119,3 @@ export function FollowUpFilter({ value, onApply }: FollowUpFilterProps) {
 		</FilterBy>
 	)
 }
-

@@ -62,4 +62,3 @@ export interface ContactsWithFollowUpConnection {
 	pageInfo: PageInfo
 	totalCount: number
 }
-

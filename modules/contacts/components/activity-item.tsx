@@ -7,8 +7,6 @@
  * Summary is collapsible with a distinctive background
  */
 
-import { motion, AnimatePresence } from 'motion/react'
-import { useState } from 'react'
 import {
 	ChevronDown,
 	ChevronUp,
@@ -19,6 +17,8 @@ import {
 	MessageSquare,
 	RefreshCw,
 } from 'lucide-react'
+import { AnimatePresence, motion } from 'motion/react'
+import { useState } from 'react'
 import { cn } from '@/lib/utils/merge'
 import type { Activity } from '../types/activity'
 import { getActivityTypeConfig } from '../types/activity'
@@ -48,14 +48,24 @@ export function ActivityItem({ activity, isLast = false }: ActivityItemProps) {
 		if (activity.activityType !== 'STATUS_CHANGED' || !activity.metadata) {
 			return null
 		}
-		const metadata = activity.metadata as { fromStatus?: string; toStatus?: string }
+		const metadata = activity.metadata as {
+			fromStatus?: string
+			toStatus?: string
+		}
 		if (!metadata.fromStatus || !metadata.toStatus) {
 			return null
 		}
 		return (
-			<span className="text-zinc-400 font-medium">
+			<span className="font-medium text-zinc-400">
 				{' '}
-				from <span className="text-zinc-900 dark:text-zinc-100">{formatStatus(metadata.fromStatus)}</span> → <span className="text-zinc-900 dark:text-zinc-100">{formatStatus(metadata.toStatus)}</span>
+				from{' '}
+				<span className="text-zinc-900 dark:text-zinc-100">
+					{formatStatus(metadata.fromStatus)}
+				</span>{' '}
+				→{' '}
+				<span className="text-zinc-900 dark:text-zinc-100">
+					{formatStatus(metadata.toStatus)}
+				</span>
 			</span>
 		)
 	}
@@ -74,15 +84,11 @@ export function ActivityItem({ activity, isLast = false }: ActivityItemProps) {
 		<div className="relative flex gap-6">
 			{/* Timeline line */}
 			{!isLast && (
-				<div
-					className="absolute top-12 left-5 bottom-0 w-[2px] bg-zinc-100 dark:bg-zinc-800"
-				/>
+				<div className="absolute top-12 bottom-0 left-5 w-[2px] bg-zinc-100 dark:bg-zinc-800" />
 			)}
 
 			{/* Icon */}
-			<div
-				className="relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-white bg-zinc-900 shadow-sm dark:border-zinc-950 dark:bg-zinc-100"
-			>
+			<div className="relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-white bg-zinc-900 shadow-sm dark:border-zinc-950 dark:bg-zinc-100">
 				<IconComponent className="size-4 text-zinc-50 dark:text-zinc-900" />
 			</div>
 
@@ -91,18 +97,21 @@ export function ActivityItem({ activity, isLast = false }: ActivityItemProps) {
 				{/* Header row */}
 				<div
 					className={cn(
-						'flex items-center justify-between group',
+						'group flex items-center justify-between',
 						hasSummary && 'cursor-pointer'
 					)}
 					onClick={toggleExpanded}
 				>
 					<div className="flex flex-wrap items-center gap-x-2">
-						<span className="text-sm font-semibold uppercase text-zinc-900 dark:text-zinc-100">
+						<span className="text-sm font-semibold text-zinc-900 uppercase dark:text-zinc-100">
 							{config.label}
 						</span>
 						{activity.activityType !== 'STATUS_CHANGED' && (
-							<span className="text-zinc-400 text-sm font-medium">
-								por <span className="text-zinc-600 dark:text-zinc-300">{activity.authorName}</span>
+							<span className="text-sm font-medium text-zinc-400">
+								por{' '}
+								<span className="text-zinc-600 dark:text-zinc-300">
+									{activity.authorName}
+								</span>
 							</span>
 						)}
 						{renderStatusChangeInfo()}
@@ -112,7 +121,7 @@ export function ActivityItem({ activity, isLast = false }: ActivityItemProps) {
 					{hasSummary && (
 						<button
 							type="button"
-							className="text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 transition-colors p-1"
+							className="p-1 text-zinc-400 transition-colors group-hover:text-zinc-900 dark:group-hover:text-zinc-100"
 							aria-label={isExpanded ? 'Collapse' : 'Expand'}
 						>
 							{isExpanded ? (
@@ -134,7 +143,7 @@ export function ActivityItem({ activity, isLast = false }: ActivityItemProps) {
 							className="overflow-hidden"
 						>
 							<div className="rounded-xl border border-zinc-100 bg-zinc-50/50 p-4 dark:border-zinc-800 dark:bg-zinc-900/30">
-								<p className="text-zinc-600 dark:text-zinc-400 text-sm font-medium leading-relaxed italic">
+								<p className="text-sm leading-relaxed font-medium text-zinc-600 italic dark:text-zinc-400">
 									&ldquo;{activity.summary}&rdquo;
 								</p>
 							</div>

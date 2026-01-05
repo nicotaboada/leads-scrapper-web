@@ -1,13 +1,13 @@
 'use client'
 
 import { Bot, Camera, Search, Sparkles } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from 'components/ui/card'
-import { Badge } from 'components/ui/badge'
 import { toast } from 'sonner'
+import { Badge } from 'components/ui/badge'
+import { Card, CardContent, CardHeader, CardTitle } from 'components/ui/card'
 import { ActiveKeyDisplay } from './active-key-display'
 import { OtherKeysList } from './other-keys-list'
-import { useSetActiveKey } from '../hooks/use-set-active-key'
 import { useDeleteApiKey } from '../hooks/use-delete-api-key'
+import { useSetActiveKey } from '../hooks/use-set-active-key'
 import type { ApiKey, ApiKeyService } from '../types'
 
 interface ServiceCardProps {
@@ -66,12 +66,12 @@ export function ServiceCard({
 			<CardHeader className="pb-3">
 				<div className="flex items-center justify-between">
 					<div className="flex items-center gap-3">
-						<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted">
-							<Icon className="h-5 w-5 text-muted-foreground" />
+						<div className="bg-muted flex h-10 w-10 items-center justify-center rounded-lg">
+							<Icon className="text-muted-foreground h-5 w-5" />
 						</div>
 						<div>
 							<CardTitle className="text-lg">{serviceName}</CardTitle>
-							<p className="text-xs text-muted-foreground">
+							<p className="text-muted-foreground text-xs">
 								{hasActiveKey ? 'Active key configured' : 'No active key'}
 							</p>
 						</div>
@@ -88,14 +88,14 @@ export function ServiceCard({
 			</CardHeader>
 			<CardContent>
 				{activeKey ? (
-					<ActiveKeyDisplay 
-						apiKey={activeKey} 
+					<ActiveKeyDisplay
+						apiKey={activeKey}
 						onDelete={handleDelete}
 						isDeleting={isDeleting}
 					/>
 				) : (
-					<div className="rounded-lg border-2 border-dashed border-muted-foreground/20 p-4 text-center">
-						<p className="text-sm text-muted-foreground">
+					<div className="border-muted-foreground/20 rounded-lg border-2 border-dashed p-4 text-center">
+						<p className="text-muted-foreground text-sm">
 							No active API key configured
 						</p>
 					</div>
@@ -112,4 +112,3 @@ export function ServiceCard({
 		</Card>
 	)
 }
-

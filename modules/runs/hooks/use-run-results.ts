@@ -60,7 +60,8 @@ export function useRunResults({
 			},
 		},
 		skip: !runId || !enabled,
-		fetchPolicy: 'cache-and-network',
+		fetchPolicy: 'cache-first',
+		nextFetchPolicy: 'cache-first',
 	})
 
 	// Subscribe to result updates using reusable hook
@@ -93,7 +94,8 @@ export function useRunResults({
 		results: data?.getRunResults.results || [],
 		pageInfo: data?.getRunResults.pageInfo || null,
 		currentRun,
-		loading: queryLoading,
+		// Only show loading if we don't have cached data
+		loading: queryLoading && !data,
 		subscriptionActive: shouldSubscribe && !subscriptionLoading,
 		error: queryError,
 		refetch,

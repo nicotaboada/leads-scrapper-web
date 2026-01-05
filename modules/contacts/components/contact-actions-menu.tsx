@@ -56,7 +56,7 @@ export function ContactActionsMenu({
 						e.stopPropagation()
 						onDelete(contact)
 					}}
-					className="cursor-pointer text-destructive focus:text-destructive"
+					className="text-destructive focus:text-destructive cursor-pointer"
 				>
 					<Trash2 className="mr-2 h-4 w-4" />
 					Eliminar
@@ -65,4 +65,3 @@ export function ContactActionsMenu({
 		</DropdownMenu>
 	)
 }
-

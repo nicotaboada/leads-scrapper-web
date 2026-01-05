@@ -1,3 +1,6 @@
+/** Type for raw data from external APIs */
+type RawData = Record<string, unknown>
+
 /**
  * Run status enum matching backend
  */
@@ -14,8 +17,8 @@ export enum RunStatus {
  */
 export interface RunResult {
 	id: string
-	raw: Record<string, any>
-	normalized?: Record<string, any> | null
+	raw: RawData
+	normalized?: RawData | null
 	createdAt: string
 }
 
@@ -38,7 +41,7 @@ export interface Run {
 	actorId: string
 	runId?: string | null
 	status: RunStatus
-	input?: Record<string, any> | null
+	input?: RawData | null
 	resultCount: number
 	userId?: number | null
 	user?: RunAuthor | null
@@ -53,7 +56,7 @@ export interface Run {
 export interface CreateRunInput {
 	name: string
 	actorType: string
-	input: Record<string, any>
+	input: RawData
 }
 
 /**

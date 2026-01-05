@@ -41,9 +41,10 @@ export function SelectionDropdown({
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<button
-					type="button"
-					className="flex items-center gap-1 rounded p-1 hover:bg-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+				<div
+					role="button"
+					tabIndex={0}
+					className="hover:bg-accent focus-visible:ring-ring flex cursor-pointer items-center gap-1 rounded p-1 focus:outline-none focus-visible:ring-2"
 					aria-label="Selection options"
 				>
 					<Checkbox
@@ -53,8 +54,8 @@ export function SelectionDropdown({
 						}}
 						className="pointer-events-none"
 					/>
-					<ChevronDownIcon className="size-3 text-muted-foreground" />
-				</button>
+					<ChevronDownIcon className="text-muted-foreground size-3" />
+				</div>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="start" className="min-w-[160px]">
 				<DropdownMenuItem onClick={onSelectNone}>
@@ -70,4 +71,3 @@ export function SelectionDropdown({
 		</DropdownMenu>
 	)
 }
-

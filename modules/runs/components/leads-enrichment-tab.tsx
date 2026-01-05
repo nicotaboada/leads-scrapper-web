@@ -8,15 +8,24 @@
  */
 
 import { Users } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { toast } from 'sonner'
+import { useEffect, useRef } from 'react'
 import { TableEmptyState } from '@/components/common/table-empty-state'
-import { useBulkCreatePersonContacts } from '../hooks/use-bulk-create-person-contacts'
-import { useBulkSelection } from '../hooks/use-bulk-selection'
-import { useRunLeads } from '../hooks/use-run-leads'
-import { LeadsCompanyWarningModal } from './leads-company-warning-modal'
 import { LeadsEnrichmentTable } from './leads-enrichment-table'
+import { useRunLeads } from '../hooks/use-run-leads'
+import type {
+	HeaderCheckboxState,
+	SelectionPayload,
+} from '../types/bulk-actions'
+
+/**
+ * Selection state exposed to parent component
+ */
+export interface LeadsSelectionState {
+	selectedCount: number
+	headerCheckboxState: HeaderCheckboxState
+	pageIds: string[]
+	getSelectionPayload: () => SelectionPayload
+}
 
 interface LeadsEnrichmentTabProps {
 	/**
@@ -28,13 +37,30 @@ interface LeadsEnrichmentTabProps {
 	 */
 	scrapeLeadsEnabled: boolean
 	/**
-	 * Shared bulk selection state (optional)
+	 * Pagination state
 	 */
-	selectionState?: any
+	page: number
+	pageSize: number
+	onPageChange: (page: number) => void
+	onPageSizeChange: (pageSize: number) => void
 	/**
-	 * Handler for adding contacts
+	 * Bulk selection props passed from parent
 	 */
-	onAddContacts?: () => void
+	selectedCount: number
+	headerCheckboxState: HeaderCheckboxState
+	isSelected: (id: string) => boolean
+	onToggleItem: (id: string) => void
+	onSelectNone: () => void
+	onSelectPage: (pageIds: string[]) => void
+	onSelectAll: () => void
+	/**
+	 * Callback to update parent with total count for selection calculations
+	 */
+	onTotalCountChange?: (totalCount: number) => void
+	/**
+	 * Callback to update parent with current page IDs for checkbox state
+	 */
+	onPageIdsChange?: (pageIds: string[]) => void
 }
 
 /**
@@ -49,16 +75,20 @@ interface LeadsEnrichmentTabProps {
 export function LeadsEnrichmentTab({
 	runId,
 	scrapeLeadsEnabled,
+	page,
+	pageSize,
+	onPageChange,
+	onPageSizeChange,
+	selectedCount,
+	headerCheckboxState,
+	isSelected,
+	onToggleItem,
+	onSelectNone,
+	onSelectPage,
+	onSelectAll,
+	onTotalCountChange,
+	onPageIdsChange,
 }: LeadsEnrichmentTabProps) {
-	const router = useRouter()
-
-	// Pagination state
-	const [page, setPage] = useState(1)
-	const [pageSize, setPageSize] = useState(10)
-
-	// Modal state
-	const [isWarningModalOpen, setIsWarningModalOpen] = useState(false)
-
 	// Fetch leads data
 	const { leads, pageInfo, loading } = useRunLeads({
 		runId,
@@ -68,72 +98,28 @@ export function LeadsEnrichmentTab({
 	})
 
 	const totalCount = pageInfo?.totalCount ?? 0
-
-	// Bulk selection
-	const {
-		toggleItem,
-		selectNone,
-		selectPage,
-		selectAll,
-		isSelected,
-		getSelectedCount,
-		getHeaderCheckboxState,
-		getSelectionPayload,
-	} = useBulkSelection({ totalCount })
-
-	// Bulk create mutation
-	const { bulkCreate, loading: isCreating } = useBulkCreatePersonContacts()
-
 	const pageIds = leads.map((l) => l.id)
-	const selectedCount = getSelectedCount()
-	const headerCheckboxState = getHeaderCheckboxState(pageIds)
 
-	// Reset to page 1 when page size changes
-	const handlePageSizeChange = (newPageSize: number) => {
-		setPageSize(newPageSize)
-		setPage(1)
-	}
+	// Track previous values to avoid infinite loops
+	const prevTotalCountRef = useRef<number | undefined>(undefined)
+	const prevPageIdsKeyRef = useRef<string | undefined>(undefined)
+	const pageIdsKey = pageIds.join(',')
 
-	// Handle add contacts button click - opens warning modal
-	const handleAddContactsClick = () => {
-		setIsWarningModalOpen(true)
-	}
-
-	// Handle confirm bulk create from modal
-	const handleConfirmBulkCreate = async () => {
-		try {
-			const payload = getSelectionPayload()
-
-			const result = await bulkCreate({
-				runId,
-				selectionMode: payload.selectionMode,
-				selectedIds: payload.selectedIds,
-				deselectedIds: payload.deselectedIds,
-			})
-
-			setIsWarningModalOpen(false)
-			selectNone()
-
-			// Show appropriate toast based on results
-			if (result.errorCount === 0 && result.createdWithoutCompanyCount === 0) {
-				toast.success(`${result.createdCount} contacts created successfully`)
-			} else if (result.createdWithoutCompanyCount > 0) {
-				toast.warning(
-					`${result.createdCount} contacts created. ${result.createdWithoutCompanyCount} created without company.`
-				)
-			} else if (result.errorCount > 0) {
-				toast.warning(
-					`${result.createdCount} contacts created. ${result.errorCount} failed.`
-				)
-			}
-
-			// Redirect to contacts page
-			router.push('/contacts')
-		} catch (error) {
-			console.error('Error creating contacts:', error)
-			toast.error('Failed to create contacts. Please try again.')
+	// Notify parent of total count changes (only when value actually changes)
+	useEffect(() => {
+		if (onTotalCountChange && prevTotalCountRef.current !== totalCount) {
+			prevTotalCountRef.current = totalCount
+			onTotalCountChange(totalCount)
 		}
-	}
+	}, [totalCount, onTotalCountChange])
+
+	// Notify parent of page IDs changes (only when IDs actually change)
+	useEffect(() => {
+		if (onPageIdsChange && prevPageIdsKeyRef.current !== pageIdsKey) {
+			prevPageIdsKeyRef.current = pageIdsKey
+			onPageIdsChange(pageIds)
+		}
+	}, [pageIdsKey, pageIds, onPageIdsChange])
 
 	// Show empty state if leads enrichment was not enabled
 	if (!scrapeLeadsEnabled) {
@@ -149,34 +135,20 @@ export function LeadsEnrichmentTab({
 	}
 
 	return (
-		<div>
-			<LeadsEnrichmentTable
-				leads={leads}
-				pageInfo={pageInfo}
-				loading={loading}
-				onPageChange={setPage}
-				onPageSizeChange={handlePageSizeChange}
-				// Bulk selection props
-				selectedCount={selectedCount}
-				headerCheckboxState={headerCheckboxState}
-				isSelected={isSelected}
-				onToggleItem={toggleItem}
-				onSelectNone={selectNone}
-				onSelectPage={selectPage}
-				onSelectAll={selectAll}
-				onAddContacts={handleAddContactsClick}
-				isAddingContacts={isCreating}
-			/>
-
-			{/* Company Warning Modal */}
-			<LeadsCompanyWarningModal
-				open={isWarningModalOpen}
-				onOpenChange={setIsWarningModalOpen}
-				selectedCount={selectedCount}
-				onCancel={() => setIsWarningModalOpen(false)}
-				onProceed={handleConfirmBulkCreate}
-				loading={isCreating}
-			/>
-		</div>
+		<LeadsEnrichmentTable
+			leads={leads}
+			pageInfo={pageInfo}
+			loading={loading}
+			onPageChange={onPageChange}
+			onPageSizeChange={onPageSizeChange}
+			// Bulk selection props
+			selectedCount={selectedCount}
+			headerCheckboxState={headerCheckboxState}
+			isSelected={isSelected}
+			onToggleItem={onToggleItem}
+			onSelectNone={onSelectNone}
+			onSelectPage={onSelectPage}
+			onSelectAll={onSelectAll}
+		/>
 	)
 }

@@ -7,9 +7,9 @@
  */
 
 import { motion } from 'motion/react'
+import { ActivityItem } from './activity-item'
 import type { Activity } from '../types/activity'
 import { groupActivitiesByDate } from '../types/activity'
-import { ActivityItem } from './activity-item'
 
 interface ActivityListProps {
 	activities: Activity[]
@@ -45,14 +45,14 @@ export function ActivityList({ activities }: ActivityListProps) {
 				<div key={group.label} className="space-y-6">
 					{/* Date label */}
 					<div className="flex items-center gap-4">
-						<span className="text-xs font-semibold uppercase text-zinc-400 dark:text-zinc-500 whitespace-nowrap">
+						<span className="text-xs font-semibold whitespace-nowrap text-zinc-400 uppercase dark:text-zinc-500">
 							{group.label}
 						</span>
 						<div className="h-px w-full bg-zinc-100 dark:bg-zinc-800" />
 					</div>
 
 					{/* Activities in group */}
-					<motion.div 
+					<motion.div
 						className="ml-1 space-y-2"
 						variants={containerVariants}
 						initial="hidden"
@@ -72,4 +72,3 @@ export function ActivityList({ activities }: ActivityListProps) {
 		</div>
 	)
 }
-

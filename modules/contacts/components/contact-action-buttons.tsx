@@ -7,7 +7,14 @@
  * WhatsApp, Email, LinkedIn, and a More menu with Edit/Delete options.
  */
 
-import { Linkedin, Mail, MessageCircle, MoreHorizontal, Pencil, Trash2 } from 'lucide-react'
+import {
+	Linkedin,
+	Mail,
+	MessageCircle,
+	MoreHorizontal,
+	Pencil,
+	Trash2,
+} from 'lucide-react'
 import { Button } from 'components/ui/button'
 import {
 	DropdownMenu,
@@ -15,11 +22,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from 'components/ui/dropdown-menu'
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipTrigger,
-} from 'components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from 'components/ui/tooltip'
 import type { PersonContact } from '../types'
 import { buildWhatsAppUrl, isValidPhoneForWhatsApp } from '../utils/phone'
 
@@ -47,7 +50,7 @@ export function ContactActionButtons({
 						<Button
 							variant="ghost"
 							size="icon"
-							className="text-muted-foreground hover:text-green-600 hover:bg-green-50 dark:hover:bg-green-950/30"
+							className="text-muted-foreground hover:bg-green-50 hover:text-green-600 dark:hover:bg-green-950/30"
 							asChild
 						>
 							<a
@@ -70,7 +73,7 @@ export function ContactActionButtons({
 						<Button
 							variant="ghost"
 							size="icon"
-							className="text-muted-foreground hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/30"
+							className="text-muted-foreground hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-950/30"
 							asChild
 						>
 							<a href={`mailto:${contact.email}`}>
@@ -89,7 +92,7 @@ export function ContactActionButtons({
 						<Button
 							variant="ghost"
 							size="icon"
-							className="text-muted-foreground hover:text-[#0A66C2] hover:bg-blue-50 dark:hover:bg-blue-950/30"
+							className="text-muted-foreground hover:bg-blue-50 hover:text-[#0A66C2] dark:hover:bg-blue-950/30"
 							asChild
 						>
 							<a
@@ -135,4 +138,3 @@ export function ContactActionButtons({
 		</div>
 	)
 }
-

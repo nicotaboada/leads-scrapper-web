@@ -5,8 +5,8 @@
  * (both Person and Company types)
  */
 
-import type { PaginatedResponse } from 'types/pagination'
 import type { TagColor } from 'modules/tags/types'
+import type { PaginatedResponse } from 'types/pagination'
 import type { FollowUp } from './follow-up'
 import type { WebsiteAnalysis } from './website-analysis'
 
@@ -190,4 +190,3 @@ export interface PaginatedContactsResponse {
 export interface ContactResponse {
 	contact: Contact
 }
-

@@ -1,6 +1,15 @@
 'use client'
 
+import {
+	AlertCircle,
+	ArrowRight,
+	Bot,
+	Camera,
+	Search,
+	Sparkles,
+} from 'lucide-react'
 import Link from 'next/link'
+import { Badge } from 'components/ui/badge'
 import {
 	Card,
 	CardContent,
@@ -8,18 +17,9 @@ import {
 	CardHeader,
 	CardTitle,
 } from 'components/ui/card'
-import { Badge } from 'components/ui/badge'
 import { cn } from 'lib/utils/merge'
-import {
-	Bot,
-	Camera,
-	Search,
-	Sparkles,
-	AlertCircle,
-	ArrowRight,
-} from 'lucide-react'
-import type { ServiceUsage, ServiceKey } from '../types'
 import { UsageProgressBar } from './usage-progress-bar'
+import type { ServiceKey, ServiceUsage } from '../types'
 
 interface ServiceUsageCardProps {
 	service: ServiceUsage
@@ -42,10 +42,7 @@ export function ServiceUsageCard({ service }: ServiceUsageCardProps) {
 
 	return (
 		<Card
-			className={cn(
-				'transition-all',
-				isDisabled && 'opacity-50 bg-muted/30'
-			)}
+			className={cn('transition-all', isDisabled && 'bg-muted/30 opacity-50')}
 		>
 			<CardHeader className="pb-2">
 				<div className="flex items-center justify-between">
@@ -59,9 +56,7 @@ export function ServiceUsageCard({ service }: ServiceUsageCardProps) {
 							<Icon
 								className={cn(
 									'h-5 w-5',
-									isDisabled
-										? 'text-muted-foreground'
-										: 'text-primary'
+									isDisabled ? 'text-muted-foreground' : 'text-primary'
 								)}
 							/>
 						</div>
@@ -70,7 +65,7 @@ export function ServiceUsageCard({ service }: ServiceUsageCardProps) {
 					{service.isFreeTier && service.isEnabled && (
 						<Badge
 							variant="secondary"
-							className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+							className="border-emerald-500/20 bg-emerald-500/10 text-emerald-500"
 						>
 							FREE
 						</Badge>
@@ -78,11 +73,7 @@ export function ServiceUsageCard({ service }: ServiceUsageCardProps) {
 				</div>
 			</CardHeader>
 			<CardContent className="space-y-4">
-				{isDisabled ? (
-					<DisabledState />
-				) : (
-					<EnabledState service={service} />
-				)}
+				{isDisabled ? <DisabledState /> : <EnabledState service={service} />}
 			</CardContent>
 		</Card>
 	)
@@ -91,13 +82,13 @@ export function ServiceUsageCard({ service }: ServiceUsageCardProps) {
 function DisabledState() {
 	return (
 		<div className="space-y-3 py-2">
-			<div className="flex items-center gap-2 text-muted-foreground">
+			<div className="text-muted-foreground flex items-center gap-2">
 				<AlertCircle className="h-4 w-4" />
 				<span className="text-sm font-medium">No active key configured</span>
 			</div>
 			<Link
 				href="/settings/api-keys"
-				className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+				className="text-primary inline-flex items-center gap-1 text-sm font-medium hover:underline"
 			>
 				Configure API Key
 				<ArrowRight className="h-3 w-3" />
@@ -131,10 +122,9 @@ function EnabledState({ service }: EnabledStateProps) {
 					<span className="text-2xl font-semibold">
 						${service.costUsd.toFixed(2)}
 					</span>
-					<span className="text-sm text-muted-foreground">USD</span>
+					<span className="text-muted-foreground text-sm">USD</span>
 				</div>
 			)}
 		</>
 	)
 }
-

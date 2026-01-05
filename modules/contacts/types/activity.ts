@@ -170,4 +170,3 @@ export function groupActivitiesByDate(activities: Activity[]): ActivityGroup[] {
 		activities: items,
 	}))
 }
-

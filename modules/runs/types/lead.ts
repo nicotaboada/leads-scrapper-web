@@ -132,4 +132,3 @@ export function formatPhoneForWhatsApp(phone: string | null): string | null {
 	// Remove leading + if present (wa.me doesn't need it)
 	return cleaned.startsWith('+') ? cleaned.slice(1) : cleaned
 }
-

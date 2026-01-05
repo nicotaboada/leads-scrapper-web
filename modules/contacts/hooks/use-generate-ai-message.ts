@@ -14,7 +14,9 @@ interface UseGenerateAIMessageOptions {
 }
 
 interface UseGenerateAIMessageReturn {
-	generateMessage: (input: GenerateAIMessageInput) => Promise<GeneratedMessage | null>
+	generateMessage: (
+		input: GenerateAIMessageInput
+	) => Promise<GeneratedMessage | null>
 	isGenerating: boolean
 }
 
@@ -24,7 +26,8 @@ interface UseGenerateAIMessageReturn {
 export function useGenerateAIMessage(
 	options?: UseGenerateAIMessageOptions
 ): UseGenerateAIMessageReturn {
-	const [mutate, { loading }] = useMutation<GenerateAIMessageResponse>(GENERATE_AI_MESSAGE)
+	const [mutate, { loading }] =
+		useMutation<GenerateAIMessageResponse>(GENERATE_AI_MESSAGE)
 
 	const generateMessage = useCallback(
 		async (input: GenerateAIMessageInput): Promise<GeneratedMessage | null> => {
@@ -41,7 +44,9 @@ export function useGenerateAIMessage(
 				const errorMessage =
 					error instanceof Error ? error.message : 'Error al generar el mensaje'
 				toast.error(errorMessage)
-				options?.onError?.(error instanceof Error ? error : new Error(errorMessage))
+				options?.onError?.(
+					error instanceof Error ? error : new Error(errorMessage)
+				)
 				return null
 			}
 		},
@@ -53,4 +58,3 @@ export function useGenerateAIMessage(
 		isGenerating: loading,
 	}
 }
-

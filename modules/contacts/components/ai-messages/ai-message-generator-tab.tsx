@@ -7,25 +7,28 @@
  * with channel, tone, and problem selection controls.
  */
 
+import { Loader2, Sparkles } from 'lucide-react'
 import { motion } from 'motion/react'
-import { useState, useMemo, useCallback } from 'react'
-import { Sparkles, Loader2 } from 'lucide-react'
+import { useCallback, useMemo, useState } from 'react'
 import { Button } from 'components/ui/button'
 import { Card, CardContent } from 'components/ui/card'
 import { ChannelSelector } from './channel-selector'
-import { ToneSelector } from './tone-selector'
-import { ProblemSelector } from './problem-selector'
-import { MessagePreview } from './message-preview'
-import { NoWebsiteState, AnalysisPendingState, AllOkState } from './empty-states'
-import { useGenerateAIMessage } from '../../hooks/use-generate-ai-message'
 import {
+	AllOkState,
+	AnalysisPendingState,
+	NoWebsiteState,
+} from './empty-states'
+import { MessagePreview } from './message-preview'
+import { ProblemSelector } from './problem-selector'
+import { ToneSelector } from './tone-selector'
+import { useGenerateAIMessage } from '../../hooks/use-generate-ai-message'
+import type { CompanyContact } from '../../types'
+import {
+	issueToProblem,
 	MessageChannel,
 	MessageTone,
-	issueToProblem,
-	NO_WEBSITE_PROBLEM,
 	type ProblemForMessage,
 } from '../../types/ai-message'
-import type { CompanyContact } from '../../types'
 
 interface AiMessageGeneratorTabProps {
 	contact: CompanyContact
@@ -53,8 +56,13 @@ const itemVariants = {
 	},
 }
 
-export function AiMessageGeneratorTab({ contact, onNavigateToTab }: AiMessageGeneratorTabProps) {
-	const [channel, setChannel] = useState<MessageChannel>(MessageChannel.WHATSAPP)
+export function AiMessageGeneratorTab({
+	contact,
+	onNavigateToTab,
+}: AiMessageGeneratorTabProps) {
+	const [channel, setChannel] = useState<MessageChannel>(
+		MessageChannel.WHATSAPP
+	)
 	const [tone, setTone] = useState<MessageTone>(MessageTone.FRIENDLY)
 	const [selectedProblemIds, setSelectedProblemIds] = useState<string[]>([])
 	const [generatedMessage, setGeneratedMessage] = useState<string | null>(null)
@@ -109,7 +117,14 @@ export function AiMessageGeneratorTab({ contact, onNavigateToTab }: AiMessageGen
 			tone,
 			problemIds: selectedProblemIds,
 		})
-	}, [contact.id, channel, tone, selectedProblemIds, hasSelectedProblems, generateMessage])
+	}, [
+		contact.id,
+		channel,
+		tone,
+		selectedProblemIds,
+		hasSelectedProblems,
+		generateMessage,
+	])
 
 	// Navigate to Website & SEO tab
 	const handleNavigateToAnalysis = useCallback(() => {
@@ -137,15 +152,23 @@ export function AiMessageGeneratorTab({ contact, onNavigateToTab }: AiMessageGen
 							</CardContent>
 						</Card>
 					</motion.div>
-					<motion.div variants={itemVariants}>
-						<NoWebsiteState onGenerate={handleGenerateNoWebsite} isGenerating={isGenerating} />
-					</motion.div>
+					{generatedMessage ? (
+						<motion.div variants={itemVariants}>
+							<MessagePreview
+								message={generatedMessage}
+								isLoading={isGenerating}
+								className="h-full"
+							/>
+						</motion.div>
+					) : (
+						<motion.div variants={itemVariants}>
+							<NoWebsiteState
+								onGenerate={handleGenerateNoWebsite}
+								isGenerating={isGenerating}
+							/>
+						</motion.div>
+					)}
 				</div>
-				{generatedMessage && (
-					<motion.div variants={itemVariants}>
-						<MessagePreview message={generatedMessage} className="mt-6" />
-					</motion.div>
-				)}
 			</motion.div>
 		)
 	}
@@ -163,7 +186,9 @@ export function AiMessageGeneratorTab({ contact, onNavigateToTab }: AiMessageGen
 					<Header />
 				</motion.div>
 				<motion.div variants={itemVariants}>
-					<AnalysisPendingState onNavigateToAnalysis={handleNavigateToAnalysis} />
+					<AnalysisPendingState
+						onNavigateToAnalysis={handleNavigateToAnalysis}
+					/>
 				</motion.div>
 			</motion.div>
 		)
@@ -190,15 +215,23 @@ export function AiMessageGeneratorTab({ contact, onNavigateToTab }: AiMessageGen
 							</CardContent>
 						</Card>
 					</motion.div>
-					<motion.div variants={itemVariants}>
-						<AllOkState onGenerate={handleGenerateAllOk} isGenerating={isGenerating} />
-					</motion.div>
+					{generatedMessage ? (
+						<motion.div variants={itemVariants}>
+							<MessagePreview
+								message={generatedMessage}
+								isLoading={isGenerating}
+								className="h-full"
+							/>
+						</motion.div>
+					) : (
+						<motion.div variants={itemVariants}>
+							<AllOkState
+								onGenerate={handleGenerateAllOk}
+								isGenerating={isGenerating}
+							/>
+						</motion.div>
+					)}
 				</div>
-				{generatedMessage && (
-					<motion.div variants={itemVariants}>
-						<MessagePreview message={generatedMessage} className="mt-6" />
-					</motion.div>
-				)}
 			</motion.div>
 		)
 	}
@@ -219,8 +252,16 @@ export function AiMessageGeneratorTab({ contact, onNavigateToTab }: AiMessageGen
 				<motion.div variants={itemVariants}>
 					<Card className="border-zinc-200 shadow-sm dark:border-zinc-800">
 						<CardContent className="space-y-6 py-6">
-							<ChannelSelector value={channel} onChange={setChannel} disabled={isGenerating} />
-							<ToneSelector value={tone} onChange={setTone} disabled={isGenerating} />
+							<ChannelSelector
+								value={channel}
+								onChange={setChannel}
+								disabled={isGenerating}
+							/>
+							<ToneSelector
+								value={tone}
+								onChange={setTone}
+								disabled={isGenerating}
+							/>
 							<ProblemSelector
 								problems={problems}
 								selectedIds={selectedProblemIds}
@@ -245,7 +286,7 @@ export function AiMessageGeneratorTab({ contact, onNavigateToTab }: AiMessageGen
 							size="lg"
 							onClick={handleGenerate}
 							disabled={!hasSelectedProblems || isGenerating}
-							className="w-full gap-2 bg-zinc-900 font-bold text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 shadow-sm"
+							className="w-full gap-2 bg-zinc-900 font-bold text-zinc-50 shadow-sm hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
 						>
 							{isGenerating ? (
 								<>
@@ -273,9 +314,9 @@ function Header() {
 				Generador de Mensajes IA
 			</h2>
 			<p className="text-sm text-zinc-500 dark:text-zinc-400">
-				Selecciona los problemas, elige el tono y genera mensajes personalizados al instante
+				Selecciona los problemas, elige el tono y genera mensajes personalizados
+				al instante
 			</p>
 		</div>
 	)
 }
-

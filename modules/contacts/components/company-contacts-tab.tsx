@@ -9,10 +9,10 @@
 
 import { motion } from 'motion/react'
 import { useState } from 'react'
-import { Card } from 'components/ui/card'
 import { TablePagination } from 'components/common/table-pagination'
-import { useCompanyEmployees } from '../hooks/use-company-employees'
+import { Card } from 'components/ui/card'
 import { CompanyContactsTable } from './company-contacts-table'
+import { useCompanyEmployees } from '../hooks/use-company-employees'
 
 interface CompanyContactsTabProps {
 	companyId: string
@@ -64,12 +64,8 @@ export function CompanyContactsTab({ companyId }: CompanyContactsTabProps) {
 	}
 
 	return (
-		<motion.div
-			variants={containerVariants}
-			initial="hidden"
-			animate="visible"
-		>
-			<Card className="p-6 border-zinc-200 shadow-sm dark:border-zinc-800">
+		<motion.div variants={containerVariants} initial="hidden" animate="visible">
+			<Card className="border-zinc-200 p-6 shadow-sm dark:border-zinc-800">
 				<div className="space-y-6">
 					<motion.div variants={itemVariants}>
 						<CompanyContactsTable employees={employees} isLoading={loading} />
@@ -95,4 +91,3 @@ export function CompanyContactsTab({ companyId }: CompanyContactsTabProps) {
 		</motion.div>
 	)
 }
-

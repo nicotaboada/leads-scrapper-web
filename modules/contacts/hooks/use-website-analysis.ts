@@ -11,13 +11,16 @@ interface UseWebsiteAnalysisOptions {
 	skip?: boolean
 }
 
-export function useWebsiteAnalysis({ contactId, skip }: UseWebsiteAnalysisOptions) {
+export function useWebsiteAnalysis({
+	contactId,
+	skip,
+}: UseWebsiteAnalysisOptions) {
 	const { data, loading, error, refetch } = useQuery<WebsiteAnalysisResponse>(
 		GET_WEBSITE_ANALYSIS,
 		{
 			variables: { contactId },
 			skip: skip || !contactId,
-			fetchPolicy: 'cache-and-network',
+			fetchPolicy: 'cache-first',
 		}
 	)
 
@@ -28,4 +31,3 @@ export function useWebsiteAnalysis({ contactId, skip }: UseWebsiteAnalysisOption
 		refetch,
 	}
 }
-

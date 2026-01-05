@@ -147,10 +147,10 @@ export function CompanySearchSelect({
 								<button
 									key={company.id}
 									type="button"
-								className={cn(
-									'flex w-full items-center gap-3 px-3 py-2 text-left hover:bg-gray-100',
-									value === company.id && 'bg-gray-100'
-								)}
+									className={cn(
+										'flex w-full items-center gap-3 px-3 py-2 text-left hover:bg-gray-100',
+										value === company.id && 'bg-gray-100'
+									)}
 									onClick={() => handleSelectCompany(company)}
 								>
 									<Avatar className="h-8 w-8">
@@ -182,8 +182,8 @@ export function CompanySearchSelect({
 							)}
 						</>
 					)}
-			</div>
-		)}
-	</div>
-)
+				</div>
+			)}
+		</div>
+	)
 }

@@ -53,14 +53,12 @@ export function UsageProgressBar({
 				className={trackClassName}
 				indicatorClassName={indicatorClassName}
 			/>
-			<div className="flex items-center justify-between text-sm text-muted-foreground">
+			<div className="text-muted-foreground flex items-center justify-between text-sm">
 				<span>
-					{formatValue(current)} / {formatValue(limit)}{' '}
-					{unit !== 'USD' && unit}
+					{formatValue(current)} / {formatValue(limit)} {unit !== 'USD' && unit}
 				</span>
 				<span className="text-xs">{Math.round(percentage)}%</span>
 			</div>
 		</div>
 	)
 }
-

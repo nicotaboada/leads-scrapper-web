@@ -86,4 +86,3 @@ export interface SetActiveApiKeyResponse {
 export interface DeleteApiKeyResponse {
 	deleteApiKey: boolean
 }
-

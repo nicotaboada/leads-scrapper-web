@@ -22,6 +22,11 @@ interface TagMultiselectProps {
 	 * @default true
 	 */
 	autoOpen?: boolean
+	/**
+	 * Pre-fetched tags to use instead of fetching internally.
+	 * When provided, the component won't call useAllTags hook.
+	 */
+	availableTags?: Array<{ id: string; name: string; color?: string | null }>
 }
 
 /**
@@ -36,13 +41,20 @@ export function TagMultiselect({
 	disabled = false,
 	className,
 	autoOpen = true,
+	availableTags,
 }: TagMultiselectProps) {
 	const [isOpen, setIsOpen] = useState(false)
 	const [searchQuery, setSearchQuery] = useState('')
 	const [isSaving, setIsSaving] = useState(false)
 	const inputRef = useRef<HTMLInputElement>(null)
 
-	const { tags, loading } = useAllTags()
+	// Only fetch tags if not provided externally - avoids unnecessary queries
+	const shouldFetch = !availableTags
+	const { tags: fetchedTags, loading: fetchLoading } = useAllTags({
+		skip: !shouldFetch,
+	})
+	const tags = availableTags ?? fetchedTags
+	const loading = shouldFetch && fetchLoading
 
 	// Filter tags by search query
 	const filteredTags = useMemo(() => {
@@ -154,6 +166,7 @@ export function TagMultiselect({
 							tag={tag}
 							onRemove={handleRemoveTag}
 							disabled={isDisabled}
+							variant="neutral"
 						/>
 					))}
 

@@ -40,7 +40,7 @@ export default function RunsPage() {
 	 * Handles successful run creation
 	 * Refetches the runs list
 	 */
-	function handleRunCreated(data: CreateRunFormInput) {
+	function handleRunCreated(_data: CreateRunFormInput) {
 		// Refetch runs (the mutation already updates the cache, but this ensures consistency)
 		refetch()
 

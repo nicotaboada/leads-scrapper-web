@@ -42,5 +42,3 @@ export const LEAD_STATUS_LABELS: Record<LeadStatus, string> = {
 	[LeadStatus.IN_CONVERSATIONS]: 'En conversación',
 	[LeadStatus.CLOSED]: 'Cerrados',
 }
-
-

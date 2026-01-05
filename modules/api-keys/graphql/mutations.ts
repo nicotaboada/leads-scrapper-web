@@ -40,4 +40,3 @@ export const DELETE_API_KEY = gql`
 		deleteApiKey(id: $id)
 	}
 `
-

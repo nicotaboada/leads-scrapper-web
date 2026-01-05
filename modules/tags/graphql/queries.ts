@@ -56,4 +56,3 @@ export const GET_ALL_TAGS = gql`
 		}
 	}
 `
-

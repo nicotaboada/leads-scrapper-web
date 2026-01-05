@@ -24,4 +24,3 @@ export const RUN_RESULTS_UPDATED = gql`
 		}
 	}
 `
-

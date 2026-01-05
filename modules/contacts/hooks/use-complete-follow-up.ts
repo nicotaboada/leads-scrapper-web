@@ -23,9 +23,8 @@ interface UseCompleteFollowUpReturn {
  * Returns true on success, false on error
  */
 export function useCompleteFollowUp(): UseCompleteFollowUpReturn {
-	const [mutate, { loading }] = useMutation<CompleteFollowUpResponse>(
-		COMPLETE_FOLLOW_UP
-	)
+	const [mutate, { loading }] =
+		useMutation<CompleteFollowUpResponse>(COMPLETE_FOLLOW_UP)
 
 	const completeFollowUp = async (id: string): Promise<boolean> => {
 		try {
@@ -50,4 +49,3 @@ export function useCompleteFollowUp(): UseCompleteFollowUpReturn {
 		loading,
 	}
 }
-

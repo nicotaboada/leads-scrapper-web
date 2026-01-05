@@ -8,10 +8,10 @@
  */
 
 import { motion } from 'motion/react'
-import type { CompanyContact } from '../types'
 import { AiMessageCard } from './ai-messages'
 import { FollowUpCard } from './follow-up-card'
 import { RecentActivitiesCard } from './recent-activities-card'
+import type { CompanyContact } from '../types'
 
 interface CompanyOverviewTabProps {
 	contact: CompanyContact
@@ -69,9 +69,11 @@ export function CompanyOverviewTab({
 
 			{/* Recent Activities Card */}
 			<motion.div variants={itemVariants}>
-				<RecentActivitiesCard contactId={contact.id} contactName={contact.companyName} />
+				<RecentActivitiesCard
+					contactId={contact.id}
+					contactName={contact.companyName}
+				/>
 			</motion.div>
 		</motion.div>
 	)
 }
-

@@ -31,13 +31,14 @@ import {
 	SheetTitle,
 } from 'components/ui/sheet'
 import { TagMultiselect } from 'modules/tags/components/tag-multiselect'
+import { useAllTags } from 'modules/tags/hooks/use-all-tags'
+import { CompanySearchSelect } from './company-search-select'
 import { useUpdatePersonContact } from '../hooks/use-update-person-contact'
 import type { PersonContact } from '../types'
 import {
 	type EditPersonContactFormInput,
 	editPersonContactSchema,
 } from '../types/edit-contact'
-import { CompanySearchSelect } from './company-search-select'
 
 interface EditContactSheetProps {
 	open: boolean
@@ -53,6 +54,10 @@ export function EditContactSheet({
 	onContactUpdated,
 }: EditContactSheetProps) {
 	const { updatePersonContact, loading } = useUpdatePersonContact()
+	// Pre-fetch tags when sheet opens to avoid loading delay on input click
+	const { tags: availableTags } = useAllTags({
+		skip: !open,
+	})
 
 	const form = useForm<EditPersonContactFormInput>({
 		resolver: zodResolver(editPersonContactSchema),
@@ -140,9 +145,7 @@ export function EditContactSheet({
 			>
 				<SheetHeader className="shrink-0">
 					<SheetTitle>Editar Contacto</SheetTitle>
-					<SheetDescription>
-						Modifique los datos del contacto
-					</SheetDescription>
+					<SheetDescription>Modifique los datos del contacto</SheetDescription>
 				</SheetHeader>
 
 				<Form {...form}>
@@ -296,6 +299,7 @@ export function EditContactSheet({
 												selectedTagIds={field.value}
 												onChange={field.onChange}
 												placeholder="Seleccionar tags..."
+												availableTags={availableTags}
 											/>
 										</FormControl>
 										<FormMessage />
@@ -329,4 +333,3 @@ export function EditContactSheet({
 		</Sheet>
 	)
 }
-

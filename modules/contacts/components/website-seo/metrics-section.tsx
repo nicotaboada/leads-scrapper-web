@@ -25,14 +25,18 @@ function MetricBar({ label, score, description }: MetricBarProps) {
 		<div className="space-y-3">
 			<div className="flex items-end justify-between">
 				<div className="flex flex-col gap-0.5">
-					<span className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{label}</span>
+					<span className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+						{label}
+					</span>
 					{description && (
-						<span className="text-[11px] font-medium text-zinc-500 dark:text-zinc-400 uppercase">
+						<span className="text-[11px] font-medium text-zinc-500 uppercase dark:text-zinc-400">
 							{description}
 						</span>
 					)}
 				</div>
-				<span className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{score}/100</span>
+				<span className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+					{score}/100
+				</span>
 			</div>
 			<div className="relative h-2 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
 				<Progress
@@ -83,13 +87,17 @@ export function MetricsSection({ analysis }: MetricsSectionProps) {
 	return (
 		<Card>
 			<CardHeader className="pb-4">
-				<CardTitle className="text-base font-semibold">Métricas Detalladas</CardTitle>
+				<CardTitle className="text-base font-semibold">
+					Métricas Detalladas
+				</CardTitle>
 			</CardHeader>
 			<CardContent className="space-y-5">
 				<MetricBar
 					label="Profesionalismo"
 					score={analysis.professionalismScore}
-					description={getProfessionalismDescription(analysis.professionalismLevel)}
+					description={getProfessionalismDescription(
+						analysis.professionalismLevel
+					)}
 				/>
 				<MetricBar
 					label="Actualización"
@@ -110,4 +118,3 @@ export function MetricsSection({ analysis }: MetricsSectionProps) {
 		</Card>
 	)
 }
-

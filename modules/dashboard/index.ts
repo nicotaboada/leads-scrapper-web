@@ -29,4 +29,3 @@ export {
 	LEAD_STATUS_COLORS,
 	LEAD_STATUS_LABELS,
 } from './types/leads-summary'
-

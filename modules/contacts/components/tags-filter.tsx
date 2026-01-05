@@ -15,11 +15,18 @@ import { useAllTags } from 'modules/tags/hooks/use-all-tags'
 interface TagsFilterProps {
 	value: string[]
 	onApply: (tagIds: string[]) => void
+	/**
+	 * Pre-fetched tags to use instead of fetching internally.
+	 * When provided, improves performance by avoiding additional API calls.
+	 */
+	availableTags?: Array<{ id: string; name: string; color?: string | null }>
 }
 
-export function TagsFilter({ value, onApply }: TagsFilterProps) {
+export function TagsFilter({ value, onApply, availableTags }: TagsFilterProps) {
 	const [selectedTags, setSelectedTags] = useState<string[]>(value)
-	const { tags } = useAllTags()
+	// Use pre-fetched tags if provided, otherwise fetch internally
+	const { tags: fetchedTags } = useAllTags()
+	const tags = availableTags ?? fetchedTags
 
 	const hasFilters = value.length > 0
 
@@ -62,6 +69,7 @@ export function TagsFilter({ value, onApply }: TagsFilterProps) {
 					onChange={setSelectedTags}
 					placeholder="Seleccionar tags..."
 					autoOpen={false}
+					availableTags={availableTags}
 				/>
 			</div>
 		</FilterBy>

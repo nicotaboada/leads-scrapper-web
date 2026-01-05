@@ -135,7 +135,9 @@ export function FollowUpModal({
 				<div className="space-y-6 py-2">
 					{/* Date Picker */}
 					<div className="space-y-2.5">
-						<Label className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Fecha de vencimiento</Label>
+						<Label className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+							Fecha de vencimiento
+						</Label>
 						<DatePicker
 							date={dueDate}
 							onDateChange={setDueDate}
@@ -177,7 +179,12 @@ export function FollowUpModal({
 
 					{/* Note Input */}
 					<div className="space-y-2.5">
-						<Label htmlFor="note" className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Nota (opcional)</Label>
+						<Label
+							htmlFor="note"
+							className="text-sm font-semibold text-zinc-900 dark:text-zinc-100"
+						>
+							Nota (opcional)
+						</Label>
 						<Textarea
 							id="note"
 							placeholder="Ej: Llamar para confirmar reunión..."
@@ -208,14 +215,14 @@ export function FollowUpModal({
 					<div className="flex flex-1 gap-3 sm:justify-end">
 						<AlertDialogCancel
 							disabled={loading}
-							className="flex-1 rounded-xl border-zinc-200 font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-100 sm:flex-none"
+							className="flex-1 rounded-xl border-zinc-200 font-semibold text-zinc-900 hover:bg-zinc-50 sm:flex-none dark:border-zinc-800 dark:text-zinc-100"
 						>
 							Cancelar
 						</AlertDialogCancel>
 						<Button
 							onClick={handleSubmit}
 							disabled={!dueDate || loading}
-							className="flex-1 rounded-xl bg-zinc-900 font-semibold text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200 sm:flex-none"
+							className="flex-1 rounded-xl bg-zinc-900 font-semibold text-zinc-50 hover:bg-zinc-800 sm:flex-none dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
 						>
 							{loading ? 'Guardando...' : isEditMode ? 'Guardar' : 'Crear'}
 						</Button>

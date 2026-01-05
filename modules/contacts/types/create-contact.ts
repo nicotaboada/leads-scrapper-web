@@ -108,4 +108,3 @@ export const createContactSchema = z
 			path: ['newCompanyName'],
 		}
 	)
-

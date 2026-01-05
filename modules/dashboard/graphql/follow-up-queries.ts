@@ -41,4 +41,3 @@ export const GET_CONTACTS_WITH_FOLLOW_UP = gql`
 		}
 	}
 `
-

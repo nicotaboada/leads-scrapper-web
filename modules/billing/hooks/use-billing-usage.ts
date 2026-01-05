@@ -6,10 +6,12 @@ import type { BillingUsageQueryResponse, ServiceUsage } from '../types'
  * Hook to fetch billing usage data from all external services
  */
 export function useBillingUsage() {
-	const { data, loading, error, refetch } =
-		useQuery<BillingUsageQueryResponse>(GET_BILLING_USAGE, {
+	const { data, loading, error, refetch } = useQuery<BillingUsageQueryResponse>(
+		GET_BILLING_USAGE,
+		{
 			fetchPolicy: 'network-only',
-		})
+		}
+	)
 
 	const services: ServiceUsage[] = data?.billingUsage?.services ?? []
 	const lastUpdated = data?.billingUsage?.lastUpdated
@@ -24,4 +26,3 @@ export function useBillingUsage() {
 		refetch,
 	}
 }
-

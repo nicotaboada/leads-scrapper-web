@@ -13,10 +13,12 @@ interface UseAnalyzeWebsiteOptions {
 	onSuccess?: () => void
 }
 
-export function useAnalyzeWebsite({ contactId, onSuccess }: UseAnalyzeWebsiteOptions) {
-	const [analyzeWebsite, { loading }] = useMutation<AnalyzeWebsiteMutationResponse>(
-		ANALYZE_CONTACT_WEBSITE,
-		{
+export function useAnalyzeWebsite({
+	contactId,
+	onSuccess,
+}: UseAnalyzeWebsiteOptions) {
+	const [analyzeWebsite, { loading }] =
+		useMutation<AnalyzeWebsiteMutationResponse>(ANALYZE_CONTACT_WEBSITE, {
 			variables: { contactId },
 			refetchQueries: [
 				{
@@ -36,8 +38,7 @@ export function useAnalyzeWebsite({ contactId, onSuccess }: UseAnalyzeWebsiteOpt
 					description: error.message,
 				})
 			},
-		}
-	)
+		})
 
 	const runAnalysis = () => {
 		toast.info('Analizando sitio web...', {
@@ -51,4 +52,3 @@ export function useAnalyzeWebsite({ contactId, onSuccess }: UseAnalyzeWebsiteOpt
 		isAnalyzing: loading,
 	}
 }
-

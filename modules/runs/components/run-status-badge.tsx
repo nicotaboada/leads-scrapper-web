@@ -1,13 +1,6 @@
-import {
-	CheckCircle2,
-	Clock,
-	Loader2,
-	Pause,
-	Square,
-	XCircle,
-} from 'lucide-react'
-import { cn } from '@/lib/utils/merge'
+import { CheckCircle2, Clock, Loader2, Pause, XCircle } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
+import { cn } from '@/lib/utils/merge'
 import { RunStatus } from '../types/run'
 
 interface RunStatusBadgeProps {
@@ -79,7 +72,7 @@ export function RunStatusBadge({ status, className }: RunStatusBadgeProps) {
 		<Badge
 			variant="outline"
 			className={cn(
-				'px-2 py-0.5 h-6 text-xs font-medium transition-all duration-200',
+				'h-6 px-2 py-0.5 text-xs font-medium transition-all duration-200',
 				config.className,
 				className
 			)}

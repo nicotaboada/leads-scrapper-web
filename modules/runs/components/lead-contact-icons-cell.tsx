@@ -54,7 +54,7 @@ function ContactIcon({
 				className={cn(
 					'inline-flex items-center justify-center rounded p-1',
 					'cursor-pointer transition-all duration-150',
-					'hover:scale-110 hover:bg-accent',
+					'hover:bg-accent hover:scale-110',
 					enabledClassName
 				)}
 				aria-label={`Open ${label}`}
@@ -67,7 +67,7 @@ function ContactIcon({
 
 	return (
 		<span
-			className="inline-flex cursor-default items-center justify-center rounded p-1 text-muted-foreground/30"
+			className="text-muted-foreground/30 inline-flex cursor-default items-center justify-center rounded p-1"
 			aria-label={`No ${label}`}
 		>
 			<Icon className="h-4 w-4" />
@@ -96,7 +96,8 @@ export function LeadContactIconsCell({
 		? `https://wa.me/${formatPhoneForWhatsApp(phone)}`
 		: null
 
-	const enabledClassName = "text-zinc-900 dark:text-zinc-100 hover:text-black dark:hover:text-white"
+	const enabledClassName =
+		'text-zinc-900 dark:text-zinc-100 hover:text-black dark:hover:text-white'
 
 	return (
 		<div className="flex items-center gap-1">
@@ -121,4 +122,3 @@ export function LeadContactIconsCell({
 		</div>
 	)
 }
-

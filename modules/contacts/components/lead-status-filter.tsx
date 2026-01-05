@@ -17,8 +17,8 @@ import {
 	SelectValue,
 } from 'components/ui/select'
 import { cn } from 'lib/utils/merge'
-import { LeadStatus } from '../types'
 import { LEAD_STATUS_CONFIG } from './lead-status-selector'
+import { LeadStatus } from '../types'
 
 interface LeadStatusFilterProps {
 	/**
@@ -51,11 +51,13 @@ interface LeadStatusFilterProps {
 export function LeadStatusFilter({ value, onApply }: LeadStatusFilterProps) {
 	const [selectedValue, setSelectedValue] = useState<LeadStatus | null>(value)
 
-	const options = Object.entries(LEAD_STATUS_CONFIG).map(([status, config]) => ({
-		value: status as LeadStatus,
-		label: config.label,
-		color: config.color,
-	}))
+	const options = Object.entries(LEAD_STATUS_CONFIG).map(
+		([status, config]) => ({
+			value: status as LeadStatus,
+			label: config.label,
+			color: config.color,
+		})
+	)
 
 	// Sync internal state with prop value
 	useEffect(() => {
@@ -97,7 +99,10 @@ export function LeadStatusFilter({ value, onApply }: LeadStatusFilterProps) {
 							<SelectItem key={option.value} value={option.value}>
 								<div className="flex items-center gap-2">
 									<span
-										className={cn('h-3 w-3 shrink-0 rounded-full', option.color)}
+										className={cn(
+											'h-3 w-3 shrink-0 rounded-full',
+											option.color
+										)}
 									/>
 									<span>{option.label}</span>
 								</div>
@@ -109,4 +114,3 @@ export function LeadStatusFilter({ value, onApply }: LeadStatusFilterProps) {
 		</FilterBy>
 	)
 }
-

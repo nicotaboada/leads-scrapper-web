@@ -6,8 +6,8 @@
  * Displays the generated AI message with copy functionality
  */
 
+import { Check, Copy, Sparkles } from 'lucide-react'
 import { useState } from 'react'
-import { Copy, Check, Sparkles } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from 'components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from 'components/ui/card'
@@ -44,7 +44,9 @@ export function MessagePreview({
 	return (
 		<Card className={cn('flex h-full flex-col', className)}>
 			<CardHeader className="flex flex-row items-center justify-between pb-4">
-				<CardTitle className="text-base font-semibold">Mensaje generado</CardTitle>
+				<CardTitle className="text-base font-semibold">
+					Mensaje generado
+				</CardTitle>
 				{message && (
 					<Button
 						variant="outline"
@@ -78,7 +80,7 @@ export function MessagePreview({
 					</div>
 				) : message ? (
 					<div className="min-h-[200px] rounded-lg border border-dashed border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-700 dark:bg-zinc-900">
-						<p className="whitespace-pre-wrap text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
+						<p className="text-sm leading-relaxed whitespace-pre-wrap text-zinc-700 dark:text-zinc-300">
 							{message}
 						</p>
 					</div>
@@ -99,4 +101,3 @@ export function MessagePreview({
 		</Card>
 	)
 }
-

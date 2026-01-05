@@ -61,7 +61,7 @@ export function LoginForm() {
 			// Success case - loginAction will redirect to /dashboard
 			// This code won't execute due to redirect, but we keep it for clarity
 			toast.success('Login successful!')
-		} catch (_error) {
+		} catch {
 			// Catch any unexpected errors
 			toast.error('An unexpected error occurred')
 			setIsLoading(false)

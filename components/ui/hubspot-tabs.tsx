@@ -108,7 +108,7 @@ function HubSpotTabs({
 			className={cn('flex flex-col', className)}
 		>
 			{/* Tab Navigation - Outside of card, HubSpot style */}
-			<div className="relative mb-6 border-b border-border">
+			<div className="border-border relative mb-6 border-b">
 				<TabsPrimitive.List className="flex items-center gap-1">
 					{tabs.map((tab) => (
 						<TabsPrimitive.Trigger
@@ -136,7 +136,7 @@ function HubSpotTabs({
 
 				{/* Animated underline indicator */}
 				<motion.div
-					className="absolute bottom-0 z-20 h-0.5 bg-foreground"
+					className="bg-foreground absolute bottom-0 z-20 h-0.5"
 					layoutId="hubspot-tabs-underline"
 					style={{
 						left: underlineStyle.left,
@@ -165,4 +165,3 @@ function HubSpotTabs({
 }
 
 export { HubSpotTabs, type HubSpotTabsProps, type TabItem }
-

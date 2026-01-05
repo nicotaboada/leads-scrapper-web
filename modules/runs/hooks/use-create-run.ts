@@ -3,6 +3,7 @@ import { CREATE_RUN, GET_RUNS } from '../graphql'
 import type {
 	CreateRunInput,
 	CreateRunResponse,
+	Run,
 	RunFiltersInput,
 } from '../types/run'
 
@@ -22,7 +23,7 @@ export function useCreateRun() {
 
 			// Update cache to include the new run
 			const existingRuns = cache.readQuery<{
-				runs: any[]
+				runs: Run[]
 				filters?: RunFiltersInput
 			}>({
 				query: GET_RUNS,

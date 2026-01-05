@@ -22,7 +22,7 @@ export function EmptyState({
 			initial={{ opacity: 0, scale: 0.98 }}
 			animate={{ opacity: 1, scale: 1 }}
 			className={cn(
-				'flex flex-col items-center justify-center rounded-lg border border-dashed border-zinc-200 bg-zinc-50/30 py-10 px-6 text-center dark:border-zinc-800 dark:bg-zinc-900/10',
+				'flex flex-col items-center justify-center rounded-lg border border-dashed border-zinc-200 bg-zinc-50/30 px-6 py-10 text-center dark:border-zinc-800 dark:bg-zinc-900/10',
 				className
 			)}
 		>
@@ -33,11 +33,10 @@ export function EmptyState({
 				{title}
 			</h3>
 			{description && (
-				<p className="mt-1 text-xs font-medium text-zinc-500 max-w-[200px]">
+				<p className="mt-1 max-w-[200px] text-xs font-medium text-zinc-500">
 					{description}
 				</p>
 			)}
 		</motion.div>
 	)
 }
-

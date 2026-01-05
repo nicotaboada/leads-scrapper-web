@@ -31,4 +31,3 @@ export const ANALYZE_CONTACT_WEBSITE = gql`
 		}
 	}
 `
-

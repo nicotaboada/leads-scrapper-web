@@ -7,7 +7,15 @@
  * Shows email, phone, LinkedIn, job title, company information, and tags.
  */
 
-import { Briefcase, Building2, Linkedin, Mail, Pencil, Phone, Tag } from 'lucide-react'
+import {
+	Briefcase,
+	Building2,
+	Linkedin,
+	Mail,
+	Pencil,
+	Phone,
+	Tag,
+} from 'lucide-react'
 import Link from 'next/link'
 import { Button } from 'components/ui/button'
 import { ROUTES } from 'lib/config/routes'
@@ -36,20 +44,26 @@ function ContactField({
 }: ContactFieldProps) {
 	return (
 		<div className="flex items-start gap-3 py-3 transition-colors hover:bg-zinc-50/50 dark:hover:bg-zinc-900/50">
-			<div className="text-zinc-400 mt-0.5 shrink-0 dark:text-zinc-500">{icon}</div>
+			<div className="mt-0.5 shrink-0 text-zinc-400 dark:text-zinc-500">
+				{icon}
+			</div>
 			<div className="min-w-0 flex-1">
-				<p className="text-zinc-500 text-[10px] font-medium uppercase dark:text-zinc-400">{label}</p>
+				<p className="text-[10px] font-medium text-zinc-500 uppercase dark:text-zinc-400">
+					{label}
+				</p>
 				{href ? (
 					<Link
 						href={href}
 						target={isExternal ? '_blank' : undefined}
 						rel={isExternal ? 'noopener noreferrer' : undefined}
-						className="text-zinc-900 text-sm break-all font-medium hover:underline dark:text-zinc-100"
+						className="text-sm font-medium break-all text-zinc-900 hover:underline dark:text-zinc-100"
 					>
 						{value}
 					</Link>
 				) : (
-					<p className="text-zinc-900 text-sm break-all font-medium dark:text-zinc-100">{value}</p>
+					<p className="text-sm font-medium break-all text-zinc-900 dark:text-zinc-100">
+						{value}
+					</p>
 				)}
 			</div>
 		</div>
@@ -71,7 +85,9 @@ export function AboutContactSection({
 		return (
 			<div className="py-4">
 				<div className="mb-3 flex items-center justify-between gap-2">
-					<h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">About this contact</h3>
+					<h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+						About this contact
+					</h3>
 					{onEdit && (
 						<Button
 							variant="ghost"
@@ -83,7 +99,7 @@ export function AboutContactSection({
 						</Button>
 					)}
 				</div>
-				<p className="text-zinc-500 text-sm italic">
+				<p className="text-sm text-zinc-500 italic">
 					No hay información de contacto disponible.
 				</p>
 			</div>
@@ -93,7 +109,9 @@ export function AboutContactSection({
 	return (
 		<div className="py-4">
 			<div className="mb-4 flex items-center justify-between gap-2">
-				<h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">About this contact</h3>
+				<h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+					About this contact
+				</h3>
 				{onEdit && (
 					<Button
 						variant="ghost"
@@ -105,7 +123,7 @@ export function AboutContactSection({
 					</Button>
 				)}
 			</div>
-			<div className="divide-zinc-100 space-y-0.5 divide-y dark:divide-zinc-800">
+			<div className="space-y-0.5 divide-y divide-zinc-100 dark:divide-zinc-800">
 				{contact.email && (
 					<ContactField
 						icon={<Mail className="size-4" />}
@@ -148,14 +166,16 @@ export function AboutContactSection({
 				)}
 				{/* Tags Field */}
 				<div className="flex items-start gap-3 py-3 transition-colors hover:bg-zinc-50/50 dark:hover:bg-zinc-900/50">
-					<div className="text-zinc-400 mt-0.5 shrink-0 dark:text-zinc-500">
+					<div className="mt-0.5 shrink-0 text-zinc-400 dark:text-zinc-500">
 						<Tag className="size-4" />
 					</div>
 					<div className="min-w-0 flex-1">
-						<p className="text-zinc-500 text-[10px] font-medium uppercase dark:text-zinc-400">Tags</p>
+						<p className="text-[10px] font-medium text-zinc-500 uppercase dark:text-zinc-400">
+							Tags
+						</p>
 						<div className="mt-1.5 flex flex-wrap gap-1.5">
 							{!contact.tags || contact.tags.length === 0 ? (
-								<span className="text-zinc-400 text-sm italic">-</span>
+								<span className="text-sm text-zinc-400 italic">-</span>
 							) : (
 								contact.tags.map((tag) => (
 									<TagChip

@@ -8,8 +8,8 @@ import { useQuery } from '@apollo/client/react'
 import { useCallback, useMemo } from 'react'
 import { GET_CONTACTS_WITH_FOLLOW_UP } from '../graphql/follow-up-queries'
 import type {
-	ContactWithFollowUp,
 	ContactsWithFollowUpConnection,
+	ContactWithFollowUp,
 	FollowUpCategory,
 } from '../types/follow-up'
 
@@ -102,4 +102,3 @@ export function useContactsWithFollowUp(
 		refetch: handleRefetch,
 	}
 }
-

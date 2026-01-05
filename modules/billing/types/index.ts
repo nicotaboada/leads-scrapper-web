@@ -45,4 +45,3 @@ export interface BillingUsageResponse {
 export interface BillingUsageQueryResponse {
 	billingUsage: BillingUsageResponse
 }
-

@@ -18,13 +18,14 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table'
+// Unused - button moved to parent header
+// import { BulkActionHeader } from './bulk-action-header'
+import { SelectionDropdown } from './selection-dropdown'
+import { SocialIconsCell } from './social-icons-cell'
 import type { HeaderCheckboxState } from '../types/bulk-actions'
 import { RunStatus } from '../types/run'
 import type { PageInfo, RunResult } from '../types/run-result'
 import { extractGoogleMapsResult } from '../types/run-result'
-import { BulkActionHeader } from './bulk-action-header'
-import { SelectionDropdown } from './selection-dropdown'
-import { SocialIconsCell } from './social-icons-cell'
 
 interface RunResultsTableProps {
 	results: RunResult[]
@@ -42,8 +43,10 @@ interface RunResultsTableProps {
 	onSelectNone: () => void
 	onSelectPage: (pageIds: string[]) => void
 	onSelectAll: () => void
-	onCreateContacts: () => void
-	isCreatingContacts?: boolean
+	/** @deprecated No longer used - button is in parent header */
+	_onCreateContacts?: () => void
+	/** @deprecated No longer used - button is in parent header */
+	_isCreatingContacts?: boolean
 }
 
 /**
@@ -64,12 +67,12 @@ export function RunResultsTable({
 	onSelectNone,
 	onSelectPage,
 	onSelectAll,
-	onCreateContacts,
-	isCreatingContacts = false,
+	_onCreateContacts,
+	_isCreatingContacts = false,
 }: RunResultsTableProps) {
 	const totalCount = pageInfo?.totalCount ?? 0
 	const pageIds = results.map((r) => r.id)
-	const hasSelection = selectedCount > 0
+	const _hasSelection = selectedCount > 0
 
 	const handleSelectPage = () => {
 		onSelectPage(pageIds)
@@ -112,9 +115,11 @@ export function RunResultsTable({
 			<div className="rounded-lg border">
 				<div className="flex min-h-[400px] items-center justify-center">
 					<div className="space-y-3 text-center">
-						<Loader2 className="text-zinc-400 mx-auto h-8 w-8 animate-spin" />
+						<Loader2 className="mx-auto h-8 w-8 animate-spin text-zinc-400" />
 						<div>
-							<h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">Procesando ejecución...</h3>
+							<h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+								Procesando ejecución...
+							</h3>
 						</div>
 					</div>
 				</div>
@@ -128,7 +133,9 @@ export function RunResultsTable({
 			<div className="rounded-lg border">
 				<div className="flex min-h-[400px] items-center justify-center">
 					<div className="text-center">
-						<h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">No se encontraron resultados</h3>
+						<h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+							No se encontraron resultados
+						</h3>
 						<p className="text-muted-foreground mt-2 text-sm">
 							{runStatus === RunStatus.FAILED
 								? 'Esta ejecución falló y no produjo ningún resultado.'
@@ -143,10 +150,10 @@ export function RunResultsTable({
 	return (
 		<div className="space-y-4">
 			{/* Table */}
-			<div className="rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950 overflow-hidden shadow-sm">
+			<div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
 				<Table>
 					<TableHeader className="bg-zinc-50/50 dark:bg-zinc-900/50">
-						<TableRow className="hover:bg-transparent border-zinc-200 dark:border-zinc-800">
+						<TableRow className="border-zinc-200 hover:bg-transparent dark:border-zinc-800">
 							<TableHead className="w-[50px]">
 								<SelectionDropdown
 									headerState={headerCheckboxState}
@@ -158,8 +165,12 @@ export function RunResultsTable({
 									onSelectAll={onSelectAll}
 								/>
 							</TableHead>
-							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">Nombre del Lugar</TableHead>
-							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">Ciudad</TableHead>
+							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">
+								Nombre del Lugar
+							</TableHead>
+							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">
+								Ciudad
+							</TableHead>
 							<TableHead className="w-[140px] font-semibold text-zinc-900 dark:text-zinc-100" />
 						</TableRow>
 					</TableHeader>
@@ -204,16 +215,16 @@ export function RunResultsTable({
 
 			{/* Pagination Controls */}
 			{pageInfo && pageInfo.totalCount > 0 && (
-				<div className="flex items-center justify-between px-2 py-4 border-t border-zinc-100 dark:border-zinc-800">
+				<div className="flex items-center justify-between border-t border-zinc-100 px-2 py-4 dark:border-zinc-800">
 					<div className="flex items-center gap-2">
-						<span className="text-muted-foreground text-xs uppercase tracking-wider font-medium">
+						<span className="text-muted-foreground text-xs font-medium tracking-wider uppercase">
 							Resultados por página:
 						</span>
 						<Select
 							value={pageInfo.pageSize.toString()}
 							onValueChange={(value) => onPageSizeChange(Number(value))}
 						>
-							<SelectTrigger className="w-[70px] h-8 text-xs border-zinc-200 dark:border-zinc-800">
+							<SelectTrigger className="h-8 w-[70px] border-zinc-200 text-xs dark:border-zinc-800">
 								<SelectValue />
 							</SelectTrigger>
 							<SelectContent>
@@ -227,7 +238,8 @@ export function RunResultsTable({
 
 					<div className="flex items-center gap-4">
 						<span className="text-muted-foreground text-xs">
-							Página {pageInfo.currentPage} de {pageInfo.totalPages} ({pageInfo.totalCount} resultados totales)
+							Página {pageInfo.currentPage} de {pageInfo.totalPages} (
+							{pageInfo.totalCount} resultados totales)
 						</span>
 
 						<div className="flex items-center gap-2">
@@ -236,7 +248,7 @@ export function RunResultsTable({
 								size="sm"
 								onClick={() => onPageChange(pageInfo.currentPage - 1)}
 								disabled={!pageInfo.hasPreviousPage || loading}
-								className="h-8 px-3 text-xs border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900"
+								className="h-8 border-zinc-200 px-3 text-xs hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900"
 							>
 								Anterior
 							</Button>
@@ -245,7 +257,7 @@ export function RunResultsTable({
 								size="sm"
 								onClick={() => onPageChange(pageInfo.currentPage + 1)}
 								disabled={!pageInfo.hasNextPage || loading}
-								className="h-8 px-3 text-xs border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900"
+								className="h-8 border-zinc-200 px-3 text-xs hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900"
 							>
 								Siguiente
 							</Button>
@@ -256,10 +268,10 @@ export function RunResultsTable({
 
 			{/* Subscription indicator */}
 			{subscriptionActive && (
-				<div className="flex items-center justify-center gap-2 py-2 text-[10px] text-zinc-500 uppercase font-medium">
+				<div className="flex items-center justify-center gap-2 py-2 text-[10px] font-medium text-zinc-500 uppercase">
 					<span className="relative flex h-1.5 w-1.5">
-						<span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-400 opacity-75"></span>
-						<span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-zinc-500"></span>
+						<span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-zinc-400 opacity-75"></span>
+						<span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-zinc-500"></span>
 					</span>
 					Actualizaciones en vivo activas
 				</div>

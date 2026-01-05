@@ -1,3 +1,6 @@
+/** Type for raw data from external APIs */
+type RawData = Record<string, unknown>
+
 /**
  * Google Maps scraping result
  */
@@ -9,7 +12,7 @@ export interface GoogleMapsResult {
 	facebook?: string | null
 	linkedin?: string | null
 	// Raw data contains all fields from Apify
-	raw: Record<string, any>
+	raw: RawData
 }
 
 /**
@@ -18,8 +21,8 @@ export interface GoogleMapsResult {
 export interface RunResult {
 	id: string
 	runId: string
-	raw: Record<string, any>
-	normalized?: Record<string, any> | null
+	raw: RawData
+	normalized?: RawData | null
 	createdAt: string
 }
 

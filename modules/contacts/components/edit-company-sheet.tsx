@@ -32,6 +32,7 @@ import {
 	SheetTitle,
 } from 'components/ui/sheet'
 import { TagMultiselect } from 'modules/tags/components/tag-multiselect'
+import { useAllTags } from 'modules/tags/hooks/use-all-tags'
 import { useUpdateCompany } from '../hooks/use-update-company'
 import type { CompanyContact } from '../types'
 import {
@@ -53,6 +54,10 @@ export function EditCompanySheet({
 	onCompanyUpdated,
 }: EditCompanySheetProps) {
 	const { updateCompany, loading } = useUpdateCompany()
+	// Pre-fetch tags when sheet opens to avoid loading delay on input click
+	const { tags: availableTags } = useAllTags({
+		skip: !open,
+	})
 
 	const form = useForm<EditCompanyFormInput>({
 		resolver: zodResolver(editCompanySchema),
@@ -219,6 +224,7 @@ export function EditCompanySheet({
 												selectedTagIds={field.value}
 												onChange={field.onChange}
 												placeholder="Seleccionar tags..."
+												availableTags={availableTags}
 											/>
 										</FormControl>
 										<FormMessage />

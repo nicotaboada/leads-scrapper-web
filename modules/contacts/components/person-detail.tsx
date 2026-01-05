@@ -6,7 +6,7 @@
  * Displays detailed information for a Person contact type
  */
 
-import { Linkedin, Mail, Phone, User } from 'lucide-react'
+import { Linkedin, Mail, Phone } from 'lucide-react'
 import { Avatar, AvatarFallback } from 'components/ui/avatar'
 import { Card, CardContent, CardHeader } from 'components/ui/card'
 import { Skeleton } from 'components/ui/skeleton'

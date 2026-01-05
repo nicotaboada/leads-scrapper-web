@@ -7,7 +7,7 @@
  * Includes bulk selection, contact icons, and pagination controls.
  */
 
-import { Loader2, UserPlus } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -25,12 +25,12 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table'
+import { LeadContactIconsCell } from './lead-contact-icons-cell'
+import { SelectionDropdown } from './selection-dropdown'
 import type { HeaderCheckboxState } from '../types/bulk-actions'
 import type { Lead } from '../types/lead'
 import { getLeadDisplayName } from '../types/lead'
 import type { PageInfo } from '../types/run-result'
-import { LeadContactIconsCell } from './lead-contact-icons-cell'
-import { SelectionDropdown } from './selection-dropdown'
 
 interface LeadsEnrichmentTableProps {
 	leads: Lead[]
@@ -46,7 +46,9 @@ interface LeadsEnrichmentTableProps {
 	onSelectNone: () => void
 	onSelectPage: (pageIds: string[]) => void
 	onSelectAll: () => void
-	onAddContacts: () => void
+	/** @deprecated No longer used - button is in parent header */
+	onAddContacts?: () => void
+	/** @deprecated No longer used - button is in parent header */
 	isAddingContacts?: boolean
 }
 
@@ -66,12 +68,10 @@ export function LeadsEnrichmentTable({
 	onSelectNone,
 	onSelectPage,
 	onSelectAll,
-	onAddContacts,
-	isAddingContacts = false,
 }: LeadsEnrichmentTableProps) {
 	const totalCount = pageInfo?.totalCount ?? 0
 	const pageIds = leads.map((l) => l.id)
-	const hasSelection = selectedCount > 0
+	const _hasSelection = selectedCount > 0
 
 	const handleSelectPage = () => {
 		onSelectPage(pageIds)
@@ -80,14 +80,20 @@ export function LeadsEnrichmentTable({
 	// Loading state - show table structure with spinner
 	if (loading && leads.length === 0) {
 		return (
-			<div className="rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950 overflow-hidden shadow-sm">
+			<div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
 				<Table>
 					<TableHeader className="bg-zinc-50/50 dark:bg-zinc-900/50">
-						<TableRow className="hover:bg-transparent border-zinc-200 dark:border-zinc-800">
+						<TableRow className="border-zinc-200 hover:bg-transparent dark:border-zinc-800">
 							<TableHead className="w-[50px]" />
-							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">Full Name</TableHead>
-							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">Position</TableHead>
-							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">Company</TableHead>
+							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">
+								Full Name
+							</TableHead>
+							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">
+								Position
+							</TableHead>
+							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">
+								Company
+							</TableHead>
 							<TableHead className="w-[120px] font-semibold text-zinc-900 dark:text-zinc-100" />
 						</TableRow>
 					</TableHeader>
@@ -112,7 +118,9 @@ export function LeadsEnrichmentTable({
 			<div className="rounded-xl border border-dashed border-zinc-200 bg-zinc-50/50 dark:border-zinc-800 dark:bg-zinc-900/50">
 				<div className="flex min-h-[400px] items-center justify-center">
 					<div className="text-center">
-						<h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">No se encontraron leads</h3>
+						<h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+							No se encontraron leads
+						</h3>
 						<p className="text-muted-foreground mt-2 text-sm">
 							Esta ejecución no produjo ningún lead de persona.
 						</p>
@@ -125,10 +133,10 @@ export function LeadsEnrichmentTable({
 	return (
 		<div className="space-y-4">
 			{/* Table */}
-			<div className="rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950 overflow-hidden shadow-sm">
+			<div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
 				<Table>
 					<TableHeader className="bg-zinc-50/50 dark:bg-zinc-900/50">
-						<TableRow className="hover:bg-transparent border-zinc-200 dark:border-zinc-800">
+						<TableRow className="border-zinc-200 hover:bg-transparent dark:border-zinc-800">
 							<TableHead className="w-[50px]">
 								<SelectionDropdown
 									headerState={headerCheckboxState}
@@ -140,9 +148,15 @@ export function LeadsEnrichmentTable({
 									onSelectAll={onSelectAll}
 								/>
 							</TableHead>
-							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">Full Name</TableHead>
-							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">Position</TableHead>
-							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">Company</TableHead>
+							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">
+								Full Name
+							</TableHead>
+							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">
+								Position
+							</TableHead>
+							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">
+								Company
+							</TableHead>
 							<TableHead className="w-[120px] font-semibold text-zinc-900 dark:text-zinc-100" />
 						</TableRow>
 					</TableHeader>
@@ -190,16 +204,16 @@ export function LeadsEnrichmentTable({
 
 			{/* Pagination Controls */}
 			{pageInfo && pageInfo.totalCount > 0 && (
-				<div className="flex items-center justify-between px-2 py-4 border-t border-zinc-100 dark:border-zinc-800">
+				<div className="flex items-center justify-between border-t border-zinc-100 px-2 py-4 dark:border-zinc-800">
 					<div className="flex items-center gap-2">
-						<span className="text-muted-foreground text-xs uppercase tracking-wider font-medium">
+						<span className="text-muted-foreground text-xs font-medium tracking-wider uppercase">
 							Resultados por página:
 						</span>
 						<Select
 							value={pageInfo.pageSize.toString()}
 							onValueChange={(value) => onPageSizeChange(Number(value))}
 						>
-							<SelectTrigger className="w-[70px] h-8 text-xs border-zinc-200 dark:border-zinc-800">
+							<SelectTrigger className="h-8 w-[70px] border-zinc-200 text-xs dark:border-zinc-800">
 								<SelectValue />
 							</SelectTrigger>
 							<SelectContent>
@@ -213,7 +227,8 @@ export function LeadsEnrichmentTable({
 
 					<div className="flex items-center gap-4">
 						<span className="text-muted-foreground text-xs">
-							Página {pageInfo.currentPage} de {pageInfo.totalPages} ({pageInfo.totalCount} resultados totales)
+							Página {pageInfo.currentPage} de {pageInfo.totalPages} (
+							{pageInfo.totalCount} resultados totales)
 						</span>
 
 						<div className="flex items-center gap-2">
@@ -222,7 +237,7 @@ export function LeadsEnrichmentTable({
 								size="sm"
 								onClick={() => onPageChange(pageInfo.currentPage - 1)}
 								disabled={!pageInfo.hasPreviousPage || loading}
-								className="h-8 px-3 text-xs border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900"
+								className="h-8 border-zinc-200 px-3 text-xs hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900"
 							>
 								Anterior
 							</Button>
@@ -231,7 +246,7 @@ export function LeadsEnrichmentTable({
 								size="sm"
 								onClick={() => onPageChange(pageInfo.currentPage + 1)}
 								disabled={!pageInfo.hasNextPage || loading}
-								className="h-8 px-3 text-xs border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900"
+								className="h-8 border-zinc-200 px-3 text-xs hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900"
 							>
 								Siguiente
 							</Button>
@@ -242,4 +257,3 @@ export function LeadsEnrichmentTable({
 		</div>
 	)
 }
-

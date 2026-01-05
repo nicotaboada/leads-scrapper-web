@@ -36,4 +36,3 @@ export function useDeleteContact(): UseDeleteContactReturn {
 		error,
 	}
 }
-

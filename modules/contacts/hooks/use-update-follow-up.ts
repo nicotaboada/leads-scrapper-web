@@ -7,7 +7,7 @@
 import { useMutation } from '@apollo/client/react'
 import { toast } from 'sonner'
 import { UPDATE_FOLLOW_UP } from '../graphql/follow-up-mutations'
-import type { UpdateFollowUpInput, FollowUp } from '../types'
+import type { FollowUp, UpdateFollowUpInput } from '../types'
 
 interface UpdateFollowUpResponse {
 	updateFollowUp: FollowUp
@@ -26,9 +26,8 @@ interface UseUpdateFollowUpReturn {
  * Returns the updated follow-up on success, null on error
  */
 export function useUpdateFollowUp(): UseUpdateFollowUpReturn {
-	const [mutate, { loading }] = useMutation<UpdateFollowUpResponse>(
-		UPDATE_FOLLOW_UP
-	)
+	const [mutate, { loading }] =
+		useMutation<UpdateFollowUpResponse>(UPDATE_FOLLOW_UP)
 
 	const updateFollowUp = async (
 		id: string,
@@ -56,4 +55,3 @@ export function useUpdateFollowUp(): UseUpdateFollowUpReturn {
 		loading,
 	}
 }
-

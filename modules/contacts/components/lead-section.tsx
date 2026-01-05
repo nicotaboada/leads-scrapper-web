@@ -47,17 +47,20 @@ const CHANNEL_CONFIG = {
 	[ContactChannel.LINKEDIN]: {
 		icon: Linkedin,
 		label: 'LinkedIn',
-		activeClass: 'bg-zinc-200 text-zinc-900 dark:bg-zinc-700 dark:text-zinc-100',
+		activeClass:
+			'bg-zinc-200 text-zinc-900 dark:bg-zinc-700 dark:text-zinc-100',
 	},
 	[ContactChannel.WHATSAPP]: {
 		icon: MessageCircle,
 		label: 'WhatsApp',
-		activeClass: 'bg-zinc-200 text-zinc-900 dark:bg-zinc-700 dark:text-zinc-100',
+		activeClass:
+			'bg-zinc-200 text-zinc-900 dark:bg-zinc-700 dark:text-zinc-100',
 	},
 	[ContactChannel.EMAIL]: {
 		icon: Mail,
 		label: 'Email',
-		activeClass: 'bg-zinc-200 text-zinc-900 dark:bg-zinc-700 dark:text-zinc-100',
+		activeClass:
+			'bg-zinc-200 text-zinc-900 dark:bg-zinc-700 dark:text-zinc-100',
 	},
 } as const
 
@@ -76,7 +79,9 @@ export function LeadSection({ contact, onLeadChanged }: LeadSectionProps) {
 		<div className="py-4">
 			{/* Header row with pencil icon */}
 			<div className="mb-4 flex items-center justify-between gap-2">
-				<h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Lead</h3>
+				<h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+					Lead
+				</h3>
 				<Button
 					variant="ghost"
 					size="sm"
@@ -87,30 +92,36 @@ export function LeadSection({ contact, onLeadChanged }: LeadSectionProps) {
 				</Button>
 			</div>
 
-			<div className="divide-zinc-100 space-y-0.5 divide-y dark:divide-zinc-800">
+			<div className="space-y-0.5 divide-y divide-zinc-100 dark:divide-zinc-800">
 				{/* Status Row */}
 				<div className="flex items-start gap-3 py-3 transition-colors hover:bg-zinc-50/50 dark:hover:bg-zinc-900/50">
-					<div className="text-zinc-400 mt-1 shrink-0 dark:text-zinc-500">
+					<div className="mt-1 shrink-0 text-zinc-400 dark:text-zinc-500">
 						<div className={cn('size-2 rounded-full', statusConfig.color)} />
 					</div>
 					<div className="min-w-0 flex-1">
-						<p className="text-zinc-500 text-[10px] font-medium uppercase dark:text-zinc-400">Status</p>
+						<p className="text-[10px] font-medium text-zinc-500 uppercase dark:text-zinc-400">
+							Status
+						</p>
 						<div className="mt-1 flex items-center">
-							<span className="text-zinc-900 text-sm font-medium dark:text-zinc-100">{statusConfig.label}</span>
+							<span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+								{statusConfig.label}
+							</span>
 						</div>
 					</div>
 				</div>
 
 				{/* Channels Row */}
 				<div className="flex items-start gap-3 py-3 transition-colors hover:bg-zinc-50/50 dark:hover:bg-zinc-900/50">
-					<div className="text-zinc-400 mt-0.5 shrink-0 dark:text-zinc-500">
+					<div className="mt-0.5 shrink-0 text-zinc-400 dark:text-zinc-500">
 						<MessageCircle className="size-4" />
 					</div>
 					<div className="min-w-0 flex-1">
-						<p className="text-zinc-500 text-[10px] font-medium uppercase dark:text-zinc-400">Channels</p>
+						<p className="text-[10px] font-medium text-zinc-500 uppercase dark:text-zinc-400">
+							Channels
+						</p>
 						<div className="mt-1.5 flex gap-1.5">
 							{contact.contactedChannels.length === 0 ? (
-								<span className="text-zinc-400 text-sm italic">-</span>
+								<span className="text-sm text-zinc-400 italic">-</span>
 							) : (
 								contact.contactedChannels.map((channel) => {
 									const config = CHANNEL_CONFIG[channel]

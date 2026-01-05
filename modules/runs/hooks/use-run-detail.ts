@@ -4,6 +4,7 @@ import type { GetRunResponse } from '../types/run'
 
 /**
  * Hook to fetch run details for the detail page
+ * Uses cache-first to avoid loading state when data is already cached
  */
 export function useRunDetail(runId: string | null | undefined) {
 	const { data, loading, error, refetch } = useQuery<
@@ -12,12 +13,14 @@ export function useRunDetail(runId: string | null | undefined) {
 	>(GET_RUN, {
 		variables: { id: runId! },
 		skip: !runId,
-		fetchPolicy: 'cache-and-network',
+		fetchPolicy: 'cache-first',
+		nextFetchPolicy: 'cache-first',
 	})
 
 	return {
 		run: data?.run || null,
-		loading,
+		// Only show loading if we don't have cached data
+		loading: loading && !data,
 		error,
 		refetch,
 	}

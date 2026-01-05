@@ -13,8 +13,8 @@ import { useState } from 'react'
 import { Button } from 'components/ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from 'components/ui/tooltip'
 import { cn } from 'lib/utils/merge'
-import { type Contact, ContactChannel, getAvailableChannels } from '../types'
 import { useToggleContactChannel } from '../hooks/use-toggle-contact-channel'
+import { type Contact, ContactChannel, getAvailableChannels } from '../types'
 
 /**
  * Configuration for each contact channel
@@ -114,4 +114,3 @@ export function ContactChannelsToggle({
 		</div>
 	)
 }
-

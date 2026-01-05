@@ -1,15 +1,17 @@
 import { useQuery } from '@apollo/client/react'
 import { GET_API_KEYS } from '../graphql/queries'
-import type { ApiKey, ApiKeysQueryResponse, ApiKeyService } from '../types'
+import type { ApiKey, ApiKeyService, ApiKeysQueryResponse } from '../types'
 
 /**
  * Hook to fetch all API keys for the current user
  */
 export function useApiKeys() {
-	const { data, loading, error, refetch } =
-		useQuery<ApiKeysQueryResponse>(GET_API_KEYS, {
+	const { data, loading, error, refetch } = useQuery<ApiKeysQueryResponse>(
+		GET_API_KEYS,
+		{
 			fetchPolicy: 'cache-and-network',
-		})
+		}
+	)
 
 	const apiKeys: ApiKey[] = data?.apiKeys ?? []
 
@@ -60,4 +62,3 @@ export function useApiKeys() {
 		hasActiveKey,
 	}
 }
-

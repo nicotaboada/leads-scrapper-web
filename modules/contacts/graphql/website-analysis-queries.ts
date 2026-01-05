@@ -30,4 +30,3 @@ export const GET_WEBSITE_ANALYSIS = gql`
 		}
 	}
 `
-

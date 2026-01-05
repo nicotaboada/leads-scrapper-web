@@ -5,8 +5,8 @@
  */
 
 import type { LucideIcon } from 'lucide-react'
-import { Button } from 'components/ui/button'
 import { isValidElement } from 'react'
+import { Button } from 'components/ui/button'
 import {
 	Empty,
 	EmptyContent,

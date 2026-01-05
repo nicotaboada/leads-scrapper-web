@@ -23,9 +23,8 @@ interface UseCreateFollowUpReturn {
  * Returns the created follow-up on success, null on error
  */
 export function useCreateFollowUp(): UseCreateFollowUpReturn {
-	const [mutate, { loading }] = useMutation<CreateFollowUpResponse>(
-		CREATE_FOLLOW_UP
-	)
+	const [mutate, { loading }] =
+		useMutation<CreateFollowUpResponse>(CREATE_FOLLOW_UP)
 
 	const createFollowUp = async (
 		input: CreateFollowUpInput
@@ -50,4 +49,3 @@ export function useCreateFollowUp(): UseCreateFollowUpReturn {
 		loading,
 	}
 }
-

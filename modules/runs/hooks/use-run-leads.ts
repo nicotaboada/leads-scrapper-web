@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client/react'
 import { GET_RUN_LEADS } from '../graphql'
-import type { GetRunLeadsResponse, GetRunLeadsInput } from '../types/lead'
+import type { GetRunLeadsInput, GetRunLeadsResponse } from '../types/lead'
 
 interface UseRunLeadsOptions {
 	runId: string | null | undefined
@@ -35,15 +35,16 @@ export function useRunLeads({
 			},
 		},
 		skip: !runId || !enabled,
-		fetchPolicy: 'cache-and-network',
+		fetchPolicy: 'cache-first',
+		nextFetchPolicy: 'cache-first',
 	})
 
 	return {
 		leads: data?.getRunLeads.leads || [],
 		pageInfo: data?.getRunLeads.pageInfo || null,
-		loading,
+		// Only show loading if we don't have cached data
+		loading: loading && !data,
 		error,
 		refetch,
 	}
 }
-

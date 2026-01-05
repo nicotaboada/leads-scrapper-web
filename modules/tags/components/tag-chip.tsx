@@ -1,6 +1,7 @@
 'use client'
 
 import { X } from 'lucide-react'
+import { cn } from 'lib/utils/merge'
 import { TAG_COLOR_CONFIG, type TagColor } from '../types'
 
 /**
@@ -17,6 +18,7 @@ interface TagChipProps {
 	onRemove?: (tagId: string) => void
 	disabled?: boolean
 	size?: 'sm' | 'default'
+	variant?: 'default' | 'neutral'
 }
 
 const SIZE_CLASSES = {
@@ -33,23 +35,37 @@ const SIZE_CLASSES = {
 /**
  * Individual tag chip with color and optional remove button
  */
-export function TagChip({ tag, onRemove, disabled, size = 'default' }: TagChipProps) {
+export function TagChip({
+	tag,
+	onRemove,
+	disabled,
+	size = 'default',
+	variant = 'default',
+}: TagChipProps) {
 	const colorConfig = tag.color ? TAG_COLOR_CONFIG[tag.color as TagColor] : null
 	const isRemovable = onRemove && !disabled
 	const sizeClasses = SIZE_CLASSES[size]
 
+	const isColored = variant === 'default' && colorConfig
+
 	return (
 		<span
-			className={`bg-secondary inline-flex items-center ${sizeClasses.container}`}
+			className={cn(
+				'bg-secondary text-secondary-foreground inline-flex items-center transition-colors',
+				sizeClasses.container
+			)}
 			style={
-				colorConfig
-					? { backgroundColor: `${colorConfig.hex}20`, color: colorConfig.hex }
+				isColored
+					? {
+							backgroundColor: `${colorConfig.hex}20`,
+							color: colorConfig.hex,
+						}
 					: undefined
 			}
 		>
 			{colorConfig && (
 				<span
-					className={`${sizeClasses.dot} shrink-0 rounded-sm`}
+					className={cn(sizeClasses.dot, 'shrink-0 rounded-sm')}
 					style={{ backgroundColor: colorConfig.hex }}
 				/>
 			)}

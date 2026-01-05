@@ -1,11 +1,12 @@
 'use client'
 
+import { UserPlusIcon } from 'lucide-react'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useState } from 'react'
 import { toast } from 'sonner'
-import { UserPlusIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { BulkCreateModal } from '@/modules/runs/components/bulk-create-modal'
+import { LeadsCompanyWarningModal } from '@/modules/runs/components/leads-company-warning-modal'
 import { LeadsEnrichmentTab } from '@/modules/runs/components/leads-enrichment-tab'
 import { RunDetailHeader } from '@/modules/runs/components/run-detail-header'
 import {
@@ -15,6 +16,7 @@ import {
 import { RunResultsTable } from '@/modules/runs/components/run-results-table'
 import { RunStatusSection } from '@/modules/runs/components/run-status-section'
 import { useBulkCreateCompanies } from '@/modules/runs/hooks/use-bulk-create-companies'
+import { useBulkCreatePersonContacts } from '@/modules/runs/hooks/use-bulk-create-person-contacts'
 import { useBulkSelection } from '@/modules/runs/hooks/use-bulk-selection'
 import { useRunDetail } from '@/modules/runs/hooks/use-run-detail'
 import { useRunResults } from '@/modules/runs/hooks/use-run-results'
@@ -33,26 +35,19 @@ export default function RunDetailPage() {
 	const tabParam = searchParams.get('tab')
 	const activeTab: RunDetailTab = tabParam === 'leads' ? 'leads' : 'overview'
 
-	// Handle tab change with URL update
-	const handleTabChange = useCallback(
-		(tab: RunDetailTab) => {
-			const url = new URL(window.location.href)
-			if (tab === 'overview') {
-				url.searchParams.delete('tab')
-			} else {
-				url.searchParams.set('tab', tab)
-			}
-			router.push(url.pathname + url.search)
-		},
-		[router]
-	)
+	// Pagination state for Overview tab
+	const [overviewPage, setOverviewPage] = useState(1)
+	const [overviewPageSize, setOverviewPageSize] = useState(10)
 
-	// Pagination state
-	const [page, setPage] = useState(1)
-	const [pageSize, setPageSize] = useState(10)
+	// Pagination state for Leads tab
+	const [leadsPage, setLeadsPage] = useState(1)
+	const [leadsPageSize, setLeadsPageSize] = useState(10)
+	const [leadsTotalCount, setLeadsTotalCount] = useState(0)
+	const [leadsPageIds, setLeadsPageIds] = useState<string[]>([])
 
 	// Modal state
-	const [isModalOpen, setIsModalOpen] = useState(false)
+	const [isCompanyModalOpen, setIsCompanyModalOpen] = useState(false)
+	const [isPersonModalOpen, setIsPersonModalOpen] = useState(false)
 
 	// Fetch run details
 	const { run, loading: runLoading, error: runError } = useRunDetail(runId)
@@ -66,67 +61,161 @@ export default function RunDetailPage() {
 		subscriptionActive,
 	} = useRunResults({
 		runId,
-		page,
-		pageSize,
+		page: overviewPage,
+		pageSize: overviewPageSize,
 		enabled: true,
 		initialRun: run,
 	})
 
 	// Use the run from results hook or fallback to initial run
 	const displayRun = currentRun || run
-	const totalCount = pageInfo?.totalCount ?? 0
+	const overviewTotalCount = pageInfo?.totalCount ?? 0
 
-	// Bulk selection
+	// Bulk selection for Overview tab (Companies)
 	const {
-		toggleItem,
-		selectNone,
-		selectPage,
-		selectAll,
-		isSelected,
-		getSelectedCount,
-		getHeaderCheckboxState,
-		getSelectionPayload,
-	} = useBulkSelection({ totalCount })
+		toggleItem: toggleOverviewItem,
+		selectNone: selectOverviewNone,
+		selectPage: selectOverviewPage,
+		selectAll: selectOverviewAll,
+		isSelected: isOverviewSelected,
+		getSelectedCount: getOverviewSelectedCount,
+		getHeaderCheckboxState: getOverviewHeaderCheckboxState,
+		getSelectionPayload: getOverviewSelectionPayload,
+	} = useBulkSelection({ totalCount: overviewTotalCount })
 
-	// Bulk create mutation
-	const { bulkCreate, loading: isCreating } = useBulkCreateCompanies()
+	// Bulk selection for Leads tab (Persons)
+	const {
+		toggleItem: toggleLeadsItem,
+		selectNone: selectLeadsNone,
+		selectPage: selectLeadsPage,
+		selectAll: selectLeadsAll,
+		isSelected: isLeadsSelected,
+		getSelectedCount: getLeadsSelectedCount,
+		getHeaderCheckboxState: getLeadsHeaderCheckboxState,
+		getSelectionPayload: getLeadsSelectionPayload,
+	} = useBulkSelection({ totalCount: leadsTotalCount })
 
-	const pageIds = results.map((r: { id: string }) => r.id)
-	const selectedCount = getSelectedCount()
-	const headerCheckboxState = getHeaderCheckboxState(pageIds)
-	const hasSelection = selectedCount > 0
+	// Bulk create mutations
+	const { bulkCreate: bulkCreateCompanies, loading: isCreatingCompanies } =
+		useBulkCreateCompanies()
+	const { bulkCreate: bulkCreatePersons, loading: isCreatingPersons } =
+		useBulkCreatePersonContacts()
 
-	// Reset to page 1 when page size changes
-	const handlePageSizeChange = (newPageSize: number) => {
-		setPageSize(newPageSize)
-		setPage(1)
+	const isCreating = isCreatingCompanies || isCreatingPersons
+
+	// Overview tab selection state
+	const overviewPageIds = results.map((r: { id: string }) => r.id)
+	const overviewSelectedCount = getOverviewSelectedCount()
+	const overviewHeaderCheckboxState =
+		getOverviewHeaderCheckboxState(overviewPageIds)
+
+	// Leads tab selection state
+	const leadsSelectedCount = getLeadsSelectedCount()
+	const leadsHeaderCheckboxState = getLeadsHeaderCheckboxState(leadsPageIds)
+
+	// Determine which selection count to show based on active tab
+	const activeSelectedCount =
+		activeTab === 'overview' ? overviewSelectedCount : leadsSelectedCount
+	const hasSelection = activeSelectedCount > 0
+
+	// Handle tab change with URL update and reset selections
+	const handleTabChange = useCallback(
+		(tab: RunDetailTab) => {
+			// Reset the OTHER tab's selection when switching
+			if (tab === 'overview') {
+				selectLeadsNone()
+			} else {
+				selectOverviewNone()
+			}
+
+			const url = new URL(window.location.href)
+			if (tab === 'overview') {
+				url.searchParams.delete('tab')
+			} else {
+				url.searchParams.set('tab', tab)
+			}
+			router.push(url.pathname + url.search)
+		},
+		[router, selectLeadsNone, selectOverviewNone]
+	)
+
+	// Reset to page 1 when page size changes (Overview)
+	const handleOverviewPageSizeChange = (newPageSize: number) => {
+		setOverviewPageSize(newPageSize)
+		setOverviewPage(1)
 	}
 
-	// Handle create contacts button click
+	// Reset to page 1 when page size changes (Leads)
+	const handleLeadsPageSizeChange = (newPageSize: number) => {
+		setLeadsPageSize(newPageSize)
+		setLeadsPage(1)
+	}
+
+	// Handle create contacts button click - opens correct modal based on tab
 	const handleCreateContactsClick = () => {
-		setIsModalOpen(true)
+		if (activeTab === 'overview') {
+			setIsCompanyModalOpen(true)
+		} else {
+			setIsPersonModalOpen(true)
+		}
 	}
 
-	// Handle confirm bulk create
-	const handleConfirmBulkCreate = async () => {
+	// Handle confirm bulk create for Companies (Overview tab)
+	const handleConfirmBulkCreateCompanies = async () => {
 		try {
-			const payload = getSelectionPayload()
+			const payload = getOverviewSelectionPayload()
 
-			const result = await bulkCreate({
+			const result = await bulkCreateCompanies({
 				runId,
 				selectionMode: payload.selectionMode,
 				selectedIds: payload.selectedIds,
 				deselectedIds: payload.deselectedIds,
-				page,
-				pageSize,
+				page: overviewPage,
+				pageSize: overviewPageSize,
 			})
 
-			setIsModalOpen(false)
-			selectNone()
+			setIsCompanyModalOpen(false)
+			selectOverviewNone()
 
 			if (result.errorCount === 0) {
 				toast.success(`${result.createdCount} contacts created successfully`)
 			} else {
+				toast.warning(
+					`${result.createdCount} contacts created. ${result.errorCount} failed.`
+				)
+			}
+
+			// Redirect to contacts page
+			router.push('/contacts')
+		} catch (error) {
+			console.error('Error creating contacts:', error)
+			toast.error('Failed to create contacts. Please try again.')
+		}
+	}
+
+	// Handle confirm bulk create for Persons (Leads tab)
+	const handleConfirmBulkCreatePersons = async () => {
+		try {
+			const payload = getLeadsSelectionPayload()
+
+			const result = await bulkCreatePersons({
+				runId,
+				selectionMode: payload.selectionMode,
+				selectedIds: payload.selectedIds,
+				deselectedIds: payload.deselectedIds,
+			})
+
+			setIsPersonModalOpen(false)
+			selectLeadsNone()
+
+			// Show appropriate toast based on results
+			if (result.errorCount === 0 && result.createdWithoutCompanyCount === 0) {
+				toast.success(`${result.createdCount} contacts created successfully`)
+			} else if (result.createdWithoutCompanyCount > 0) {
+				toast.warning(
+					`${result.createdCount} contacts created. ${result.createdWithoutCompanyCount} created without company.`
+				)
+			} else if (result.errorCount > 0) {
 				toast.warning(
 					`${result.createdCount} contacts created. ${result.errorCount} failed.`
 				)
@@ -192,7 +281,7 @@ export default function RunDetailPage() {
 				<Button
 					onClick={handleCreateContactsClick}
 					disabled={isCreating || !hasSelection}
-					className="bg-zinc-900 text-zinc-50 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-950 dark:hover:bg-zinc-200 transition-all duration-200 shadow-sm"
+					className="bg-zinc-900 text-zinc-50 shadow-sm transition-all duration-200 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-950 dark:hover:bg-zinc-200"
 				>
 					<UserPlusIcon className="mr-2 size-4" />
 					Create Contacts
@@ -210,18 +299,18 @@ export default function RunDetailPage() {
 					loading={resultsLoading}
 					runStatus={displayRun?.status || RunStatus.PAUSED}
 					subscriptionActive={subscriptionActive}
-					onPageChange={setPage}
-					onPageSizeChange={handlePageSizeChange}
+					onPageChange={setOverviewPage}
+					onPageSizeChange={handleOverviewPageSizeChange}
 					// Bulk selection props
-					selectedCount={selectedCount}
-					headerCheckboxState={headerCheckboxState}
-					isSelected={isSelected}
-					onToggleItem={toggleItem}
-					onSelectNone={selectNone}
-					onSelectPage={selectPage}
-					onSelectAll={selectAll}
+					selectedCount={overviewSelectedCount}
+					headerCheckboxState={overviewHeaderCheckboxState}
+					isSelected={isOverviewSelected}
+					onToggleItem={toggleOverviewItem}
+					onSelectNone={selectOverviewNone}
+					onSelectPage={selectOverviewPage}
+					onSelectAll={selectOverviewAll}
 					onCreateContacts={handleCreateContactsClick}
-					isCreatingContacts={isCreating}
+					isCreatingContacts={isCreatingCompanies}
 				/>
 			) : (
 				<LeadsEnrichmentTab
@@ -229,17 +318,40 @@ export default function RunDetailPage() {
 					scrapeLeadsEnabled={
 						displayRun?.input?.scrapeReviewsPersonalData ?? false
 					}
-					onAddContacts={handleCreateContactsClick}
+					page={leadsPage}
+					pageSize={leadsPageSize}
+					onPageChange={setLeadsPage}
+					onPageSizeChange={handleLeadsPageSizeChange}
+					// Bulk selection props
+					selectedCount={leadsSelectedCount}
+					headerCheckboxState={leadsHeaderCheckboxState}
+					isSelected={isLeadsSelected}
+					onToggleItem={toggleLeadsItem}
+					onSelectNone={selectLeadsNone}
+					onSelectPage={selectLeadsPage}
+					onSelectAll={selectLeadsAll}
+					onTotalCountChange={setLeadsTotalCount}
+					onPageIdsChange={setLeadsPageIds}
 				/>
 			)}
 
-			{/* Bulk Create Modal */}
+			{/* Bulk Create Modal for Companies (Overview tab) */}
 			<BulkCreateModal
-				open={isModalOpen}
-				onOpenChange={setIsModalOpen}
-				selectedCount={selectedCount}
-				onConfirm={handleConfirmBulkCreate}
-				loading={isCreating}
+				open={isCompanyModalOpen}
+				onOpenChange={setIsCompanyModalOpen}
+				selectedCount={overviewSelectedCount}
+				onConfirm={handleConfirmBulkCreateCompanies}
+				loading={isCreatingCompanies}
+			/>
+
+			{/* Bulk Create Modal for Persons (Leads tab) */}
+			<LeadsCompanyWarningModal
+				open={isPersonModalOpen}
+				onOpenChange={setIsPersonModalOpen}
+				selectedCount={leadsSelectedCount}
+				onCancel={() => setIsPersonModalOpen(false)}
+				onProceed={handleConfirmBulkCreatePersons}
+				loading={isCreatingPersons}
 			/>
 		</div>
 	)
