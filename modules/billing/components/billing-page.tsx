@@ -31,7 +31,7 @@ export function BillingPage() {
 		<div className="space-y-6">
 			<SectionHeader
 				title="Billings & Usage"
-				description={
+				subtitle={
 					lastUpdated
 						? `Last updated: ${formatLastUpdated(lastUpdated)}`
 						: undefined

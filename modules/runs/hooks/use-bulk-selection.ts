@@ -135,7 +135,7 @@ export function useBulkSelection({
 	const getSelectionPayload = useCallback((): SelectionPayload => {
 		if (selectionState.mode === 'all') {
 			return {
-				selectionMode: BulkSelectionMode.ALL,
+				selectionMode: BulkSelectionMode.ALL_EXCEPT,
 				selectedIds: [],
 				deselectedIds: Array.from(selectionState.deselectedIds),
 			}

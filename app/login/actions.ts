@@ -59,9 +59,9 @@ export async function loginAction(
 	const validationResult = loginSchema.safeParse({ email, password })
 
 	if (!validationResult.success) {
-		const firstError = validationResult.error.errors[0]
+		const firstIssue = validationResult.error.issues[0]
 		return {
-			error: firstError?.message || 'Validation error',
+			error: firstIssue?.message || 'Validation error',
 		}
 	}
 

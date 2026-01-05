@@ -95,7 +95,8 @@ function parseIssueToDetail(issue: string, index: number): IssueDetail {
 	// Try partial matching
 	const lowerIssue = issue.toLowerCase()
 	for (const [key, value] of Object.entries(issueMap)) {
-		if (lowerIssue.includes(key.toLowerCase().split(' ')[0])) {
+		const firstWord = key.toLowerCase().split(' ')[0] ?? ''
+		if (lowerIssue.includes(firstWord)) {
 			return value
 		}
 	}

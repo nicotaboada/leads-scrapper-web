@@ -115,8 +115,10 @@ export function AddActivitySheet({
 
 	function getContactInitials(): string {
 		const parts = contactName.split(' ')
-		if (parts.length >= 2) {
-			return `${parts[0].charAt(0)}${parts[1].charAt(0)}`.toUpperCase()
+		const first = parts[0]
+		const second = parts[1]
+		if (parts.length >= 2 && first && second) {
+			return `${first.charAt(0)}${second.charAt(0)}`.toUpperCase()
 		}
 		return contactName.substring(0, 2).toUpperCase()
 	}

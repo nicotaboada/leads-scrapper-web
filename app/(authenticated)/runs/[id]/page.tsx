@@ -309,14 +309,12 @@ export default function RunDetailPage() {
 					onSelectNone={selectOverviewNone}
 					onSelectPage={selectOverviewPage}
 					onSelectAll={selectOverviewAll}
-					onCreateContacts={handleCreateContactsClick}
-					isCreatingContacts={isCreatingCompanies}
 				/>
 			) : (
 				<LeadsEnrichmentTab
 					runId={runId}
 					scrapeLeadsEnabled={
-						displayRun?.input?.scrapeReviewsPersonalData ?? false
+						(displayRun?.input?.scrapeReviewsPersonalData as boolean) ?? false
 					}
 					page={leadsPage}
 					pageSize={leadsPageSize}

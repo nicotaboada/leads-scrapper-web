@@ -148,7 +148,8 @@ export function issueToProblem(issue: string): ProblemForMessage | null {
 	// Try partial matching
 	const lowerIssue = issue.toLowerCase()
 	for (const [key, value] of Object.entries(ISSUE_TO_PROBLEM)) {
-		if (lowerIssue.includes(key.toLowerCase().split(' ')[0])) {
+		const firstWord = key.toLowerCase().split(' ')[0] ?? ''
+		if (lowerIssue.includes(firstWord)) {
 			return value
 		}
 	}

@@ -67,14 +67,26 @@ function getFirstOrNull(arr: unknown): string | null {
  * Helper to extract Google Maps data from raw result
  */
 export function extractGoogleMapsResult(result: RunResult): GoogleMapsResult {
-	const raw = result.raw
+	const raw = result.raw as Record<string, unknown>
+	const location = raw.location as Record<string, unknown> | undefined
 	return {
-		placeName: raw.title || raw.name || raw.placeName || 'Unknown',
-		website: raw.website || raw.url || null,
-		city: raw.city || raw.addressCity || raw.location?.city || null,
-		instagram: raw.instagram || getFirstOrNull(raw.instagrams),
-		facebook: raw.facebook || getFirstOrNull(raw.facebooks),
-		linkedin: raw.linkedin || getFirstOrNull(raw.linkedIns),
+		placeName:
+			(raw.title as string) ||
+			(raw.name as string) ||
+			(raw.placeName as string) ||
+			'Unknown',
+		website: (raw.website as string) || (raw.url as string) || null,
+		city:
+			(raw.city as string) ||
+			(raw.addressCity as string) ||
+			(location?.city as string) ||
+			null,
+		instagram:
+			(raw.instagram as string) || getFirstOrNull(raw.instagrams as unknown[]),
+		facebook:
+			(raw.facebook as string) || getFirstOrNull(raw.facebooks as unknown[]),
+		linkedin:
+			(raw.linkedin as string) || getFirstOrNull(raw.linkedIns as unknown[]),
 		raw,
 	}
 }
