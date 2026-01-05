@@ -17,7 +17,7 @@ interface BreadcrumbProps {
  * ```tsx
  * <Breadcrumb
  *   items={[
- *     { icon: GraduationCap, label: 'Estudiantes', href: '/students' },
+ *     { icon: Users, label: 'Contactos', href: '/contacts' },
  *     { label: 'Juan Pérez' }
  *   ]}
  * />
@@ -27,11 +27,11 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
 	return (
 		<nav
 			aria-label="Breadcrumb"
-			className={cn('flex items-center gap-2 py-6', className)}
+			className={cn('flex items-center gap-2', className)}
 		>
 			{items.map((item, index) => {
 				const isLast = index === items.length - 1
-				const isFirst = index === 0
+				const _isFirst = index === 0
 				const Icon = item.icon
 
 				return (
@@ -40,26 +40,26 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
 							<Link
 								href={item.href}
 								className={cn(
-									'hover:text-foreground text-md flex items-center gap-2 transition-colors',
+									'hover:text-foreground flex items-center gap-2 text-sm transition-colors',
 									isLast
-										? 'text-foreground font-medium'
+										? 'text-foreground font-semibold'
 										: 'text-muted-foreground',
 									'focus-visible:ring-ring rounded-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none'
 								)}
 							>
-								{isFirst && Icon && <Icon className="h-4 w-4" />}
+								{Icon && <Icon className="h-4 w-4" />}
 								<span>{item.label}</span>
 							</Link>
 						) : (
 							<span
 								className={cn(
-									'flex items-center gap-2 text-lg',
+									'flex items-center gap-2 text-sm',
 									isLast
-										? 'text-foreground font-medium'
+										? 'text-foreground font-semibold'
 										: 'text-muted-foreground'
 								)}
 							>
-								{isFirst && Icon && <Icon className="h-4 w-4" />}
+								{Icon && <Icon className="h-4 w-4" />}
 								<span>{item.label}</span>
 							</span>
 						)}
@@ -76,8 +76,3 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
 		</nav>
 	)
 }
-
-
-
-
-

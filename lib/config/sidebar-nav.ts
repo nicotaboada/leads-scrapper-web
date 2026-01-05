@@ -1,13 +1,4 @@
-import {
-	BookOpen,
-	DollarSign,
-	FileSpreadsheet,
-	FileText,
-	GraduationCap,
-	LayoutDashboard,
-	Settings,
-	UserCheck,
-} from 'lucide-react'
+import { Activity, LayoutDashboard, Settings, Users } from 'lucide-react'
 import { type NavItem } from 'types/sidebar'
 import { ROUTES } from './routes'
 
@@ -46,41 +37,16 @@ export const navigationItems: NavItem[] = [
 		icon: LayoutDashboard,
 	},
 	{
-		id: 'students',
-		label: 'Estudiantes',
-		href: ROUTES.STUDENTS,
-		icon: GraduationCap,
+		id: 'runs',
+		label: 'Runs',
+		href: ROUTES.RUNS,
+		icon: Activity,
 	},
 	{
-		id: 'teachers',
-		label: 'Profesores',
-		href: ROUTES.TEACHERS,
-		icon: UserCheck,
-	},
-	{
-		id: 'classes',
-		label: 'Clases',
-		href: ROUTES.CLASSES,
-		icon: BookOpen,
-	},
-	{
-		id: 'finanzas',
-		label: 'Finanzas',
-		icon: DollarSign,
-		children: [
-			{
-				id: 'facturacion',
-				label: 'Facturación',
-				href: ROUTES.FACTURACION,
-				icon: FileText,
-			},
-			{
-				id: 'invoices',
-				label: 'Facturas',
-				href: ROUTES.INVOICES,
-				icon: FileSpreadsheet,
-			},
-		],
+		id: 'contacts',
+		label: 'Contactos',
+		href: ROUTES.CONTACTS,
+		icon: Users,
 	},
 	{
 		id: 'settings',

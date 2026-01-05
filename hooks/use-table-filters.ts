@@ -1,5 +1,8 @@
 import { useCallback, useMemo, useState } from 'react'
 
+/** Type for filter values */
+type FilterValue = string | number | boolean | null | undefined
+
 /**
  * Options for the useTableFilters hook
  */
@@ -7,12 +10,12 @@ interface UseTableFiltersOptions {
 	/**
 	 * Initial filter values
 	 */
-	initialFilters?: Record<string, any>
+	initialFilters?: Record<string, FilterValue>
 
 	/**
 	 * Callback fired when any filter changes
 	 */
-	onChange?: (filters: Record<string, any>) => void
+	onChange?: (filters: Record<string, FilterValue>) => void
 }
 
 /**
@@ -22,12 +25,12 @@ interface UseTableFiltersReturn {
 	/**
 	 * Current filter values
 	 */
-	filters: Record<string, any>
+	filters: Record<string, FilterValue>
 
 	/**
 	 * Set a specific filter value
 	 */
-	setFilter: (key: string, value: any) => void
+	setFilter: (key: string, value: FilterValue) => void
 
 	/**
 	 * Clear a specific filter
@@ -47,7 +50,7 @@ interface UseTableFiltersReturn {
 	/**
 	 * Filters formatted for API queries (removes null/undefined values)
 	 */
-	queryFilters: Record<string, any>
+	queryFilters: Record<string, NonNullable<FilterValue>>
 }
 
 /**
@@ -77,7 +80,7 @@ interface UseTableFiltersReturn {
  *
  * // Pass to API
  * useBackendPagination({
- *   query: GET_STUDENTS,
+ *   query: GET_CONTACTS,
  *   queryVariables: {
  *     search: searchQuery,
  *     ...queryFilters
@@ -90,10 +93,11 @@ export function useTableFilters(
 ): UseTableFiltersReturn {
 	const { initialFilters = {}, onChange } = options
 
-	const [filters, setFilters] = useState<Record<string, any>>(initialFilters)
+	const [filters, setFilters] =
+		useState<Record<string, FilterValue>>(initialFilters)
 
 	const setFilter = useCallback(
-		(key: string, value: any) => {
+		(key: string, value: FilterValue) => {
 			setFilters((prev) => {
 				const newFilters = { ...prev, [key]: value }
 				onChange?.(newFilters)
@@ -138,7 +142,7 @@ export function useTableFilters(
 				}
 				return acc
 			},
-			{} as Record<string, any>
+			{} as Record<string, NonNullable<FilterValue>>
 		)
 	}, [filters])
 

@@ -10,10 +10,10 @@
  * import { ROUTES } from 'lib/config/routes'
  *
  * // In components
- * <Link href={ROUTES.STUDENTS}>Students</Link>
+ * <Link href={ROUTES.CONTACTS}>Contacts</Link>
  *
  * // Dynamic routes
- * router.push(ROUTES.STUDENT_DETAIL('123'))
+ * router.push(ROUTES.CONTACT_COMPANY_DETAIL('123'))
  *
  * // In middleware or guards
  * if (PUBLIC_ROUTES.includes(pathname)) { ... }
@@ -31,23 +31,19 @@ export const ROUTES = {
 	// Authenticated routes
 	DASHBOARD: '/dashboard',
 
-	// Students module
-	STUDENTS: '/students',
-	STUDENT_DETAIL: (id: string) => `/students/${id}`,
+	// Runs module
+	RUNS: '/runs',
+	RUN_DETAIL: (id: string) => `/runs/${id}`,
 
-	// Teachers module
-	TEACHERS: '/teachers',
-
-	// Classes module
-	CLASSES: '/classes',
-
-	// Finance module
-	FINANZAS: '/finanzas',
-	FACTURACION: '/finanzas/facturacion',
-	INVOICES: '/finanzas/invoices',
+	// Contacts module
+	CONTACTS: '/contacts',
+	CONTACT_PERSON_DETAIL: (id: string) => `/contacts/person/${id}`,
+	CONTACT_COMPANY_DETAIL: (id: string) => `/contacts/company/${id}`,
 
 	// Settings and configuration
 	SETTINGS: '/settings',
+	SETTINGS_TAGS: '/settings/tags',
+	SETTINGS_BILLING: '/settings/billing',
 } as const
 
 /**
@@ -61,10 +57,8 @@ export const PUBLIC_ROUTES = [ROUTES.HOME, ROUTES.LOGIN] as const
  */
 export const PROTECTED_ROUTE_PREFIXES = [
 	ROUTES.DASHBOARD,
-	ROUTES.STUDENTS,
-	ROUTES.TEACHERS,
-	ROUTES.CLASSES,
-	ROUTES.FINANZAS,
+	ROUTES.RUNS,
+	ROUTES.CONTACTS,
 	ROUTES.SETTINGS,
 ] as const
 

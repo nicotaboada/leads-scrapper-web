@@ -1,7 +1,12 @@
+'use client'
+
+import { usePathname } from 'next/navigation'
 import { type ReactNode } from 'react'
+import { cn } from 'lib/utils/merge'
 
 interface AppLayoutProps {
 	children: ReactNode
+	className?: string
 }
 
 /**
@@ -24,11 +29,29 @@ interface AppLayoutProps {
  * }
  * ```
  */
-export function AppLayout({ children }: AppLayoutProps) {
+export function AppLayout({ children, className }: AppLayoutProps) {
+	const pathname = usePathname()
+	const isSettings = pathname.startsWith('/settings')
+
 	return (
-		<div className="flex flex-1 flex-col overflow-hidden px-8">
-			<main className="bg-gray flex-1 overflow-y-auto dark:bg-gray-900">
-				<div className="w-full py-8">{children}</div>
+		<div
+			className={cn(
+				'flex flex-1 flex-col overflow-hidden',
+				!isSettings && 'px-8',
+				className
+			)}
+		>
+			<main
+				className={cn(
+					'bg-background flex flex-1 flex-col dark:bg-gray-900',
+					!isSettings && 'overflow-y-auto'
+				)}
+			>
+				<div
+					className={cn('flex w-full flex-1 flex-col', !isSettings && 'py-8')}
+				>
+					{children}
+				</div>
 			</main>
 		</div>
 	)

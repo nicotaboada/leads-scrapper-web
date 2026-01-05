@@ -117,7 +117,12 @@ export function AppSidebar() {
 						<SidebarMenu>
 							{navigationItems.map((item) => {
 								const Icon = item.icon
-								const isActive = item.href ? pathname === item.href : false
+								// For settings, match any /settings/* route
+								const isActive = item.href
+									? item.id === 'settings'
+										? pathname.startsWith('/settings')
+										: pathname === item.href
+									: false
 								const hasChildren = item.children && item.children.length > 0
 								const isOpen = openMenus.has(item.id)
 

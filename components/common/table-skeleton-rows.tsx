@@ -94,8 +94,3 @@ export function TableSkeletonRows({
 		</>
 	)
 }
-
-
-
-
-

@@ -52,12 +52,12 @@ interface CardTabsProps {
  *     {
  *       value: 'info',
  *       label: 'Información',
- *       content: <StudentInfoTab student={student} />
+ *       content: <ContactInfoTab contact={contact} />
  *     },
  *     {
- *       value: 'progress',
- *       label: 'Progreso',
- *       content: <StudentProgressTab student={student} />
+ *       value: 'activities',
+ *       label: 'Actividades',
+ *       content: <ContactActivitiesTab contact={contact} />
  *     }
  *   ]}
  * />
