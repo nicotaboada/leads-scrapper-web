@@ -25,6 +25,11 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table'
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { LeadContactIconsCell } from './lead-contact-icons-cell'
 import { SelectionDropdown } from './selection-dropdown'
 import type { HeaderCheckboxState } from '../types/bulk-actions'
@@ -85,13 +90,13 @@ export function LeadsEnrichmentTable({
 					<TableHeader className="bg-zinc-50/50 dark:bg-zinc-900/50">
 						<TableRow className="border-zinc-200 hover:bg-transparent dark:border-zinc-800">
 							<TableHead className="w-[50px]" />
-							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">
+							<TableHead className="max-w-[200px] font-semibold text-zinc-900 dark:text-zinc-100">
 								Full Name
 							</TableHead>
-							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">
+							<TableHead className="max-w-[300px] font-semibold text-zinc-900 dark:text-zinc-100">
 								Position
 							</TableHead>
-							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">
+							<TableHead className="max-w-[250px] font-semibold text-zinc-900 dark:text-zinc-100">
 								Company
 							</TableHead>
 							<TableHead className="w-[120px] font-semibold text-zinc-900 dark:text-zinc-100" />
@@ -148,13 +153,13 @@ export function LeadsEnrichmentTable({
 									onSelectAll={onSelectAll}
 								/>
 							</TableHead>
-							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">
+							<TableHead className="max-w-[200px] font-semibold text-zinc-900 dark:text-zinc-100">
 								Full Name
 							</TableHead>
-							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">
+							<TableHead className="max-w-[300px] font-semibold text-zinc-900 dark:text-zinc-100">
 								Position
 							</TableHead>
-							<TableHead className="font-semibold text-zinc-900 dark:text-zinc-100">
+							<TableHead className="max-w-[250px] font-semibold text-zinc-900 dark:text-zinc-100">
 								Company
 							</TableHead>
 							<TableHead className="w-[120px] font-semibold text-zinc-900 dark:text-zinc-100" />
@@ -175,16 +180,40 @@ export function LeadsEnrichmentTable({
 											aria-label={`Select ${getLeadDisplayName(lead)}`}
 										/>
 									</TableCell>
-									<TableCell className="font-medium">
-										{getLeadDisplayName(lead)}
+									<TableCell className="max-w-[200px] font-medium">
+										<div className="truncate" title={getLeadDisplayName(lead)}>
+											{getLeadDisplayName(lead)}
+										</div>
 									</TableCell>
-									<TableCell>
-										{lead.headline || (
+									<TableCell className="max-w-[300px]">
+										{lead.headline ? (
+											<Tooltip>
+												<TooltipTrigger asChild>
+													<div className="truncate cursor-default">
+														{lead.headline}
+													</div>
+												</TooltipTrigger>
+												<TooltipContent side="top" className="max-w-80">
+													{lead.headline}
+												</TooltipContent>
+											</Tooltip>
+										) : (
 											<span className="text-muted-foreground text-sm">—</span>
 										)}
 									</TableCell>
-									<TableCell>
-										{lead.title || (
+									<TableCell className="max-w-[250px]">
+										{lead.title ? (
+											<Tooltip>
+												<TooltipTrigger asChild>
+													<div className="truncate cursor-default">
+														{lead.title}
+													</div>
+												</TooltipTrigger>
+												<TooltipContent side="top" className="max-w-80">
+													{lead.title}
+												</TooltipContent>
+											</Tooltip>
+										) : (
 											<span className="text-muted-foreground text-sm">—</span>
 										)}
 									</TableCell>

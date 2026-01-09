@@ -83,3 +83,18 @@ export const BULK_CREATE_PERSON_CONTACTS_FROM_LEADS = gql`
 		}
 	}
 `
+
+/**
+ * Mutation to update a run result's data
+ */
+export const UPDATE_RUN_RESULT = gql`
+	mutation UpdateRunResult($id: ID!, $input: UpdateRunResultInput!) {
+		updateRunResult(id: $id, input: $input) {
+			id
+			runId
+			raw
+			normalized
+			createdAt
+		}
+	}
+`

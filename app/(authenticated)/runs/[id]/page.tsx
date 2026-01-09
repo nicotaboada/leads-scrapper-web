@@ -59,6 +59,7 @@ export default function RunDetailPage() {
 		currentRun,
 		loading: resultsLoading,
 		subscriptionActive,
+		refetch: refetchResults,
 	} = useRunResults({
 		runId,
 		page: overviewPage,
@@ -301,6 +302,7 @@ export default function RunDetailPage() {
 					subscriptionActive={subscriptionActive}
 					onPageChange={setOverviewPage}
 					onPageSizeChange={handleOverviewPageSizeChange}
+					onRefetch={refetchResults}
 					// Bulk selection props
 					selectedCount={overviewSelectedCount}
 					headerCheckboxState={overviewHeaderCheckboxState}
