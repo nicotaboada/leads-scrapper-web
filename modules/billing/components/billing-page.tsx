@@ -2,6 +2,7 @@
 
 import { Key, RefreshCw } from 'lucide-react'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { SectionHeader } from 'components/layouts/section-header'
 import { Button } from 'components/ui/button'
 import { BillingSkeleton } from './billing-skeleton'
@@ -14,9 +15,18 @@ import { useBillingUsage } from '../hooks/use-billing-usage'
  */
 export function BillingPage() {
 	const { services, lastUpdated, loading, refetch } = useBillingUsage()
+	const [isRefreshing, setIsRefreshing] = useState(false)
 
-	const handleRefresh = () => {
-		refetch()
+	// Reset refreshing state when loading completes
+	useEffect(() => {
+		if (!loading && isRefreshing) {
+			setIsRefreshing(false)
+		}
+	}, [loading, isRefreshing])
+
+	const handleRefresh = async () => {
+		setIsRefreshing(true)
+		await refetch()
 	}
 
 	const formatLastUpdated = (date: Date | null): string => {
@@ -41,11 +51,11 @@ export function BillingPage() {
 						variant="outline"
 						size="sm"
 						onClick={handleRefresh}
-						disabled={loading}
+						disabled={isRefreshing}
 						className="cursor-pointer"
 					>
 						<RefreshCw
-							className={`mr-2 h-4 w-4 ${loading ? 'animate-spin' : ''}`}
+							className={`mr-2 h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`}
 						/>
 						Refresh
 					</Button>

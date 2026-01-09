@@ -9,6 +9,7 @@
 
 import {
 	Globe,
+	Instagram,
 	Linkedin,
 	Mail,
 	MapPin,
@@ -78,6 +79,7 @@ export function AboutCompanySection({
 		contact.companyEmails.length > 0 ||
 		contact.whatsapp ||
 		contact.website ||
+		contact.instagram ||
 		contact.city ||
 		contact.linkedinUrl
 
@@ -152,6 +154,19 @@ export function AboutCompanySection({
 							contact.website.startsWith('http')
 								? contact.website
 								: `https://${contact.website}`
+						}
+						isExternal
+					/>
+				)}
+				{contact.instagram && (
+					<ContactField
+						icon={<Instagram className="size-4" />}
+						label="Instagram"
+						value={contact.instagram.replace(/^https?:\/\/(www\.)?instagram\.com\//, '@').replace(/\/$/, '')}
+						href={
+							contact.instagram.startsWith('http')
+								? contact.instagram
+								: `https://instagram.com/${contact.instagram.replace(/^@/, '')}`
 						}
 						isExternal
 					/>

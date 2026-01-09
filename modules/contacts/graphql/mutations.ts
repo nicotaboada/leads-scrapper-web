@@ -66,6 +66,8 @@ export const UPDATE_COMPANY = gql`
 			companyName
 			companyEmails
 			whatsapp
+			website
+			instagram
 			linkedinUrl
 			leadStatus
 			contactedChannels

@@ -99,9 +99,8 @@ export function AppSidebar() {
 								</div>
 								{!isCollapsed && (
 									<div className="grid flex-1 text-left text-sm leading-tight">
-										<span className="truncate font-semibold">La Pyme</span>
-										<span className="text-muted-foreground truncate text-xs">
-											Sistema de gestión
+										<span className="truncate font-semibold">
+											LeadsScrapper
 										</span>
 									</div>
 								)}

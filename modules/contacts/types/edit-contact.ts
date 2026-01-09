@@ -28,6 +28,8 @@ export interface EditCompanyFormInput {
 	companyName: string
 	companyEmails: string[]
 	whatsapp?: string
+	website?: string
+	instagram?: string
 	linkedinUrl?: string
 	tagIds: string[]
 }
@@ -55,6 +57,8 @@ export interface UpdateCompanyInput {
 	companyName?: string
 	companyEmails?: string[]
 	whatsapp?: string
+	website?: string
+	instagram?: string
 	linkedinUrl?: string
 	leadStatus?: LeadStatus
 	contactedChannels?: ContactChannel[]
@@ -89,6 +93,8 @@ export interface UpdateCompanyResponse {
 		companyName: string
 		companyEmails: string[]
 		whatsapp?: string
+		website?: string
+		instagram?: string
 		linkedinUrl?: string
 	}
 }
@@ -127,6 +133,12 @@ export const editCompanySchema = z.object({
 	companyName: z.string().min(1, 'El nombre de la empresa es requerido'),
 	companyEmails: z.array(z.string().email('Email no válido')),
 	whatsapp: z.string().optional(),
+	website: z
+		.string()
+		.url('La URL del sitio web no es válida')
+		.optional()
+		.or(z.literal('')),
+	instagram: z.string().optional(),
 	linkedinUrl: z
 		.string()
 		.url('La URL no es válida')

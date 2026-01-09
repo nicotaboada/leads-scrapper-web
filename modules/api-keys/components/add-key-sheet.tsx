@@ -77,12 +77,12 @@ export function AddKeySheet({
 
 	return (
 		<Sheet open={isOpen} onOpenChange={(open) => !open && handleClose()}>
-			<SheetContent>
-				<SheetHeader>
-					<SheetTitle>Add API Key</SheetTitle>
+			<SheetContent className="flex flex-col border-l border-zinc-200 p-0 sm:max-w-md dark:border-zinc-800">
+				<SheetHeader className="border-b border-zinc-100 p-6 dark:border-zinc-900">
+					<SheetTitle className="text-xl">Add API Key</SheetTitle>
 				</SheetHeader>
 
-				<div className="mt-6">
+				<div className="flex-1 overflow-y-auto p-6">
 					{step === 'select-service' && (
 						<ServiceSelector
 							onSelect={handleServiceSelect}

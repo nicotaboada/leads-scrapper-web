@@ -42,6 +42,8 @@ export const GET_CONTACTS = gql`
 					companyName
 					companyEmails
 					whatsapp
+					website
+					instagram
 					city
 					linkedinUrl
 					leadStatus
@@ -117,6 +119,7 @@ export const GET_CONTACT = gql`
 				companyEmails
 				whatsapp
 				website
+				instagram
 				city
 				countryCode
 				linkedinUrl

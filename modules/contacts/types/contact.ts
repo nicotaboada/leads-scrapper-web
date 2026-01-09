@@ -80,6 +80,7 @@ export interface CompanyContact {
 	companyEmails: string[]
 	whatsapp?: string
 	website?: string
+	instagram?: string
 	city?: string
 	countryCode?: string
 	linkedinUrl?: string

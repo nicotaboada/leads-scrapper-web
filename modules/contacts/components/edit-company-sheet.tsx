@@ -65,6 +65,8 @@ export function EditCompanySheet({
 			companyName: '',
 			companyEmails: [],
 			whatsapp: '',
+			website: '',
+			instagram: '',
 			linkedinUrl: '',
 			tagIds: [],
 		},
@@ -79,6 +81,8 @@ export function EditCompanySheet({
 				companyName: company.companyName,
 				companyEmails: company.companyEmails ?? [],
 				whatsapp: company.whatsapp ?? '',
+				website: company.website ?? '',
+				instagram: company.instagram ?? '',
 				linkedinUrl: company.linkedinUrl ?? '',
 				tagIds: company.tags?.map((tag) => tag.id) ?? [],
 			})
@@ -91,6 +95,8 @@ export function EditCompanySheet({
 				companyName: data.companyName,
 				companyEmails: data.companyEmails,
 				whatsapp: data.whatsapp || undefined,
+				website: data.website || undefined,
+				instagram: data.instagram || undefined,
 				linkedinUrl: data.linkedinUrl || undefined,
 				tagIds: data.tagIds,
 			})
@@ -182,6 +188,44 @@ export function EditCompanySheet({
 										<FormControl>
 											<Input
 												placeholder="+54 11 4567-8900"
+												{...field}
+												disabled={loading}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							{/* Website */}
+							<FormField
+								control={form.control}
+								name="website"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Sitio Web</FormLabel>
+										<FormControl>
+											<Input
+												placeholder="https://www.ejemplo.com"
+												{...field}
+												disabled={loading}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							{/* Instagram */}
+							<FormField
+								control={form.control}
+								name="instagram"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Instagram</FormLabel>
+										<FormControl>
+											<Input
+												placeholder="https://instagram.com/usuario"
 												{...field}
 												disabled={loading}
 											/>

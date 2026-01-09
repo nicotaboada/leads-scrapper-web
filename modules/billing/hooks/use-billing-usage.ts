@@ -9,7 +9,7 @@ export function useBillingUsage() {
 	const { data, loading, error, refetch } = useQuery<BillingUsageQueryResponse>(
 		GET_BILLING_USAGE,
 		{
-			fetchPolicy: 'network-only',
+			fetchPolicy: 'cache-and-network',
 		}
 	)
 

@@ -14,9 +14,10 @@ import { SERVICE_CONFIGS } from '../types'
  */
 export function ApiKeysPage() {
 	const [isAddKeyOpen, setIsAddKeyOpen] = useState(false)
-	const { loading, getActiveKey, getOtherKeys, getKeyCount } = useApiKeys()
+	const { loading, apiKeys, getActiveKey, getOtherKeys, getKeyCount } = useApiKeys()
 
-	if (loading) {
+	// Only show skeleton on initial load when there's no cached data
+	if (loading && apiKeys.length === 0) {
 		return <ApiKeysPageSkeleton />
 	}
 
