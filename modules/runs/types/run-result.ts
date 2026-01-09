@@ -8,6 +8,7 @@ export interface GoogleMapsResult {
 	placeName: string
 	website?: string | null
 	city?: string | null
+	phone?: string | null
 	instagram?: string | null
 	facebook?: string | null
 	linkedin?: string | null
@@ -87,6 +88,18 @@ export function extractGoogleMapsResult(result: RunResult): GoogleMapsResult {
 			(raw.facebook as string) || getFirstOrNull(raw.facebooks as unknown[]),
 		linkedin:
 			(raw.linkedin as string) || getFirstOrNull(raw.linkedIns as unknown[]),
+		phone:
+			(raw.phone as string) ||
+			(raw.phoneNumber as string) ||
+			(raw.telephone as string) ||
+			null,
 		raw,
 	}
+}
+
+/**
+ * Clean phone number for WhatsApp link (remove non-digits)
+ */
+export function cleanPhoneForWhatsApp(phone: string): string {
+	return phone.replace(/\D/g, '')
 }

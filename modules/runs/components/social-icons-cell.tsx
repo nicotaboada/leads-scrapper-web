@@ -1,6 +1,6 @@
 'use client'
 
-import { Facebook, Globe, Instagram, Linkedin } from 'lucide-react'
+import { Facebook, Globe, Instagram, Linkedin, MessageCircle } from 'lucide-react'
 import { cn } from '@/lib/utils/merge'
 
 /**
@@ -15,6 +15,8 @@ interface SocialIconsCellProps {
 	facebook?: string | null
 	/** LinkedIn profile URL */
 	linkedin?: string | null
+	/** WhatsApp number or link */
+	whatsapp?: string | null
 }
 
 /**
@@ -80,9 +82,16 @@ export function SocialIconsCell({
 	instagram,
 	facebook,
 	linkedin,
+	whatsapp,
 }: SocialIconsCellProps) {
 	const enabledClassName =
 		'text-zinc-900 dark:text-zinc-100 hover:text-black dark:hover:text-white'
+
+	// If whatsapp is a phone number, convert to wa.me link
+	const whatsappUrl =
+		whatsapp && !whatsapp.startsWith('http')
+			? `https://wa.me/${whatsapp.replace(/\D/g, '')}`
+			: whatsapp
 
 	return (
 		<div className="flex items-center gap-1">
@@ -90,6 +99,12 @@ export function SocialIconsCell({
 				url={website}
 				icon={Globe}
 				label="Website"
+				enabledClassName={enabledClassName}
+			/>
+			<SocialIcon
+				url={whatsappUrl}
+				icon={MessageCircle}
+				label="WhatsApp"
 				enabledClassName={enabledClassName}
 			/>
 			<SocialIcon

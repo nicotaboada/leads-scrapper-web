@@ -1,6 +1,7 @@
 'use client'
 
 import { Loader2 } from 'lucide-react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -20,6 +21,7 @@ import {
 } from '@/components/ui/table'
 // Unused - button moved to parent header
 // import { BulkActionHeader } from './bulk-action-header'
+import { EditRunResultSheet } from './edit-run-result-sheet'
 import { SelectionDropdown } from './selection-dropdown'
 import { SocialIconsCell } from './social-icons-cell'
 import type { HeaderCheckboxState } from '../types/bulk-actions'
@@ -35,6 +37,7 @@ interface RunResultsTableProps {
 	subscriptionActive?: boolean
 	onPageChange: (page: number) => void
 	onPageSizeChange: (pageSize: number) => void
+	onRefetch?: () => void
 	// Bulk selection props
 	selectedCount: number
 	headerCheckboxState: HeaderCheckboxState
@@ -60,6 +63,7 @@ export function RunResultsTable({
 	subscriptionActive = false,
 	onPageChange,
 	onPageSizeChange,
+	onRefetch,
 	selectedCount,
 	headerCheckboxState,
 	isSelected,
@@ -70,12 +74,24 @@ export function RunResultsTable({
 	_onCreateContacts,
 	_isCreatingContacts = false,
 }: RunResultsTableProps) {
+	const [editSheetOpen, setEditSheetOpen] = useState(false)
+	const [selectedResult, setSelectedResult] = useState<RunResult | null>(null)
+
 	const totalCount = pageInfo?.totalCount ?? 0
 	const pageIds = results.map((r) => r.id)
 	const _hasSelection = selectedCount > 0
 
-	const handleSelectPage = () => {
+	function handleSelectPage() {
 		onSelectPage(pageIds)
+	}
+
+	function handleEditResult(result: RunResult) {
+		setSelectedResult(result)
+		setEditSheetOpen(true)
+	}
+
+	function handleResultUpdated() {
+		onRefetch?.()
 	}
 
 	// Loading state - show table structure with spinner
@@ -149,6 +165,14 @@ export function RunResultsTable({
 
 	return (
 		<div className="space-y-4">
+			{/* Edit Sheet */}
+			<EditRunResultSheet
+				open={editSheetOpen}
+				onOpenChange={setEditSheetOpen}
+				result={selectedResult}
+				onResultUpdated={handleResultUpdated}
+			/>
+
 			{/* Table */}
 			<div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
 				<Table>
@@ -191,7 +215,13 @@ export function RunResultsTable({
 										/>
 									</TableCell>
 									<TableCell className="font-medium">
-										{googleResult.placeName}
+										<button
+											type="button"
+											onClick={() => handleEditResult(result)}
+											className="cursor-pointer text-left transition-colors hover:text-blue-600 hover:underline"
+										>
+											{googleResult.placeName}
+										</button>
 									</TableCell>
 									<TableCell>
 										{googleResult.city || (
@@ -201,6 +231,7 @@ export function RunResultsTable({
 									<TableCell>
 										<SocialIconsCell
 											website={googleResult.website}
+											whatsapp={googleResult.phone}
 											instagram={googleResult.instagram}
 											facebook={googleResult.facebook}
 											linkedin={googleResult.linkedin}
