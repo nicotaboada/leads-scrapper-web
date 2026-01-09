@@ -29,7 +29,7 @@ export function ToneSelector({ value, onChange, disabled }: ToneSelectorProps) {
 			<label className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
 				Tono del mensaje
 			</label>
-			<div className="flex gap-2">
+			<div className="flex flex-wrap gap-2">
 				{tones.map((tone) => (
 					<button
 						key={tone}
@@ -37,7 +37,7 @@ export function ToneSelector({ value, onChange, disabled }: ToneSelectorProps) {
 						disabled={disabled}
 						onClick={() => onChange(tone)}
 						className={cn(
-							'flex-1 rounded-lg px-4 py-2.5 text-sm font-bold shadow-sm transition-all',
+							'flex-1 rounded-lg px-3 py-2 text-sm font-semibold shadow-sm transition-all min-w-[80px]',
 							'hover:bg-zinc-100 dark:hover:bg-zinc-800',
 							'disabled:cursor-not-allowed disabled:opacity-50',
 							value === tone

@@ -283,7 +283,6 @@ export function AiMessageGeneratorTab({
 					</motion.div>
 					<motion.div variants={itemVariants}>
 						<Button
-							size="lg"
 							onClick={handleGenerate}
 							disabled={!hasSelectedProblems || isGenerating}
 							className="w-full gap-2 bg-zinc-900 font-bold text-zinc-50 shadow-sm hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"

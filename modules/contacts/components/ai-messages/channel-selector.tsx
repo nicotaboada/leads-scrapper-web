@@ -69,13 +69,13 @@ export function ChannelSelector({
 			<label className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
 				Canal de envío
 			</label>
-			<div className="flex gap-3">
+			<div className="flex flex-wrap gap-2">
 				<button
 					type="button"
 					disabled={disabled}
 					onClick={() => onChange(MessageChannel.WHATSAPP)}
 					className={cn(
-						'flex flex-1 items-center justify-center gap-2 rounded-lg border-2 px-4 py-3 text-sm font-bold transition-all',
+						'flex min-w-[120px] flex-1 items-center justify-center gap-2 rounded-lg border px-3 py-2 text-sm font-semibold transition-all',
 						'shadow-sm disabled:cursor-not-allowed disabled:opacity-50',
 						value === MessageChannel.WHATSAPP
 							? 'border-zinc-900 bg-zinc-900 text-zinc-50 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900'
@@ -90,7 +90,7 @@ export function ChannelSelector({
 					disabled={disabled}
 					onClick={() => onChange(MessageChannel.EMAIL)}
 					className={cn(
-						'flex flex-1 items-center justify-center gap-2 rounded-lg border-2 px-4 py-3 text-sm font-bold transition-all',
+						'flex min-w-[120px] flex-1 items-center justify-center gap-2 rounded-lg border px-3 py-2 text-sm font-semibold transition-all',
 						'shadow-sm disabled:cursor-not-allowed disabled:opacity-50',
 						value === MessageChannel.EMAIL
 							? 'border-zinc-900 bg-zinc-900 text-zinc-50 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900'
