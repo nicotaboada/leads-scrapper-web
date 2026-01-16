@@ -40,6 +40,7 @@ export const GET_CONTACTS = gql`
 					id
 					type
 					companyName
+					businessType
 					companyEmails
 					whatsapp
 					website
@@ -116,6 +117,7 @@ export const GET_CONTACT = gql`
 				id
 				type
 				companyName
+				businessType
 				companyEmails
 				whatsapp
 				website

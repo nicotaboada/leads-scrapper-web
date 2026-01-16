@@ -26,6 +26,7 @@ export interface EditPersonContactFormInput {
  */
 export interface EditCompanyFormInput {
 	companyName: string
+	businessType?: string
 	companyEmails: string[]
 	whatsapp?: string
 	website?: string
@@ -55,6 +56,7 @@ export interface UpdatePersonContactInput {
  */
 export interface UpdateCompanyInput {
 	companyName?: string
+	businessType?: string
 	companyEmails?: string[]
 	whatsapp?: string
 	website?: string
@@ -131,6 +133,7 @@ export const editPersonContactSchema = z.object({
  */
 export const editCompanySchema = z.object({
 	companyName: z.string().min(1, 'El nombre de la empresa es requerido'),
+	businessType: z.string().optional(),
 	companyEmails: z.array(z.string().email('Email no válido')),
 	whatsapp: z.string().optional(),
 	website: z

@@ -63,6 +63,7 @@ export function EditCompanySheet({
 		resolver: zodResolver(editCompanySchema),
 		defaultValues: {
 			companyName: '',
+			businessType: '',
 			companyEmails: [],
 			whatsapp: '',
 			website: '',
@@ -79,6 +80,7 @@ export function EditCompanySheet({
 		if (company && open) {
 			form.reset({
 				companyName: company.companyName,
+				businessType: company.businessType ?? '',
 				companyEmails: company.companyEmails ?? [],
 				whatsapp: company.whatsapp ?? '',
 				website: company.website ?? '',
@@ -93,6 +95,7 @@ export function EditCompanySheet({
 		try {
 			const result = await updateCompany(company.id, {
 				companyName: data.companyName,
+				businessType: data.businessType || undefined,
 				companyEmails: data.companyEmails,
 				whatsapp: data.whatsapp || undefined,
 				website: data.website || undefined,
@@ -149,6 +152,25 @@ export function EditCompanySheet({
 										<FormControl>
 											<Input
 												placeholder="Ingrese el nombre de la empresa"
+												{...field}
+												disabled={loading}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							{/* Tipo de negocio */}
+							<FormField
+								control={form.control}
+								name="businessType"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Tipo de negocio</FormLabel>
+										<FormControl>
+											<Input
+												placeholder="Ej: Academia de inglés, Restaurante"
 												{...field}
 												disabled={loading}
 											/>

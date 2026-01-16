@@ -64,6 +64,7 @@ export const UPDATE_COMPANY = gql`
 		updateCompany(id: $id, input: $input) {
 			id
 			companyName
+			businessType
 			companyEmails
 			whatsapp
 			website

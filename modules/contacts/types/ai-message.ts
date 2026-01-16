@@ -10,6 +10,7 @@
 export enum MessageChannel {
 	WHATSAPP = 'WHATSAPP',
 	EMAIL = 'EMAIL',
+	LINKEDIN = 'LINKEDIN',
 }
 
 /**
@@ -67,6 +68,7 @@ export interface GenerateAIMessageResponse {
 
 /**
  * Mapping of raw issue strings to problem details
+ * Using everyday language without technical jargon (matches backend)
  */
 export const ISSUE_TO_PROBLEM: Record<
 	string,
@@ -74,64 +76,65 @@ export const ISSUE_TO_PROBLEM: Record<
 > = {
 	'No clear value proposition above the fold': {
 		id: 'no-value-proposition',
-		title: 'Sin propuesta de valor clara',
+		title: 'No se entiende qué ofrecen',
 		description:
-			'No hay una propuesta de valor visible en la parte superior de la página. Los usuarios no entienden qué hace la empresa en los primeros 5 segundos.',
+			'Quien visita la web no entiende rápido qué hace la empresa ni qué problema resuelve.',
 		severity: 'critical',
 	},
 	'Lack of visible call to action': {
 		id: 'no-cta',
-		title: 'Sin llamada a la acción',
+		title: 'No hay un siguiente paso claro',
 		description:
-			'No hay botones o CTAs visibles para guiar al usuario hacia el siguiente paso (contacto, registro, etc).',
+			'No queda claro qué debe hacer el visitante después de ver la página.',
 		severity: 'critical',
 	},
 	'Slow page load time': {
 		id: 'slow-load',
-		title: 'Velocidad de carga lenta',
+		title: 'La web tarda en cargar',
 		description:
-			'El sitio tarda más de 3 segundos en cargar, lo que aumenta la tasa de rebote.',
+			'La página tarda demasiado en mostrarse, lo que hace que muchos se vayan antes de verla.',
 		severity: 'critical',
 	},
 	'Poor mobile responsiveness': {
 		id: 'no-mobile',
-		title: 'Sin optimización móvil',
-		description: 'El diseño no se adapta correctamente a dispositivos móviles.',
+		title: 'No se ve bien en el celular',
+		description:
+			'La web no se adapta correctamente a celulares, dificultando la navegación.',
 		severity: 'critical',
 	},
 	'Missing meta descriptions': {
 		id: 'no-meta-description',
-		title: 'Meta descripción faltante',
+		title: 'Falta de visibilidad en buscadores',
 		description:
-			'La página principal no tiene meta descripción, lo que afecta el CTR en resultados de búsqueda.',
+			'Cuando alguien busca en Google, no aparece una descripción clara que invite a hacer clic.',
 		severity: 'warning',
 	},
 	'Outdated visual appearance': {
 		id: 'outdated-design',
-		title: 'Diseño desactualizado',
+		title: 'Aspecto desactualizado',
 		description:
-			'El sitio usa patrones de diseño de hace 5+ años, lo que afecta la credibilidad.',
+			'El diseño da la sensación de ser de hace varios años, lo que puede afectar la confianza.',
 		severity: 'warning',
 	},
 	'No SSL certificate': {
 		id: 'no-ssl',
-		title: 'Sin certificado SSL',
+		title: 'Conexión no segura',
 		description:
-			'El sitio no tiene conexión segura HTTPS, lo que afecta la confianza y el SEO.',
+			'Los navegadores muestran advertencias de seguridad, lo que genera desconfianza.',
 		severity: 'critical',
 	},
 	'Unclear service offering': {
 		id: 'unclear-services',
-		title: 'Servicios poco claros',
+		title: 'Web confusa',
 		description:
-			'No queda claro qué servicios ofrece la empresa o cuál es su propuesta de valor.',
+			'No queda claro qué servicios ofrece la empresa o cómo pueden ayudar.',
 		severity: 'warning',
 	},
 	'Not appearing in Google top 10 results': {
 		id: 'no-google-ranking',
-		title: 'Sin posicionamiento en Google',
+		title: 'Falta de autoridad online',
 		description:
-			'El negocio no aparece en los primeros 10 resultados de Google, perdiendo clientes potenciales que buscan sus servicios.',
+			'El negocio no aparece cuando la gente busca servicios similares en Google.',
 		severity: 'critical',
 	},
 }
@@ -161,8 +164,8 @@ export function issueToProblem(issue: string): ProblemForMessage | null {
  */
 export const NO_WEBSITE_PROBLEM: ProblemForMessage = {
 	id: 'no-website',
-	title: 'Sin sitio web',
+	title: 'Sin presencia online',
 	description:
-		'La empresa no tiene presencia online, perdiendo oportunidades de negocio.',
+		'La empresa no tiene un lugar donde la gente pueda conocerlos y contactarlos fácilmente.',
 	severity: 'critical',
 }

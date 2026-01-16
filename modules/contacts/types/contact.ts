@@ -77,6 +77,7 @@ export interface CompanyContact {
 	id: string
 	type: ContactType.COMPANY
 	companyName: string
+	businessType?: string
 	companyEmails: string[]
 	whatsapp?: string
 	website?: string

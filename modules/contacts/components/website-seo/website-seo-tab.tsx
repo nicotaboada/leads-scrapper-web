@@ -22,6 +22,7 @@ import type { CompanyContact } from '../../types'
 
 interface WebsiteSeoTabProps {
 	contact: CompanyContact
+	onAnalysisCompleted?: () => void
 }
 
 const containerVariants = {
@@ -45,7 +46,10 @@ const itemVariants = {
 	},
 }
 
-export function WebsiteSeoTab({ contact }: WebsiteSeoTabProps) {
+export function WebsiteSeoTab({
+	contact,
+	onAnalysisCompleted,
+}: WebsiteSeoTabProps) {
 	const hasWebsite = Boolean(contact.website)
 
 	const { analysis, isLoading, refetch } = useWebsiteAnalysis({
@@ -55,7 +59,10 @@ export function WebsiteSeoTab({ contact }: WebsiteSeoTabProps) {
 
 	const { runAnalysis, isAnalyzing } = useAnalyzeWebsite({
 		contactId: contact.id,
-		onSuccess: () => refetch(),
+		onSuccess: () => {
+			refetch()
+			onAnalysisCompleted?.()
+		},
 	})
 
 	// Loading state

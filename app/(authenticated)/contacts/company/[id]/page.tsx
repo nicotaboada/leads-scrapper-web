@@ -228,11 +228,16 @@ export default function CompanyDetailPage() {
 											/>
 										),
 									},
-									{
-										value: 'website-seo',
-										label: 'Website & SEO',
-										content: <WebsiteSeoTab contact={companyContact} />,
-									},
+								{
+									value: 'website-seo',
+									label: 'Website & SEO',
+									content: (
+										<WebsiteSeoTab
+											contact={companyContact}
+											onAnalysisCompleted={refetch}
+										/>
+									),
+								},
 								]}
 							/>
 						)

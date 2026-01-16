@@ -13,6 +13,7 @@
 
 import { Building2 } from 'lucide-react'
 import { Avatar, AvatarFallback } from 'components/ui/avatar'
+import { Badge } from 'components/ui/badge'
 import { Separator } from 'components/ui/separator'
 import { Skeleton } from 'components/ui/skeleton'
 import { AboutCompanySection } from './about-company-section'
@@ -47,6 +48,14 @@ export function CompanySidebar({
 						</AvatarFallback>
 					</Avatar>
 					<h1 className="text-xl font-bold">{contact.companyName}</h1>
+					{contact.businessType && (
+						<Badge
+							variant="secondary"
+							className="mt-2 bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
+						>
+							{contact.businessType}
+						</Badge>
+					)}
 				</div>
 
 				{/* Action Buttons */}
