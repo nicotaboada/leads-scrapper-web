@@ -28,6 +28,7 @@ import {
 	SheetHeader,
 	SheetTitle,
 } from 'components/ui/sheet'
+import { normalizePhoneNumber } from 'lib/utils/phone'
 import { CompanySearchSelect } from './company-search-select'
 import { useCreateCompany } from '../hooks/use-create-company'
 import { useCreateContact } from '../hooks/use-create-contact'
@@ -83,7 +84,7 @@ export function CreateContactSheet({
 				const newCompanyId = await createCompany({
 					companyName: data.newCompanyName,
 					companyEmail: data.newCompanyEmail || undefined,
-					companyPhone: data.newCompanyPhone || undefined,
+					companyPhone: normalizePhoneNumber(data.newCompanyPhone) || undefined,
 				})
 
 				if (!newCompanyId) {
@@ -99,7 +100,7 @@ export function CreateContactSheet({
 				firstName: data.firstName,
 				lastName: data.lastName,
 				email: data.email || undefined,
-				celular: data.phone || undefined,
+				celular: normalizePhoneNumber(data.phone) || undefined,
 				linkedinUrl: data.linkedinUrl || undefined,
 				jobTitle: data.jobTitle || undefined,
 				companyId: companyId || undefined,

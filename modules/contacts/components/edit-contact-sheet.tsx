@@ -30,6 +30,7 @@ import {
 	SheetHeader,
 	SheetTitle,
 } from 'components/ui/sheet'
+import { normalizePhoneNumber } from 'lib/utils/phone'
 import { TagMultiselect } from 'modules/tags/components/tag-multiselect'
 import { useAllTags } from 'modules/tags/hooks/use-all-tags'
 import { CompanySearchSelect } from './company-search-select'
@@ -99,7 +100,7 @@ export function EditContactSheet({
 				firstName: data.firstName,
 				lastName: data.lastName,
 				email: data.email || undefined,
-				celular: data.phone || undefined,
+				celular: normalizePhoneNumber(data.phone) || undefined,
 				linkedinUrl: data.linkedinUrl || undefined,
 				jobTitle: data.jobTitle || undefined,
 				companyId: data.companyId,

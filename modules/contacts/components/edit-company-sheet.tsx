@@ -31,6 +31,7 @@ import {
 	SheetHeader,
 	SheetTitle,
 } from 'components/ui/sheet'
+import { normalizePhoneNumber } from 'lib/utils/phone'
 import { TagMultiselect } from 'modules/tags/components/tag-multiselect'
 import { useAllTags } from 'modules/tags/hooks/use-all-tags'
 import { useUpdateCompany } from '../hooks/use-update-company'
@@ -100,7 +101,7 @@ export function EditCompanySheet({
 				companyName: data.companyName,
 				businessType: data.businessType || undefined,
 				companyEmails: data.companyEmails,
-				whatsapp: data.whatsapp || undefined,
+				whatsapp: normalizePhoneNumber(data.whatsapp) || undefined,
 				website: data.website || undefined,
 				instagram: data.instagram || undefined,
 				linkedinUrl: data.linkedinUrl || undefined,
