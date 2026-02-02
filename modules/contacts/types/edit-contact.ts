@@ -119,7 +119,16 @@ export const editPersonContactSchema = z.object({
 	phone: z.string().optional(),
 	linkedinUrl: z
 		.string()
-		.url('La URL no es válida')
+		.refine(
+			(val) => {
+				if (!val || val === '') return true
+				// Allow URLs with or without protocol
+				const urlPattern =
+					/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/i
+				return urlPattern.test(val)
+			},
+			{ message: 'La URL no es válida' }
+		)
 		.optional()
 		.or(z.literal('')),
 	jobTitle: z.string().optional(),
@@ -138,13 +147,31 @@ export const editCompanySchema = z.object({
 	whatsapp: z.string().optional(),
 	website: z
 		.string()
-		.url('La URL del sitio web no es válida')
+		.refine(
+			(val) => {
+				if (!val || val === '') return true
+				// Allow URLs with or without protocol
+				const urlPattern =
+					/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/i
+				return urlPattern.test(val)
+			},
+			{ message: 'La URL del sitio web no es válida' }
+		)
 		.optional()
 		.or(z.literal('')),
 	instagram: z.string().optional(),
 	linkedinUrl: z
 		.string()
-		.url('La URL no es válida')
+		.refine(
+			(val) => {
+				if (!val || val === '') return true
+				// Allow URLs with or without protocol
+				const urlPattern =
+					/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/i
+				return urlPattern.test(val)
+			},
+			{ message: 'La URL no es válida' }
+		)
 		.optional()
 		.or(z.literal('')),
 	tagIds: z.array(z.string()),
