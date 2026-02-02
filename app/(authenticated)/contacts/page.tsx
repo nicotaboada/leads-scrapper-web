@@ -88,7 +88,7 @@ export default function ContactsPage() {
 
 			<div className="flex items-center gap-4">
 				<Input
-					placeholder="Buscar por nombre o email..."
+					placeholder="Buscar por nombre, email o teléfono..."
 					value={searchQuery}
 					onChange={(e) => setSearchQuery(e.target.value)}
 					className="max-w-sm"

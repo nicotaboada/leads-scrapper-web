@@ -88,6 +88,9 @@ export function EditCompanySheet({
 				linkedinUrl: company.linkedinUrl ?? '',
 				tagIds: company.tags?.map((tag) => tag.id) ?? [],
 			})
+			// Trigger validation after reset to ensure isValid is updated
+			// This is important for production where timing might differ
+			form.trigger()
 		}
 	}, [company, open, form])
 
@@ -312,7 +315,10 @@ export function EditCompanySheet({
 							</Button>
 							<Button
 								type="submit"
-								disabled={loading || !form.formState.isValid}
+								disabled={
+									loading ||
+									Object.keys(form.formState.errors).length > 0
+								}
 								className="flex-[0.5] cursor-pointer"
 							>
 								{loading ? 'Guardando...' : 'Guardar cambios'}
